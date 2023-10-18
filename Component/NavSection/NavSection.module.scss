@@ -1,0 +1,15 @@
+.Navsection {
+	.list_name {
+		height: 150px;
+		overflow: scroll;
+	}
+
+	.list_name {
+		-ms-overflow-style: none;
+		scrollbar-width: none;
+	}
+
+	.list_name::-webkit-scrollbar {
+		display: none;
+	}
+}

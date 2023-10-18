@@ -1,0 +1,52 @@
+.Signup {
+    // margin: 40px 0px;
+
+    .Main {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        height: 88vh;
+
+        .Left {
+            width: 50%;
+            background-color: #EE2325;
+            // height: 100px;
+        }
+
+        .Right {
+            width: 50%;
+            align-self: center;
+
+            .form_inner {
+                width: 70%;
+                margin: auto;
+
+                h1 {
+                    text-align: center;
+                }
+            }
+
+            .buttom_text {
+                margin: 20px;
+                text-align: center;
+                font-size: 18px;
+            }
+        }
+
+    }
+
+    @media (max-width: 767px) {
+        .Left {
+            display: none;
+        }
+
+        .Right {
+            width: 100% !important;
+            align-self: auto !important;
+
+            .form_inner {
+                width: 95% !important;
+            }
+        }
+    }
+}

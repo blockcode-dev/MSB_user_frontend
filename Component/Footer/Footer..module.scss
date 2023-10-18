@@ -1,0 +1,13 @@
+.FooterSection {
+    background: #0E1122;
+    color: white;
+    padding: 20px;
+
+    .footer_inner {
+        display: flex;
+        justify-content: space-between;
+    }
+    .icon{
+        margin: 0px 10px;
+    }
+}
