@@ -2,7 +2,7 @@ import React from 'react'
 import { Button, Container, Form } from 'react-bootstrap'
 import styles from "./signup.module.scss"
 import Link from 'next/link'
-
+// add comment
 const SignUp = () => {
     return (
         <Container className={styles.Signup}>
