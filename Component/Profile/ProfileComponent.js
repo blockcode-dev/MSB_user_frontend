@@ -87,7 +87,7 @@ const ProfileComponent = () => {
                                 </Form>
                                 <div style={{ display: "flex", margin: "100px 0px" }}>
                                     <Button className="button_theme" style={{ margin: "10px 5px", width: "28%" }}>Cancle</Button>
-                                    <Button className="button_theme" style={{ margin: "10px 5px", width: "70%" }}>Update
+                                    <Button className="button_theme" style={{ margin: "10px 5px", width: "70%" }}>Change Password
                                     </Button>
                                 </div>
                             </div>}

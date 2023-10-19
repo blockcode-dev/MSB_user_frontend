@@ -19,7 +19,6 @@ import { Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip } from '@mui
 import { useRouter } from 'next/router';
 function NavSection() {
   const router = useRouter();
-
   const Categories = [
     {
       "id": 1,
@@ -478,9 +477,7 @@ function NavSection() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
   const [offcanvasWidth, setOffcanvasWidth] = useState('');
-
   useEffect(() => {
     // Check if window is defined (client-side) before accessing it
     if (typeof window !== 'undefined') {
@@ -488,14 +485,15 @@ function NavSection() {
       setOffcanvasWidth(width);
     }
   }, []);
-
-
   return (
     <div className={styles.Navsection}>
       {/* {[false, 'sm', 'md', 'lg', 'xl', 'xxl'].map((expand) => ( */}
       <Navbar expand="md" className="bg-body-tertiary mb-3">
         <Container>
-          <Navbar.Brand href="#">
+          <Navbar.Brand onClick={() => {
+            const path = "/"
+            router.push(path)
+          }}>
             <Image src={Logo} width={100} height={40} />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-md`} />
@@ -504,7 +502,6 @@ function NavSection() {
             aria-labelledby={`offcanvasNavbarLabel-expand-md`}
             placement="end"
             style={{ width: offcanvasWidth }}
-
           >
             <Offcanvas.Header closeButton>
               <Offcanvas.Title id={`offcanvasNavbarLabel-expand-md`}>
@@ -513,20 +510,20 @@ function NavSection() {
             </Offcanvas.Header>
             <Offcanvas.Body>
               <Nav className="justify-content-end flex-grow-1">
-                <Nav.Link href="#action1">Home</Nav.Link>
+                <Nav.Link onClick={() => {
+            const path = "/home"
+            router.push(path)}}>Home</Nav.Link>
                 {/* <Nav.Link href="#action2">Categories</Nav.Link> */}
                 <NavDropdown
                   title="Categories"
                   id={`offcanvasNavbarDropdown-expand-md`}
                 >
-
                   <ul
                     className={styles.list_name}
                   >
                     {Categories.map((item, index) => {
                       return (
                         <li key={index}>{item.name}</li>
-
                       )
                     })}
                   </ul>
@@ -551,10 +548,8 @@ function NavSection() {
                   aria-expanded={open ? 'true' : undefined}
                 >
                   <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
-
                 </IconButton>
               </Tooltip>
-
               <Menu
                 anchorEl={anchorEl}
                 id="account-menu"
@@ -589,7 +584,6 @@ function NavSection() {
                 }}
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-
               >
                 {/* <MenuItem onClick={handleClose}>
           <Avatar /> Profile
@@ -598,7 +592,6 @@ function NavSection() {
           <Avatar /> My account
         </MenuItem> */}
                 <div style={{ margin: "10px", padding: "4px" }}>
-
                   <h5>Bhavya Soni</h5>
                   <p>bhavyasoni8221@gmail.com</p>
                 </div>
@@ -650,5 +643,4 @@ function NavSection() {
     </div>
   );
 }
-
 export default NavSection;
