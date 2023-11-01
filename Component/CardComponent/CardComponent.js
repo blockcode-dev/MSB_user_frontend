@@ -13,20 +13,25 @@ function CardComponent(props) {
         const path = "/blogdetail/blog";
         router.push(path);
     };
-    useEffect(() => {
-
-    }, [])
+console.log(props,"props")
     return (
-        <Card style={{ margin: "0px 20px" }}>
+        // <Card style={{ margin: "0px 20px" }}>
+        //     <Image variant="top" src={props.image} width={100} height={100} style={{ width: "auto", height: "225px" }}  alt=''/>
+        //     <Card.Body>
+        //         <Card.Title >{props.title}</Card.Title>
+        //         <Card.Text>
+        //             {props.text}
+        //         </Card.Text>
+        //     </Card.Body>
+        // </Card>
+        <div class="card" style={{ margin: "0px 20px" }}>
             <Image variant="top" src={props.image} width={100} height={100} style={{ width: "auto", height: "225px" }} />
-            <Card.Body>
-                <Card.Title >{props.title}</Card.Title>
-                <Card.Text>
-                    {props.text}
-                </Card.Text>
-                <Button className='button_theme' onClick={handleRedirect}>Read More</Button>
-            </Card.Body>
-        </Card>
+            <div class="card-body">
+                <h5 class="card-title">{props.title}</h5>
+                <p class="card-text">{props.text}</p>
+           <Button className='button_theme' onClick={handleRedirect}>Read More</Button> 
+            </div>
+        </div>
     );
 }
 

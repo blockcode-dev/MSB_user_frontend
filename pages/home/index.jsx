@@ -14,47 +14,47 @@ const Home = () => {
     slidesToShow: 4,
     slidesToScroll: 1
   });
-  useEffect(() => {
-    function handleResize() {
-      if (window.innerWidth <= 600) {
-        setSliderSettings({
-          ...sliderSettings,
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          arrows: false,
-          dots: false
-        });
-      } else if (window.innerWidth <= 992) {
-        setSliderSettings({
-          ...sliderSettings,
-          slidesToShow: 2,
-          slidesToScroll: 1,
-          arrows: true,
-        });
-      } else if (window.innerWidth <= 1295) {
-        setSliderSettings({
-          ...sliderSettings,
-          slidesToShow: 3,
-          slidesToScroll: 1
-        });
-      }
-      else {
-        setSliderSettings({
-          ...sliderSettings,
-          slidesToShow: 4,
-          slidesToScroll: 1
-        });
-      }
-    }
-    // Initial setup
-    handleResize();
-    // Add event listener to update slider settings on window resize
-    window.addEventListener("resize", handleResize);
-    // Cleanup the event listener when the component unmounts
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [sliderSettings]);
+  // useEffect(() => {
+  //   function handleResize() {
+  //     if (window.innerWidth <= 600) {
+  //       setSliderSettings({
+  //         ...sliderSettings,
+  //         slidesToShow: 1,
+  //         slidesToScroll: 1,
+  //         arrows: false,
+  //         dots: false
+  //       });
+  //     } else if (window.innerWidth <= 992) {
+  //       setSliderSettings({
+  //         ...sliderSettings,
+  //         slidesToShow: 2,
+  //         slidesToScroll: 1,
+  //         arrows: true,
+  //       });
+  //     } else if (window.innerWidth <= 1295) {
+  //       setSliderSettings({
+  //         ...sliderSettings,
+  //         slidesToShow: 3,
+  //         slidesToScroll: 1
+  //       });
+  //     }
+  //     else {
+  //       setSliderSettings({
+  //         ...sliderSettings,
+  //         slidesToShow: 4,
+  //         slidesToScroll: 1
+  //       });
+  //     }
+  //   }
+  //   // Initial setup
+  //   handleResize();
+  //   // Add event listener to update slider settings on window resize
+  //   window.addEventListener("resize", handleResize);
+  //   // Cleanup the event listener when the component unmounts
+  //   return () => {
+  //     window.removeEventListener("resize", handleResize);
+  //   };
+  // }, [sliderSettings]);
   return (
     <div className={styles.Home}>
       <Banner />

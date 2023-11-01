@@ -140,7 +140,9 @@ body {
   background-color: white;
   color: black;
 }
+.navsection{
 
+}
 .content {
   /* margin: 0 auto; */
   /* padding-top: 64px; */
@@ -195,4 +197,7 @@ body {
   height: 1.2 rem;
   text-overflow: ellipsis;
   height: 95px;
+}
+.react-tel-input .form-control{
+  width: 100% !important;
 }
