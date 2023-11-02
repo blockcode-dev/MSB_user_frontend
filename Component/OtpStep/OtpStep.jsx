@@ -11,7 +11,7 @@ const steps = [
   "Select campaign settings",
   "Create an ad group"
 ];
-export default function ForgotPassword() {
+export default function OtpStep() {
   const [activeStep, setActiveStep] = React.useState(0);
   const [completed, setCompleted] = React.useState({});
   const [formData, setFormData] = useState({

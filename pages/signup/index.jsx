@@ -41,64 +41,64 @@ const SignUp = () => {
         //   });
         // }
         UserRagisterAPI(
-          name,
-          email,
-          mobile,
-          password,
-          confirmPassword
+            name,
+            email,
+            mobile,
+            password,
+            confirmPassword
         )
-          .then((res) => {
-            navigate("/signin")
-            // if (res.data === 200 || res.data.status === 200) {
-            //   setAlert(true);
-            //   setAlertConfig({
-            //     text: "Thankyou for choosing AdvoLive! You are Registered Successfully",
-            //     icon: "success",
-            //   });
-            //   setTimeout(() => {
-            //     navigate("/login");
-            //   }, 3000);
-            //   setIsLoading(false);
-            // }
-            // if (
-            //   res.data.status === 400 &&
-            //   res.data.error === "The image failed to upload."
-            // ) {
-            //   setAlert(true);
-            //   setAlertConfig({
-            //     text: "Please Upload Again Image",
-            //     icon: "error",
-            //   });
-            //   setIsLoading(false);
-            // }
-          })
-          .catch((error) => {
-            console.log(error, "error");
-            // setIsLoading(false);
-            // if (error.response.status === 500) {
-            //   setAlert(true);
-            //   setAlertConfig({
-            //     text: "Internal Server Error Please Try After Some Time ",
-            //     icon: "warning",
-            //   });
-            //   setTimeout(() => {
-            //     setAlert(false);
-            //     navigate("/send/otp");
-            //   }, 4000);
-            // }
-            // if (error.response.status === 400) {
-            //   setAlert(true);
-            //   setAlertConfig({
-            //     text: "We apologize, the form submission was unsuccessful. Kindly attempt the submission again !!",
-            //     icon: "info",
-            //   });
-            //   setTimeout(() => {
-            //     setAlert(false);
-            //     navigate("/send/otp");
-            //   }, 4000);
-            // }
-          });
-      };
+            .then((res) => {
+                navigate("/signin")
+                // if (res.data === 200 || res.data.status === 200) {
+                //   setAlert(true);
+                //   setAlertConfig({
+                //     text: "Thankyou for choosing AdvoLive! You are Registered Successfully",
+                //     icon: "success",
+                //   });
+                //   setTimeout(() => {
+                //     navigate("/login");
+                //   }, 3000);
+                //   setIsLoading(false);
+                // }
+                // if (
+                //   res.data.status === 400 &&
+                //   res.data.error === "The image failed to upload."
+                // ) {
+                //   setAlert(true);
+                //   setAlertConfig({
+                //     text: "Please Upload Again Image",
+                //     icon: "error",
+                //   });
+                //   setIsLoading(false);
+                // }
+            })
+            .catch((error) => {
+                console.log(error, "error");
+                // setIsLoading(false);
+                // if (error.response.status === 500) {
+                //   setAlert(true);
+                //   setAlertConfig({
+                //     text: "Internal Server Error Please Try After Some Time ",
+                //     icon: "warning",
+                //   });
+                //   setTimeout(() => {
+                //     setAlert(false);
+                //     navigate("/send/otp");
+                //   }, 4000);
+                // }
+                // if (error.response.status === 400) {
+                //   setAlert(true);
+                //   setAlertConfig({
+                //     text: "We apologize, the form submission was unsuccessful. Kindly attempt the submission again !!",
+                //     icon: "info",
+                //   });
+                //   setTimeout(() => {
+                //     setAlert(false);
+                //     navigate("/send/otp");
+                //   }, 4000);
+                // }
+            });
+    };
     return (
         <Container className={styles.Signup}>
             <div className={styles.Main} >
@@ -142,9 +142,12 @@ const SignUp = () => {
                         </Form>
                         <Button className="button_theme" onClick={handleSubmit}>Continue</Button>
                     </div>
-                    <p className={styles.buttom_text}>Already have an account? <Link href="">
+                    <p className={styles.buttom_text}>Already have an account? <span style={{color:"blue",textDecoration:"underline",cursor:"pointer"}} onClick={() => {
+                        const path = "/signin"
+                        router.push(path)
+                    }} >
                         Sign in
-                    </Link>
+                    </span>
                     </p>
                 </div>
             </div>

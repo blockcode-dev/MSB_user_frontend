@@ -5,18 +5,20 @@ const BASE_URL = "https://node.mystorybank.info:4000/api/v1";
 
 export const getLocalStorageItem = (key) => {
   if (typeof window !== 'undefined') {
-    // console.log(key,"checkkkk")
-    // console.log("checkkk22",localStorage.getItem(key))
+
     return localStorage.getItem(key);
   }
   return null;
 };
 
-const storedValue = getLocalStorageItem("UserLoginToken");
-// console.log(storedValue, "storedValue")
 
-// const token = localStorage.getItem("UserLoginToken")
-// console.log(token,"tokrn")
+export const removeLocalStorageItem = (key) => {
+  if (typeof window !== 'undefined') {
+    return localStorage.removeItem(key);
+  }
+  return null;
+};
+const storedValue = getLocalStorageItem("UserLoginToken");
 
 export const SendOTPAPI = async (
   value1
@@ -65,6 +67,15 @@ export const UserLoginAPI = async (
   };
   return await axios.post("https://node.mystorybank.info:4000/api/v1/auth/login", config);
 };
+export const UserLogOutAPI = async (
+) => {
+
+  return await axios.post("https://node.mystorybank.info:4000/api/v1/auth/logout",{
+    headers: {
+      "x-access-token": storedValue,
+    },
+  } );
+};
 export const AllCategoryAPI = async () => {
   try {
     const response = await axios.get("https://node.mystorybank.info:4000/api/v1/category/all");
@@ -99,11 +110,12 @@ export const UserEditProfileAPI = async (
     images: value2,
     mobile: value3,
   };
-  // console.log(storedValue,"storedValueedit")
 
   return await axios.put("https://node.mystorybank.info:4000/api/v1/user/updateProfile", config, {
     headers: {
       "x-access-token": storedValue,
+      "Content-Type": "multipart/form-data",
+      Accept: "application/json",
     },
   });
 };

@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Otp from './otp'
-export default function Home() {
+import Home from './home'
+export default function Index() {
   return (
     <>
       <Head>
@@ -10,6 +11,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
      {/* <Otp/> */}
+<Home/>
     </>
   )
 }

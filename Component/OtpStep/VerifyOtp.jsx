@@ -2,7 +2,8 @@ import React from "react";
 import { useEffect } from "react";
 // import { useState } from "react";
 import { Form } from "react-bootstrap";
-import styles from "./Forgot.module.scss";
+import styles from "./OtpStep.module.scss";
+
 const VerifyOtp = ({ formData, setFormData }) => {
   return (
     <div className={styles.forgot_form}>

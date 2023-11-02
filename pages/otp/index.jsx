@@ -2,7 +2,7 @@ import React from 'react'
 import {Container } from 'react-bootstrap'
 import styles from "./otp.module.scss"
 import Link from 'next/link'
-import ForgotPassword from '@/Component/Forgot/forgotPassword'
+import OtpStep from '@/Component/OtpStep/OtpStep'
 const Otp = () => {
     return (
         <Container className={styles.Otp}>
@@ -12,7 +12,7 @@ const Otp = () => {
                 <div className={styles.Right}>
                     <div className={styles.form_inner}>
                         <h1>Sign up</h1>
-                        <ForgotPassword/>
+                        <OtpStep/>
                     </div>
                     <p className={styles.buttom_text}>Already have an account? <Link href="">
                         Sign in

@@ -1,6 +1,6 @@
 import React from "react";
 import { Form } from "react-bootstrap";
-import styles from "./Forgot.module.scss";
+import styles from "./OtpStep.module.scss";
 const SendOtp = ({ formData, setFormData }) => {
   return (<>
     <div className={styles.forgot_form}>

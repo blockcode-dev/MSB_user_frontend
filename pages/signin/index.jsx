@@ -16,7 +16,6 @@ const Signin = () => {
             password
         )
             .then((res) => {
-                // console.log(res.data.data.tokens.access.token , "res")
                 const token = res.data.data.tokens.access.token;
                 localStorage.removeItem("UserLoginToken");
                 localStorage.setItem("UserLoginToken", token);
@@ -26,7 +25,6 @@ const Signin = () => {
                 console.log(error, "error");
             });
     };
-    // console.log(localStorage.getItem("UserLoginToken"))
     return (
         <Container className={styles.Signin}>
             <div className={styles.Main} >
@@ -46,10 +44,20 @@ const Signin = () => {
                                 <Form.Control type="password" placeholder="Enter your password" value={password}
                                     onChange={(e) => setPassword(e.target.value)} />
                             </Form.Group>
-                            <p>Forgot pasword?</p>
+                            <p onClick={() => {
+                        const path = "/forgotpassword"
+                        router.push(path)
+                    }} style={{cursor:"pointer"}} >Forgot pasword?</p>
                         </Form>
                         <Button className="button_theme" onClick={handleSubmit}>Sign in</Button>
                     </div>
+                    <p className={styles.buttom_text}>Don’t have an account? <span style={{ color: "blue", textDecoration: "underline", cursor: "pointer" }} onClick={() => {
+                        const path = "/signup"
+                        router.push(path)
+                    }} >
+                        Sign Up
+                    </span>
+                    </p>
                 </div>
             </div>
         </Container>

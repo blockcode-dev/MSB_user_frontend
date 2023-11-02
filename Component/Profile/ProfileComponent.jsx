@@ -11,11 +11,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getClinetProfile } from '@/redux/getClientProfileSlice'
 import { Image_URL } from '@/Constants/host'
 const ProfileComponent = () => {
-    const ProfileGet = useSelector((state) => state.rootReducer.clientProfile.clientProfile
-    )
+    const [profile, setProfile] = useState()
     const [selectedImage, setSelectedImage] = useState("");
-    const [name, setName] = useState(ProfileGet?.name);
-    const [mobile, setMobile] = useState(ProfileGet?.mobile || "")
+    const [name, setName] = useState();
+    const [mobile, setMobile] = useState()
     const [value, setValue] = useState("edit")
     const [old_password, setOldPassword] = useState();
     const [new_password, setNewPassword] = useState()
@@ -27,28 +26,28 @@ const ProfileComponent = () => {
         setValue("change_password")
     }
     const handlePhoneChange = (newPhone) => {
-        // setMobile(res.data.data.mobile_number)
         setMobile(newPhone);
     };
-    // useEffect(() => {
-    //     GetProfile().then((res) => {
-    //         console.log(res,"response")
-    //     }).catch((error) => {
-    //         console.log(error, "error")
-    //        
-    //     })
-    // }, [])
+    useEffect(() => {
+        GetProfile().then((res) => {
+            setProfile(res.data)
+            setName(res?.data?.name)
+            setMobile(res?.data?.mobile)
+        }).catch((error) => {
+            console.log(error, "error")
+        })
+    }, [])
     const dispatch = useDispatch()
     useEffect(() => {
-        dispatch(getClinetProfile());
+        dispatch(getClinetProfile())
     }, [dispatch])
-
     const handleSubmit = () => {
         const formData = new FormData();
         formData.append("image", selectedImage);
         UserEditProfileAPI(name, selectedImage, mobile)
             .then((res) => {
-                // dispatch(getClinetProfile());
+                dispatch(getClinetProfile());
+                setProfile(res.data)
             })
             .catch((error) => {
                 console.log(error)
@@ -60,24 +59,24 @@ const ProfileComponent = () => {
             console.log(error)
         })
     }
-    // const Imagesurl = Image_URL + ProfileGet?.attachements[0]?.file_name
-    // console.log(ProfileGet?.attachements[0]?.file_name)
     return (
         <Container className={styles.profile}>
             <div className={styles.profile_inner}>
                 <div className={styles.section1}>
                     <div>
-                        {/* <Image src={Picture} width={100} height={100} className={styles.Picture} alt='' /> */}
-                        {/* <Image src={`Imagesurl`} width={100} height={100} className={styles.Picture} /> */}
-                        {/* <img
-                            width={100} height={100}
-                            alt="images"
-                            className={styles.Picture}
-                            src={Imagesurl}
-                        /> */}
+
+                        {profile && profile?.attachements && profile?.attachements?.length > 0 && (
+                            <Image
+                                src={`${Image_URL}${profile.attachements[0].file_name}`}
+                                width={100}
+                                height={100}
+                                className={styles.Picture}
+                            />
+                        )}
+
                     </div>
                     <div>
-                        <h5>{ProfileGet.name}</h5>
+                        <h5 style={{ textTransform: "capitalize" }}>{profile?.name}</h5>
                         <h6>Set up your My Story Bank account.</h6>
                     </div>
                 </div>
@@ -96,10 +95,10 @@ const ProfileComponent = () => {
                                     <div className={styles.profiletop}>
                                         {selectedImage === "" ? (
                                             <img
-                                                src='https://www.vhv.rs/dpng/d/425-4254086_circle-gray-circulo-png-forma-grey-circle-png.png'
+                                                src={`${Image_URL}${profile?.attachements[0]?.file_name}`}
+                                                alt=""
                                                 height="50px"
                                                 width="50px"
-                                                alt="profile-pic"
                                                 style={{ borderRadius: "100px" }}
                                             />
                                         ) : (
@@ -113,7 +112,7 @@ const ProfileComponent = () => {
                                                 />
                                             )
                                         )}
-                                        <label className="custom-file-upload">
+                                        <label className={styles.custom_file_upload}>
                                             <input
                                                 type="file"
                                                 accept="image/*"
@@ -133,7 +132,7 @@ const ProfileComponent = () => {
                                     </Form.Group>
                                     <Form.Group className="mb-3">
                                         <Form.Label>Email</Form.Label>
-                                        <Form.Control type="email" placeholder="Enter your email" value={ProfileGet.email} disabled />
+                                        <Form.Control type="email" placeholder="Enter your email" value={profile?.email} disabled />
                                     </Form.Group>
                                     <Form.Group className="mb-3">
                                         <Form.Label>Phone Number</Form.Label>

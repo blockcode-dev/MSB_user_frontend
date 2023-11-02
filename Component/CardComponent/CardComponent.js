@@ -13,7 +13,6 @@ function CardComponent(props) {
         const path = "/blogdetail/blog";
         router.push(path);
     };
-console.log(props,"props")
     return (
         // <Card style={{ margin: "0px 20px" }}>
         //     <Image variant="top" src={props.image} width={100} height={100} style={{ width: "auto", height: "225px" }}  alt=''/>
