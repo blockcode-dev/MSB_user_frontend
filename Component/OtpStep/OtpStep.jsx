@@ -1,17 +1,21 @@
-import * as React from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import SendOtp from "./SendOtp";
 import VerifyOtp from "./VerifyOtp";
-import { useState } from "react";
 import { Button } from "react-bootstrap";
 import { SendOTPAPI, VerifyOtpAPI } from "@/Constants/Api/Api";
 import { useRouter } from "next/router";
-const steps = [
-  "Select campaign settings",
-  "Create an ad group"
-];
+import DescriptionAlerts from "@/Constants/alert/alert";
 export default function OtpStep() {
+  const steps = [
+    "Select campaign settings",
+    "Create an ad group"
+  ];
+  const [alert, setAlert] = useState(false);
+  const [alertConfig, setAlertConfig] = useState({
+    text: "",
+  });
   const [activeStep, setActiveStep] = React.useState(0);
   const [completed, setCompleted] = React.useState({});
   const [formData, setFormData] = useState({
@@ -20,10 +24,6 @@ export default function OtpStep() {
   });
   const router = useRouter();
   const navigate = router.replace;
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertConfig, setAlertConfig] = useState({
-    text: "",
-  });
   const totalSteps = () => {
     return steps.length;
   };
@@ -47,8 +47,24 @@ export default function OtpStep() {
   const handleVerifyOTP = () => {
     VerifyOtpAPI(formData.email, formData.otp)
       .then((res) => {
+        console.log(res,"ress")
+        if (res.data === 200 || res.data.status === 200) {
+          setAlert(true);
+          setAlertConfig({
+            text: "OTP has been verified. Please Create Your Profile.",
+            icon: "success",
+          });
+          setTimeout(() => {
+            navigate("/signup")
+            const newCompleted = completed;
+            newCompleted[activeStep] = true;
+            setCompleted(newCompleted);
+            handleNext();
+
+          }, 2000);
+        }
+
       })
-    navigate("/signup")
       .catch((error) => {
         console.log(error, 'error')
       });
@@ -56,16 +72,31 @@ export default function OtpStep() {
   const handleSendOTP = () => {
     SendOTPAPI(formData.email)
       .then((res) => {
-        const newCompleted = completed;
-        newCompleted[activeStep] = true;
-        setCompleted(newCompleted);
-        handleNext();
+        console.log(res)
+        if (res.data === 200 || res.data.status === 200) {
+          setAlert(true);
+          setAlertConfig({
+            text: "OTP has been Sent To Your Email",
+            icon: "success",
+          });
+          setTimeout(() => {
+            const newCompleted = completed;
+            newCompleted[activeStep] = true;
+            setCompleted(newCompleted);
+            handleNext();
+
+          }, 2000);
+        }
+
       })
       .catch((error) => {
         console.log(error, "error")
       });
   };
   return (<>
+    {alert ? (
+      <DescriptionAlerts text={alertConfig.text} icon={alertConfig.icon} />
+    ) : null}
     <div className="forgot_form-1">
       {allStepsCompleted() ? (
         <React.Fragment>
@@ -128,6 +159,6 @@ export default function OtpStep() {
         </React.Fragment>
       )}
     </div>
-    </>
+  </>
   );
 }

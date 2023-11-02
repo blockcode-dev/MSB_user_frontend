@@ -55,7 +55,8 @@ function NavSection() {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(getClinetProfile()).then((res) => {
-      setProfile(res.payload)
+      console.log(res,"res")
+      setProfile(res?.payload)
     }).catch((error) => {
       console.log(error)
     })

@@ -25,7 +25,7 @@ export const SendOTPAPI = async (
 ) => {
   let config = {
     email: value1,
-    type: "email_varification"
+    type: "email_verification"
   };
   return await axios.post("https://node.mystorybank.info:4000/api/v1/auth/otp", config);
 };
@@ -36,7 +36,7 @@ export const VerifyOtpAPI = async (
   let config = {
     email: value1,
     otp: value2,
-    type: "email_varification"
+    type: "email_verification"
   };
   return await axios.post("https://node.mystorybank.info:4000/api/v1/auth/verify-otp", config);
 };

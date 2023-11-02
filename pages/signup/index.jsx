@@ -7,6 +7,7 @@ import 'react-phone-input-2/lib/style.css'
 import { useState } from 'react'
 import { UserRagisterAPI } from '@/Constants/Api/Api'
 import { useRouter } from 'next/router'
+import DescriptionAlerts from '@/Constants/alert/alert'
 const SignUp = () => {
     const router = useRouter();
     const navigate = router.replace;
@@ -18,6 +19,11 @@ const SignUp = () => {
     const handlePhoneChange = (newPhone) => {
         setMobile(newPhone);
     };
+    const [alert, setAlert] = useState(false);
+    const [alertConfig, setAlertConfig] = useState({
+        text: "",
+    });
+
     const handleSubmit = (event) => {
         // if (!agree) {
         //   setAlert(true);
@@ -48,58 +54,40 @@ const SignUp = () => {
             confirmPassword
         )
             .then((res) => {
-                navigate("/signin")
-                // if (res.data === 200 || res.data.status === 200) {
-                //   setAlert(true);
-                //   setAlertConfig({
-                //     text: "Thankyou for choosing AdvoLive! You are Registered Successfully",
-                //     icon: "success",
-                //   });
-                //   setTimeout(() => {
-                //     navigate("/login");
-                //   }, 3000);
-                //   setIsLoading(false);
-                // }
-                // if (
-                //   res.data.status === 400 &&
-                //   res.data.error === "The image failed to upload."
-                // ) {
-                //   setAlert(true);
-                //   setAlertConfig({
-                //     text: "Please Upload Again Image",
-                //     icon: "error",
-                //   });
-                //   setIsLoading(false);
-                // }
+                console.log(res, "res")
+                if (res.data === 200 || res.data.status === 200) {
+                    setAlert(true);
+                    setAlertConfig({
+                        text: "User Created Successfully. Please Continue Your Journey",
+                        icon: "success",
+                    });
+                    setTimeout(() => {
+                        navigate("/signin")
+
+                    }, 3000);
+                }
+
             })
             .catch((error) => {
                 console.log(error, "error");
-                // setIsLoading(false);
-                // if (error.response.status === 500) {
-                //   setAlert(true);
-                //   setAlertConfig({
-                //     text: "Internal Server Error Please Try After Some Time ",
-                //     icon: "warning",
-                //   });
-                //   setTimeout(() => {
-                //     setAlert(false);
-                //     navigate("/send/otp");
-                //   }, 4000);
-                // }
-                // if (error.response.status === 400) {
-                //   setAlert(true);
-                //   setAlertConfig({
-                //     text: "We apologize, the form submission was unsuccessful. Kindly attempt the submission again !!",
-                //     icon: "info",
-                //   });
-                //   setTimeout(() => {
-                //     setAlert(false);
-                //     navigate("/send/otp");
-                //   }, 4000);
-                // }
+
+                if (error.response.status === 400) {
+                    setAlert(true);
+                    setAlertConfig({
+                        text: error.response.data.message,
+                        icon: "info",
+                    });
+                    setTimeout(() => {
+                        setAlert(false);
+                        // navigate("/send/otp");
+                    }, 4000);
+                }
             });
     };
-    return (
+    return (<>
+        {alert ? (
+            <DescriptionAlerts text={alertConfig.text} icon={alertConfig.icon} />
+        ) : null}
         <Container className={styles.Signup}>
             <div className={styles.Main} >
                 <div className={styles.Left}>
@@ -142,7 +130,7 @@ const SignUp = () => {
                         </Form>
                         <Button className="button_theme" onClick={handleSubmit}>Continue</Button>
                     </div>
-                    <p className={styles.buttom_text}>Already have an account? <span style={{color:"blue",textDecoration:"underline",cursor:"pointer"}} onClick={() => {
+                    <p className={styles.buttom_text}>Already have an account? <span style={{ color: "blue", textDecoration: "underline", cursor: "pointer" }} onClick={() => {
                         const path = "/signin"
                         router.push(path)
                     }} >
@@ -152,6 +140,7 @@ const SignUp = () => {
                 </div>
             </div>
         </Container>
+    </>
     )
 }
 export default SignUp
