@@ -1,3 +1,4 @@
+
 .forgot_form {
   display: flex;
   justify-content: center;
@@ -5,10 +6,9 @@
   .MuiTypography-root {
     margin: 0 !important;
   }
-
   }
   .forgot_form_container {
-    width: 35%;
+    width: 100% !important;
     margin: 20px;
   }
   .form-check-input:checked {

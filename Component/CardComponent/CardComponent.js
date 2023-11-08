@@ -10,8 +10,11 @@ function CardComponent(props) {
     const router = useRouter();
 
     const handleRedirect = () => {
-        const path = "/blogdetail/blog";
+        const path = `/blogdetail/${props.path}`;
         router.push(path);
+        // onClick={() => {
+        //     const path = `blogdetail/${item.id}`
+        //     router.push(path)}}
     };
     return (
         // <Card style={{ margin: "0px 20px" }}>
@@ -27,7 +30,11 @@ function CardComponent(props) {
             <Image variant="top" src={props.image} width={100} height={100} style={{ width: "auto", height: "225px" }} />
             <div class="card-body">
                 <h5 class="card-title">{props.title}</h5>
-                <p class="card-text">{props.text}</p>
+                <p class="card-text"
+                 style={{ paddingBottom: "20px" }}
+                dangerouslySetInnerHTML={{
+                  __html: props.text
+                }}></p>
            <Button className='button_theme' onClick={handleRedirect}>Read More</Button> 
             </div>
         </div>

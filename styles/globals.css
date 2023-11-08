@@ -201,3 +201,59 @@ body {
 .react-tel-input .form-control{
   width: 100% !important;
 }
+.css-2royc9 {
+  -webkit-box-pack: center !important
+  ;
+}
+.forgot_form-1{
+  border-radius: 10px !important;
+background: #f6d2d2 !important;
+width: 40% !important;
+padding: 10px !important;
+margin: auto !important;
+}
+/* Basic styling */
+.search-container {
+  position: relative;
+  display: inline-block;
+}
+
+#searchResults {
+  display: none;
+  position: absolute;
+  list-style: none;
+  margin: 0;
+  padding: 5px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  z-index: 1;
+}
+
+#searchResults li {
+  cursor: pointer;
+}
+
+/* Show search results on input focus */
+#searchInput:focus + #searchResults {
+  display: block;
+}
+.list-group{
+  position: absolute !important;
+  z-index: 11;
+
+}
+
+.list_name {
+  height: 140px;
+  overflow: scroll;
+}
+
+.list_name {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+.list_name::-webkit-scrollbar {
+  display: none !important ;
+}

@@ -46,8 +46,9 @@ export default function BlogDetailComponent({ data }) {
     )
     const storedValue = getLocalStorageItem("UserLoginToken");
     console.log(like, "like")
-    return (<>
-        {storedValue ?
+    return (<div>
+        {/* {storedValue ? */}
+
             <Container className={styles.BlogDetailComponent}>
                 <div>
                     <h3>{data?.data?.heading}</h3>
@@ -58,10 +59,21 @@ export default function BlogDetailComponent({ data }) {
                         <span>Share </span>
                         <span>Comment </span>
                     </div>
-                    <h6>{data?.data?.description}</h6>
-                    <Image src={`${Image_URL}${data?.data?.blogs[0]?.file_name}`} width={100} height={100} alt='' className={styles.picture} />
+                    <h6
+                style={{ paddingBottom: "20px" }}
+                dangerouslySetInnerHTML={{
+                  __html: data?.data?.description
+                }}
+              />
+                    {/* <h6>{data?.data?.description}</h6> */}
+                    <Image
+                     src={`${Image_URL}${data?.data?.blog_attachment[0]?.file_name}`}
+                     width={100} height={100} alt='' className={styles.picture} />
                 </div>
-            </Container> : <Signin />}
-    </>
+            </Container> 
+            
+            {/* :
+             <Signin />} */}
+    </div>
     )
 }

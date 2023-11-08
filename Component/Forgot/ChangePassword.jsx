@@ -2,31 +2,20 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import {Form } from "react-bootstrap";
-import "./Forgot.scss";
+import styles from  "./Forgot.module.scss";
 const ChangePassword = ({ formData, setFormData }) => {
-  const [username, setUsername] = useState("");
   const [otp, setOtp] = useState("");
   const [passwordError, setPasswordError] = useState(false);
   const [passwordMatchError, setPasswordMatchError] = useState(false);
-  //   const [password, setPassword] = useState("");
-  //   const [confirmPassword, setConfirmPassword] = useState("");
-  // const [activeUsername, setActiveUsername] = useState(true);
-  // const [activeOtp, setActiveOtp] = useState("");
-  // const [activePassword, setActivePassword] = useState("");
-  // const [submit, setsubmit] = useState(true);
-  useEffect(() => {}, []);
-  // console.log("username", username, otp, password, confirmPassword);
   const handlePasswordChange = (password) => {
     setPasswordError(!isPasswordStrong(password));
     setFormData({ ...formData, password: password });
   };
-  
   const isPasswordStrong = (enteredPassword) => {
     const passwordRegex =
       /^(?=.*[!@#$%^&()\-_=+<>?/{}~])(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,}$/;
     return passwordRegex.test(enteredPassword);
   };
-
   const handleConfirmPassChange = (e) => {
     const enteredConfirmPassword = e.target.value;
     setFormData({ ...formData, confirmPassword: enteredConfirmPassword });
@@ -36,33 +25,33 @@ const ChangePassword = ({ formData, setFormData }) => {
       setPasswordMatchError(formData.password !== enteredConfirmPassword);
     }
   };
-
   return (
-    <div className="forgot_form">
-      <div className="forgot_form_container">
+    <div className={styles.forgot_form}>
+      <div className={styles.forgot_form_container}>
         <Form>
-          <Form.Group className="input_field">
+        
+           <Form.Group className={styles.input_field}>
           <Form.Label>Email</Form.Label>
             <Form.Control
               type="text"
-              placeholder={formData.username}
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={formData.email}
               disabled
-            />
+              />
           </Form.Group>
-          <Form.Group className="input_field">
-          <Form.Label>OTP</Form.Label>
+            
+          <Form.Group className={styles.input_field}>
+            <Form.Label>Enter OTP</Form.Label>
             <Form.Control
               type="number"
-              placeholder={formData.otp}
+              placeholder="OTP"
               value={otp}
-              onChange={(e) => setOtp(e.target.value)}
-              disabled
+              onChange={(e) => {
+                setOtp(e.target.value);
+                setFormData({ ...formData, otp: e.target.value });  // Update formData with OTP
+              }}
             />
           </Form.Group>
-
-          <Form.Group className="input_field">
+          <Form.Group className={styles.input_field}>
           <Form.Label>Password</Form.Label>
             <Form.Control
               type="password"
@@ -78,7 +67,7 @@ const ChangePassword = ({ formData, setFormData }) => {
               </Form.Control.Feedback>
             )}
           </Form.Group>
-          <Form.Group className="input_field">
+          <Form.Group className={styles.input_field}>
           <Form.Label>Confirm New Password</Form.Label>
             <Form.Control
               type="password"
@@ -86,22 +75,17 @@ const ChangePassword = ({ formData, setFormData }) => {
               value={formData.confirmPassword}
               onChange={handleConfirmPassChange}
               isInvalid={passwordMatchError}
-              // onChange={(e) => {
-              //   setFormData({ ...formData, confirmPassword: e.target.value });
-              // }}
             />
              {passwordMatchError && (
               <Form.Control.Feedback type="invalid" style={{ color: "red" }}>
                 Passwords do not match
               </Form.Control.Feedback>
             )}
-          </Form.Group>
+          </Form.Group> 
+        
         </Form>
-
-       
       </div>
     </div>
   );
 };
-
 export default ChangePassword;

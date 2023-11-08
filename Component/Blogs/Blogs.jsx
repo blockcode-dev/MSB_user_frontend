@@ -1,4 +1,4 @@
-import { GetBlog, getLocalStorageItem } from '@/Constants/Api/Api';
+import { BlogByCategoryApi, GetBlog, getLocalStorageItem } from '@/Constants/Api/Api';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useEffect } from 'react';
@@ -12,15 +12,16 @@ import { Image_URL } from '@/Constants/host';
 function Blogs() {
     const [blog, setBlog] = useState()
     const router = useRouter()
+    const {slug}=router.query
+    console.log(slug,"params")
     useEffect(() => {
-        GetBlog().then((res) => {
-            setBlog(res.data)
+        BlogByCategoryApi(slug).then((res) => {
+            setBlog(res.data.data)
         }).catch((error) => {
             console.log(error)
         })
-    }, [])
+    }, [slug])
     const storedValue = getLocalStorageItem("UserLoginToken");
-    console.log(blog,"blog")
     return (<>
         {storedValue ?
             <Container>
@@ -29,10 +30,10 @@ function Blogs() {
                     {blog?.map((item, index) => {
                         return (
                             <div class="col" key={index}>
-                                <div onClick={() => {
-            const path = `blogdetail/${item.id}`
-            router.push(path)}} style={{cursor:"pointer"}}>
-                                <CardComponent title={item.heading} text={item.description}  image={`${Image_URL}${item.blogs[0]?.file_name}`}
+                                <div>
+                                <CardComponent title={item.heading} text={item.description} 
+                                 image={ item.blog_attachment?`${Image_URL}${ item.blog_attachment[0]?.file_name}`:""}
+                                 path={item.id}
                                 />
                                 </div>
                             </div>

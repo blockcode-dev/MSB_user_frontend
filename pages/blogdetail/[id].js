@@ -10,6 +10,8 @@ export default function BlogDetail({ data }) {
   )
 }
 export async function getServerSideProps(context) {
+// const storedValue = getLocalStorageItem("UserLoginToken");
+// console.log(storedValue,"storedValue")
   const { query } = context;
   const { id } = query;
   const response = await BlogDetailAPI(id);

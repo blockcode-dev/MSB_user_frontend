@@ -17,7 +17,7 @@ const Signin = () => {
     const [alertConfig, setAlertConfig] = useState({
         text: "",
     });
-    const dispatch=useDispatch()
+    const dispatch = useDispatch()
     const handleSubmit = (event) => {
         UserLoginAPI(
             email,
@@ -37,16 +37,24 @@ const Signin = () => {
                         localStorage.removeItem("UserLoginToken");
                         localStorage.setItem("UserLoginToken", token);
                         navigate("/home")
-
                     }, 1000);
                 }
             })
             .catch((error) => {
+                if (error.response.data.status === 401||error.response.data.status === 400) {
+                    setAlert(true);
+                    setAlertConfig({
+                        text: error.response.data.message,
+                        icon: "error",
+                    });
+                    setTimeout(() => {
+                    }, 1000);
+                }
                 console.log(error, "error");
             });
     };
     return (<>
-       {alert ? (
+        {alert ? (
             <DescriptionAlerts text={alertConfig.text} icon={alertConfig.icon} />
         ) : null}
         <Container className={styles.Signin}>
@@ -68,9 +76,9 @@ const Signin = () => {
                                     onChange={(e) => setPassword(e.target.value)} />
                             </Form.Group>
                             <p onClick={() => {
-                        const path = "/forgotpassword"
-                        router.push(path)
-                    }} style={{cursor:"pointer"}} >Forgot pasword?</p>
+                                const path = "/forgotpassword"
+                                router.push(path)
+                            }} style={{ cursor: "pointer" }} >Forgot pasword?</p>
                         </Form>
                         <Button className="button_theme" onClick={handleSubmit}>Sign in</Button>
                     </div>

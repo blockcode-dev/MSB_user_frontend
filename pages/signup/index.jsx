@@ -5,7 +5,7 @@ import Link from 'next/link'
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
 import { useState } from 'react'
-import { UserRagisterAPI } from '@/Constants/Api/Api'
+import { UserRegisterAPI } from '@/Constants/Api/Api'
 import { useRouter } from 'next/router'
 import DescriptionAlerts from '@/Constants/alert/alert'
 const SignUp = () => {
@@ -46,7 +46,7 @@ const SignUp = () => {
         //     icon: "success",
         //   });
         // }
-        UserRagisterAPI(
+        UserRegisterAPI(
             name,
             email,
             mobile,

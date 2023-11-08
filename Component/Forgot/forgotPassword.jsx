@@ -1,52 +1,42 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-
 import Typography from "@mui/material/Typography";
 import SendOtp from "./SendOtp";
-import VerifyOtp from "./VerifyOtp";
 import ChangePassword from "./ChangePassword";
 import { useState } from "react";
 import { Button } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
 import { useCallback } from "react";
-import DescriptionAlerts from "../../Constants/alert/alert";
-import { ForgotPasswordApi, ResetPasswordApi, VerifyOtpAPI } from "../../Constants/Api"
-const steps = [
-  "Select campaign settings",
-  "Create an ad group",
-  "Create an ad",
-];
-
-export default function ForgotPassword() {
+import { useRouter } from "next/router";
+import DescriptionAlerts from "@/Constants/alert/alert";
+import { ForgotPassword, SendOTPAPI } from "@/Constants/Api/Api";
+import styles from  "./Forgot.module.scss";
+const steps = ["Create an ad group", "Create an ad"];
+export default function ForgotPasswordComponent() {
+  const router =useRouter()
   const [activeStep, setActiveStep] = React.useState(0);
   const [completed, setCompleted] = React.useState({});
   const [formData, setFormData] = useState({
-    username: "",
+    email: "",
     otp: "",
     password: "",
     confirmPassword: "",
   });
-  const [showAlert, setShowAlert] = useState(false);
+  const [alert, setalert] = useState(false);
   const [alertConfig, setAlertConfig] = useState({
     text: "",
   });
-
   const totalSteps = () => {
     return steps.length;
   };
-
   const completedSteps = () => {
     return Object.keys(completed).length;
   };
-
   const isLastStep = () => {
     return activeStep === totalSteps() - 1;
   };
-
   const allStepsCompleted = () => {
     return completedSteps() === totalSteps();
   };
-
   const handleNext = () => {
     const newActiveStep =
       isLastStep() && !allStepsCompleted()
@@ -56,189 +46,118 @@ export default function ForgotPassword() {
         : activeStep + 1;
     setActiveStep(newActiveStep);
   };
-
-  const navigate = useNavigate();
   const Navigation = useCallback(() => {
-    let value = "/login/";
-    navigate(value);
-  }, [navigate]);
-
-  const handleVerifyOTP = () => {
-    VerifyOtpAPI(formData.username, formData.otp)
-      .then((res) => {
-        const newCompleted = completed;
-        newCompleted[activeStep] = true;
-        setCompleted(newCompleted);
-        handleNext();
-        setShowAlert(true);
-        setAlertConfig({
-          type: "info",
-          text: "Your OTP Is Varified Please Enter Your Now Password",
-        });
-        setTimeout(() => {
-          setShowAlert(false);
-        }, 7000);
-      })
-      .catch((res) => {
-        // console.log(res,'error')
-        setShowAlert(true);
-        setAlertConfig({
-          type: res.response.data.code === 404 ? "warning" : "info",
-          text: res.response.data.message,
-        });
-        setTimeout(() => {
-          setShowAlert(false);
-        }, 7000);
-
-        // console.log("verifyerror", res.response.data.message);
-      });
-  };
+    let value = "/signin";
+    router.replace(value);
+  }, [router]);
   const handleChangePassword = () => {
-    ResetPasswordApi(
-      formData.username,
+    console.log(formData)
+    ForgotPassword(
+      formData.email,
+      parseInt(formData.otp),
       formData.password,
       formData.confirmPassword
     )
       .then((res) => {
-        setShowAlert(true);
-        setAlertConfig({
-          type: "info",
-          text: res.data.message,
-        });
-
+        console.log(res)
+        if (res.status) {
+          setalert(true);
+          setAlertConfig({
+            icon: "success",
+            text: res.data.message,
+            time: 3000,
+          });
+        }
         setTimeout(() => {
-          setShowAlert(false);
-        }, 7000);
-        Navigation();
+          setalert(false);
+          Navigation();
+        }, 2000);
       })
       .catch((error) => {
-        console.log(error,'error');
-        setShowAlert(true);
+        console.log(error)
+        setalert(true);
         setAlertConfig({
-          type: "warning",
+          icon: "warning",
           text: error.response.data.message,
         });
         setTimeout(() => {
-          setShowAlert(false);
+          setalert(false);
         }, 7000);
-        // console.log("error", error.response.data.message);
       });
   };
   const handleSendOTP = () => {
-    ForgotPasswordApi(formData.username)
+    SendOTPAPI(formData.email)
       .then((res) => {
-        setShowAlert(true);
-        setAlertConfig({
-          type: "info",
-          text: res.data.message,
-        });
-
+        console.log(res)
+        if (res.status === 200) {
+          setalert(true);
+          setAlertConfig({
+            icon: "info",
+            text: "We have sent an OTP to your email.",
+            time: 5000,
+          });
+        }
         setTimeout(() => {
-          setShowAlert(false);
-        }, 7000);
+          setalert(false);
+        }, 5000);
         const newCompleted = completed;
         newCompleted[activeStep] = true;
         setCompleted(newCompleted);
         handleNext();
       })
       .catch((error) => {
-        setShowAlert(true);
+        setalert(true);
         setAlertConfig({
-          type: error.response.data.code === 404 ? "warning" : "info",
+          icon: error.response.data.code === 404 ? "warning" : "info",
           text: error.response.data.message,
         });
         setTimeout(() => {
-          setShowAlert(false);
+          setalert(false);
         }, 7000);
-
-        // console.log("error", error.response.data.message);
       });
   };
-  // console.log("passs", formData.password, "confo", formData.confirmPassword);
-
   return (
     <div className="forgot_form-1">
-      {showAlert && (
-        <DescriptionAlerts text={alertConfig.text} type={alertConfig.type} />
-        )}
-      {allStepsCompleted() ? (
-        <React.Fragment>
-          <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-            <Box sx={{ flex: "1 1 auto" }} />
-          </Box>
-        </React.Fragment>
-      ) : (
-        <React.Fragment>
-          <Typography sx={{ mt: 2, mb: 1, py: 1 }}>
+      {alert && (
+        <DescriptionAlerts
+          text={alertConfig.text}
+          icon={alertConfig.icon}
+          time={alertConfig.time}
+        />
+      )}
+        <div>
+          <div >
             {activeStep === 0 && (
               <SendOtp formData={formData} setFormData={setFormData} />
-              )}
-
+            
+            )}
             {activeStep === 1 && (
-              <VerifyOtp formData={formData} setFormData={setFormData} />
-              )}
-            {activeStep === 2 && (
               <ChangePassword formData={formData} setFormData={setFormData} />
-              )}
-          </Typography>
-              
-          <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-            <Box sx={{ flex: "1 1 auto" }} />
-
-            <>
-              {completedSteps() === totalSteps() - 3 ? (
-                <div className="procced-btn">
-
-                <Button
-                  onClick={handleSendOTP}
-                  className="forgot_form_button"
-                  style={{ marginLeft: "20px", marginRight: "20px"}}
-                  disabled={!formData.username}
-                  // size="sm"
-                >
-                  Proceed
-                </Button>
-                </div>
-              ) : completedSteps() === totalSteps() - 2 ? (
-                <div className="next-btn">
+            
+            )}
+          </div> 
+          <div>
+              {completedSteps() === totalSteps() - 2 ? (
+                <div className="next-btn" style={{textAlign:"center",width:"30%", margin:"auto"}}>
                   <Button
-                  onClick={handleVerifyOTP}
-                  className="forgot_form_button"
-                  style={{ marginLeft: "20px", marginRight: "20px" }}
-                  // size="sm"
-                  disabled={!formData.otp}
-                >
-                  Next
-                </Button>
+                    onClick={handleSendOTP}
+                    className="button_theme"
+                  >
+                    Send OTP
+                  </Button>
                 </div>
-                
               ) : (
-                <div className="reset-btn">
+                <div className="reset-btn"  style={{textAlign:"center",width:"30%", margin:"auto"}}>
                   <Button
-                  onClick={handleChangePassword}
-                  className="forgot_form_button"
-                  style={{ marginLeft: "20px", marginRight: "20px" }}
-                  // size="sm"
-                  disabled={!formData.password || !formData.confirmPassword}
-                >
-                 Reset Password
-                </Button>
-
+                    onClick={handleChangePassword}
+                    className="button_theme"
+                  >
+                    Reset Password
+                  </Button>
                 </div>
-                
               )}
-            </>
-          </Box>
-          {/* <div className="forgot_form_bottom">
-            <h5>Already have an Account.</h5>
-            <h5>
-              <Link to="/login/" className="link">
-                Sign In
-              </Link>
-            </h5>
-          </div> */}
-        </React.Fragment>
-      )}
+            </div>
+        </div>
     </div>
   );
 }
