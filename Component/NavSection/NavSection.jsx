@@ -18,7 +18,8 @@ import { Button, Form, InputGroup, ListGroup } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaSearch, FaBars } from "react-icons/fa";
 import { getClinetProfile } from '@/redux/getClientProfileSlice';
-import {BiSearch} from "react-icons/bi"
+import { BiSearch } from "react-icons/bi"
+import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Link, NavbarBrand, NavbarContent, NavbarItem } from '@nextui-org/react';
 function NavSection() {
   const [searchPlaceholder, setSearchPlaceholder] = useState("Search");
   const router = useRouter();
@@ -26,7 +27,7 @@ function NavSection() {
   const [category, setCategory] = useState([])
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const [openlist,setOepnlist]=useState(true)
+  const [openlist, setOepnlist] = useState(true)
   const [searchResults, setSearchResults] = useState([]);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -101,15 +102,15 @@ function NavSection() {
                 onKeyDown={keyPressHandler}
                 placeholder="Search here..."
               />
-              <InputGroup.Text id="basic-addon2" style={{cursor:"pointer"}} onClick={handleSearchApi}><BiSearch/>Search</InputGroup.Text>
+              <InputGroup.Text id="basic-addon2" style={{ cursor: "pointer" }} onClick={handleSearchApi}><BiSearch />Search</InputGroup.Text>
             </InputGroup>
-            {searchQuery && openlist &&(
+            {searchQuery && openlist && (
               // <ul className="search-results">
               <ListGroup style={{ width: "100%" }}>
                 {searchResults.map((item, index) => (
                   <ListGroup.Item key={index} style={{ cursor: "pointer" }} onClick={() => {
                     const path = `/blogdetail/${item?.id}`
-                    router.push(path);setOepnlist(false)
+                    router.push(path); setOepnlist(false)
                   }}>{item?.heading}</ListGroup.Item>
                 ))}
               </ListGroup>
@@ -143,7 +144,7 @@ function NavSection() {
                   >
                     {category.map((item, index) => {
                       return (
-                        <li style={{ cursor: "pointer" ,listStyle:"none",padding:"2px"}} key={index} onClick={() => {
+                        <li style={{ cursor: "pointer", listStyle: "none", padding: "2px" }} key={index} onClick={() => {
                           const path = `/blogs/${item.slug}`
                           router.push(path)
                         }}>{item.title}</li>
@@ -157,7 +158,8 @@ function NavSection() {
                 }}>Blogs</Nav.Link>
               </Nav>
               <div>
-                {storedValue ? <>
+                {/* {storedValue ?
+                 <>
                   <Tooltip title="Account settings">
                     <IconButton
                       onClick={handleClick}
@@ -245,12 +247,13 @@ function NavSection() {
                       router.push(path)
                     }}
                   >Login</Button>
-                }
+                } */}
               </div>
             </Offcanvas.Body>
           </Navbar.Offcanvas>
         </Container>
       </Navbar>
+    
     </div>
   );
 }
