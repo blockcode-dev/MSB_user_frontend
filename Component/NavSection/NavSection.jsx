@@ -29,6 +29,12 @@ function NavSection() {
   const [searchQuery, setSearchQuery] = useState("");
   const [openlist, setOepnlist] = useState(true)
   const [searchResults, setSearchResults] = useState([]);
+  const [isClient, setIsClient] = useState(false)
+ 
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+ 
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -158,7 +164,8 @@ function NavSection() {
                 }}>Blogs</Nav.Link>
               </Nav>
               <div>
-                {storedValue ?
+                {isClient &&
+                storedValue ?
                  <>
                   <Tooltip title="Account settings">
                     <IconButton

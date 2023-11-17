@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import SendOtp from "./SendOtp";
@@ -70,6 +70,8 @@ export default function OtpStep() {
       });
   };
   const handleSendOTP = () => {
+    // alert("helllo")
+    console.log("object")
     SendOTPAPI(formData.email)
       .then((res) => {
         console.log(res)
@@ -93,6 +95,11 @@ export default function OtpStep() {
         console.log(error, "error")
       });
   };
+  const [isClient, setIsClient] = useState(false)
+ 
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
   return (<>
     {alert ? (
       <DescriptionAlerts text={alertConfig.text} icon={alertConfig.icon} />
@@ -107,7 +114,7 @@ export default function OtpStep() {
       ) : (
         <React.Fragment>
           <Typography sx={{ mt: 2, mb: 1, py: 1 }}>
-            {activeStep === 0 && (
+            {isClient&& activeStep === 0 && (
               <SendOtp formData={formData} setFormData={setFormData} />
             )}
             {activeStep === 1 && (
@@ -117,7 +124,7 @@ export default function OtpStep() {
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Box sx={{ flex: "1 1 auto" }} />
             <>
-              {completedSteps() === totalSteps() - 2 ? (
+              {isClient&& completedSteps() === totalSteps() - 2 ? (
                 <div className="procced-btn">
                   <Button
                     onClick={handleSendOTP}
@@ -129,7 +136,7 @@ export default function OtpStep() {
                     Proceed
                   </Button>
                 </div>
-              ) : completedSteps() === totalSteps() - 1 ? (
+              ) : isClient &&  completedSteps() === totalSteps() - 1 ? (
                 <div className="next-btn">
                   <Button
                     onClick={handleVerifyOTP}
@@ -144,7 +151,7 @@ export default function OtpStep() {
               ) : (
                 <div className="reset-btn">
                   <Button
-                    onClick={handleChangePassword}
+                    // onClick={handleChangePassword}
                     className="forgot_form_button"
                     style={{ marginLeft: "20px", marginRight: "20px" }}
                     // size="sm"
