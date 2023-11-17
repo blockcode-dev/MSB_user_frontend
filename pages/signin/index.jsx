@@ -23,8 +23,9 @@ const Signin = () => {
             email,
             password
         )
+
             .then((res) => {
-                console.log(res)
+                console.log(res,"response")
                 if (res.data === 200 || res.data.status === 200) {
                     setAlert(true);
                     setAlertConfig({
@@ -41,6 +42,7 @@ const Signin = () => {
                 }
             })
             .catch((error) => {
+                console.log(error,"error")
                 if (error.response.data.status === 401||error.response.data.status === 400) {
                     setAlert(true);
                     setAlertConfig({

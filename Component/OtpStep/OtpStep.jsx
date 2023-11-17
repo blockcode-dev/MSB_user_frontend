@@ -97,7 +97,7 @@ export default function OtpStep() {
     {alert ? (
       <DescriptionAlerts text={alertConfig.text} icon={alertConfig.icon} />
     ) : null}
-    <div className="forgot_form-1">
+    <div className="forgot_form-11">
       {allStepsCompleted() ? (
         <React.Fragment>
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>

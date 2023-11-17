@@ -158,7 +158,7 @@ function NavSection() {
                 }}>Blogs</Nav.Link>
               </Nav>
               <div>
-                {/* {storedValue ?
+                {storedValue ?
                  <>
                   <Tooltip title="Account settings">
                     <IconButton
@@ -208,11 +208,11 @@ function NavSection() {
                     transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                     anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                   >
-                    <div style={{ margin: "10px", padding: "4px" }}>
+                    {/* <div style={{ margin: "10px", padding: "4px" }}>
                       <h5 style={{ textTransform: "capitalize" }}>{profile?.name}</h5>
                       <p>{profile?.email}</p>
-                    </div>
-                    <Divider />
+                    </div> */}
+                    {/* <Divider /> */}
                     <MenuItem onClick={() => {
                       handleClose;
                       const path = "/profile";
@@ -247,7 +247,7 @@ function NavSection() {
                       router.push(path)
                     }}
                   >Login</Button>
-                } */}
+                }
               </div>
             </Offcanvas.Body>
           </Navbar.Offcanvas>
