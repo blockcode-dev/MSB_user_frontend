@@ -4,7 +4,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
-import Logo from "../../public/assets/Logo.png"
+import Logo from "../../public/assets/msblogo.png"
 import Image from 'next/image';
 import styles from "./NavSection.module.scss"
 import Avatar from '@mui/material/Avatar';
@@ -96,7 +96,7 @@ function NavSection() {
             const path = "/"
             router.push(path)
           }}>
-            <Image src={Logo} width={100} height={40} style={{ cursor: "pointer" }} alt='' />
+            <Image src={Logo} width={120} height={50} style={{ cursor: "pointer" }} alt=''  className={styles.logo}/>
           </Navbar.Brand>
           <div className="search-container">
             <InputGroup >
