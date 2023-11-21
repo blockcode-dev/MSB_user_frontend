@@ -4,11 +4,10 @@ import { Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 const CustomModal = (props) => {
-  // console.log("props",props.price.id)
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const handleSubmit = () => {
-    props.createSubscription(name, email, props.price.id);
+    props.createSubscription(name, email, props?.price?.id);
     // props.onHide()
   }
   return (
