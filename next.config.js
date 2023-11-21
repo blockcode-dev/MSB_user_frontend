@@ -5,13 +5,27 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "*.cricketaddictor.com",
-        // port: '',
-        // pathname: '/account123/**',
+        hostname: "*mystorybank.info/.com",
       },
     ],
     unoptimized: true,
   },
-}
+  webpack(config, options) {
+    config.module.rules.push({
+      test: /\.(mov|mp4|webm)$/,
+      use: [
+        {
+          loader: 'file-loader',
+          options: {
+            publicPath: '/_next',
+            name: 'videos/[name].[ext]',
+          },
+        },
+      ],
+    });
 
-module.exports = nextConfig
+    return config;
+  },
+};
+
+module.exports = nextConfig;

@@ -11,12 +11,14 @@ const Sub = ({ priceTypes,loading,createSubscription,stripe }) => {
     setModalShow(true);
   };
 
-  
+  console.log(
+    priceTypes,"pricee"
+  )
 
   return (
     <div>
       <div className={styles.pricing}>
-        {priceTypes.map((item, index) => (
+        {priceTypes?.map((item, index) => (
           <div className={styles.plan} key={index}>
             {item.unit_amount / 100} per {item.recurring.interval_count}{" "}
             {item.recurring.interval}

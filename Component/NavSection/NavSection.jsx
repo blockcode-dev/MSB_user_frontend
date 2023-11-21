@@ -30,11 +30,12 @@ function NavSection() {
   const [openlist, setOepnlist] = useState(true)
   const [searchResults, setSearchResults] = useState([]);
   const [isClient, setIsClient] = useState(false)
- 
+
+  console.log(router.asPath, "check path")
   useEffect(() => {
     setIsClient(true)
   }, [])
- 
+
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -87,7 +88,6 @@ function NavSection() {
       setSearchResults(res.data)
     })
   };
-  console.log(openlist, "Oepnlist")
   return (
     <div className={styles.Navsection}>
       <Navbar expand="md">
@@ -96,33 +96,35 @@ function NavSection() {
             const path = "/"
             router.push(path)
           }}>
-            <Image src={Logo} width={120} height={50} style={{ cursor: "pointer" }} alt=''  className={styles.logo}/>
+            <Image src={Logo} width={120} height={50} style={{ cursor: "pointer" }} alt='' className={styles.logo} />
           </Navbar.Brand>
-          <div className="search-container">
-            <InputGroup >
-              <Form.Control
-                aria-label="Recipient's username"
-                aria-describedby="basic-addon2"
-                type="text"
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyDown={keyPressHandler}
-                placeholder="Search here..."
-              />
-              <InputGroup.Text id="basic-addon2" style={{ cursor: "pointer" }} onClick={handleSearchApi}><BiSearch />Search</InputGroup.Text>
-            </InputGroup>
-            {searchQuery && openlist && (
-              // <ul className="search-results">
-              <ListGroup style={{ width: "100%" }}>
-                {searchResults.map((item, index) => (
-                  <ListGroup.Item key={index} style={{ cursor: "pointer" }} onClick={() => {
-                    const path = `/blogdetail/${item?.id}`
-                    router.push(path); setOepnlist(false)
-                  }}>{item?.heading}</ListGroup.Item>
-                ))}
-              </ListGroup>
-              // </ul>
-            )}
-          </div>
+          {router.asPath === "/otp" || router.asPath === "/signin" || router.asPath === "/signup" || router.asPath === "/forgotpassword" ? null :
+
+            <div className="search-container">
+              <InputGroup >
+                <Form.Control
+                  aria-label="Recipient's username"
+                  aria-describedby="basic-addon2"
+                  type="text"
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyDown={keyPressHandler}
+                  placeholder="Search here..."
+                />
+                <InputGroup.Text id="basic-addon2" style={{ cursor: "pointer" }} onClick={handleSearchApi}><BiSearch />Search</InputGroup.Text>
+              </InputGroup>
+              {searchQuery && openlist && (
+                // <ul className="search-results">
+                <ListGroup style={{ width: "100%" }}>
+                  {searchResults.map((item, index) => (
+                    <ListGroup.Item key={index} style={{ cursor: "pointer" }} onClick={() => {
+                      const path = `/blogdetail/${item?.id}`
+                      router.push(path); setOepnlist(false)
+                    }}>{item?.heading}</ListGroup.Item>
+                  ))}
+                </ListGroup>
+                // </ul>
+              )}
+            </div>}
           <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-md`} />
           <Navbar.Offcanvas
             id={`offcanvasNavbar-expand-md`}
@@ -130,137 +132,173 @@ function NavSection() {
             placement="end"
             style={{ width: offcanvasWidth }}
           >
-            <Offcanvas.Header closeButton>
-              <Offcanvas.Title id={`offcanvasNavbarLabel-expand-md`}>
-                Offcanvas
-              </Offcanvas.Title>
-            </Offcanvas.Header>
+
             <Offcanvas.Body>
+
+
               <Nav className="justify-content-end flex-grow-1">
-                <Nav.Link onClick={() => {
-                  const path = "/home"
-                  router.push(path)
-                }}>Home</Nav.Link>
-                <NavDropdown
-                  title="Categories"
-                  id={`offcanvasNavbarDropdown-expand-md`}
-                >
-                  <ul
-                    className="list_name"
-                  >
-                    {category.map((item, index) => {
-                      return (
-                        <li style={{ cursor: "pointer", listStyle: "none", padding: "2px" }} key={index} onClick={() => {
-                          const path = `/blogs/${item.slug}`
-                          router.push(path)
-                        }}>{item.title}</li>
-                      )
-                    })}
-                  </ul>
-                </NavDropdown>
-                <Nav.Link onClick={() => {
-                  const path = "/blogs/all"
-                  router.push(path)
-                }}>Blogs</Nav.Link>
+                {router.asPath === "/otp" || router.asPath === "/signin" || router.asPath === "/signup" || router.asPath === "/forgotpassword" ? null :
+                  <>
+                    <Nav.Link onClick={() => {
+                      const path = "/home"
+                      router.push(path)
+                    }}>Home</Nav.Link>
+                    <NavDropdown
+                      title="Categories"
+                      id={`offcanvasNavbarDropdown-expand-md`}
+                    >
+                      <ul
+                        className="list_name"
+                      >
+                        {category.map((item, index) => {
+                          return (
+                            <li style={{ cursor: "pointer", listStyle: "none", padding: "2px" }} key={index} onClick={() => {
+                              const path = `/blogs/${item.slug}`
+                              router.push(path)
+                            }}>{item.title}</li>
+                          )
+                        })}
+                      </ul>
+                    </NavDropdown>
+                    <Nav.Link onClick={() => {
+                      const path = "/blogs/all"
+                      router.push(path)
+                    }}>Blogs</Nav.Link>
+                  </>
+                }
               </Nav>
               <div>
                 {isClient &&
-                storedValue ?
-                 <>
-                  <Tooltip title="Account settings">
-                    <IconButton
-                      onClick={handleClick}
-                      size="small"
-                      sx={{ ml: 2 }} p
-                      style={{ margin: 0 }}
-                      aria-controls={open ? 'account-menu' : undefined}
-                      aria-haspopup="true"
-                      aria-expanded={open ? 'true' : undefined}
+                  storedValue ?
+                  <>
+                    <Tooltip title="Account settings">
+                      <IconButton
+                        onClick={handleClick}
+                        size="small"
+                        sx={{ ml: 2 }} p
+                        style={{ margin: 0 }}
+                        aria-controls={open ? 'account-menu' : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={open ? 'true' : undefined}
+                      >
+                        <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+                      </IconButton>
+                    </Tooltip>
+                    <Menu
+                      anchorEl={anchorEl}
+                      id="account-menu"
+                      open={open}
+                      onClose={handleClose}
+                      onClick={handleClose}
+                      PaperProps={{
+                        elevation: 0,
+                        sx: {
+                          overflow: 'visible',
+                          filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                          mt: 1.5,
+                          '& .MuiAvatar-root': {
+                            width: 32,
+                            height: 32,
+                            ml: -0.5,
+                            mr: 1,
+                          },
+                          '&:before': {
+                            content: '""',
+                            display: 'block',
+                            position: 'absolute',
+                            top: 0,
+                            right: 14,
+                            width: 10,
+                            height: 10,
+                            bgcolor: 'background.paper',
+                            transform: 'translateY(-50%) rotate(45deg)',
+                            zIndex: 0,
+                          },
+                        },
+                      }}
+                      transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                      anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                     >
-                      <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
-                    </IconButton>
-                  </Tooltip>
-                  <Menu
-                    anchorEl={anchorEl}
-                    id="account-menu"
-                    open={open}
-                    onClose={handleClose}
-                    onClick={handleClose}
-                    PaperProps={{
-                      elevation: 0,
-                      sx: {
-                        overflow: 'visible',
-                        filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-                        mt: 1.5,
-                        '& .MuiAvatar-root': {
-                          width: 32,
-                          height: 32,
-                          ml: -0.5,
-                          mr: 1,
-                        },
-                        '&:before': {
-                          content: '""',
-                          display: 'block',
-                          position: 'absolute',
-                          top: 0,
-                          right: 14,
-                          width: 10,
-                          height: 10,
-                          bgcolor: 'background.paper',
-                          transform: 'translateY(-50%) rotate(45deg)',
-                          zIndex: 0,
-                        },
-                      },
-                    }}
-                    transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-                    anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-                  >
-                    {/* <div style={{ margin: "10px", padding: "4px" }}>
+                      {/* <div style={{ margin: "10px", padding: "4px" }}>
                       <h5 style={{ textTransform: "capitalize" }}>{profile?.name}</h5>
                       <p>{profile?.email}</p>
                     </div> */}
-                    {/* <Divider /> */}
-                    <MenuItem onClick={() => {
-                      handleClose;
-                      const path = "/profile";
-                      router.push(path);
-                    }}>
-                      <ListItemIcon>
-                        <AccountCircleIcon fontSize="small" />
-                      </ListItemIcon>
-                      Profile
-                    </MenuItem>
-                    <MenuItem onClick={handleClose}>
-                      <ListItemIcon>
-                        <SupportIcon fontSize="small" />
-                      </ListItemIcon>
-                      Help & Support
-                    </MenuItem>
-                    <MenuItem onClick={() => { handleClose(); handleLogout() }}>
-                      <ListItemIcon>
-                        <Logout fontSize="small" />
-                      </ListItemIcon>
-                      Logout
-                    </MenuItem>
-                  </Menu>
-                </>
-                  :
-                  <Button style={{
-                    borderRadius: "10px",
-                    background: "#174F78", border: "none"
-                  }}
-                    onClick={() => {
-                      const path = "/signin"
-                      router.push(path)
+                      {/* <Divider /> */}
+                      <MenuItem onClick={() => {
+                        handleClose;
+                        const path = "/profile";
+                        router.push(path);
+                      }}>
+                        <ListItemIcon>
+                          <AccountCircleIcon fontSize="small" />
+                        </ListItemIcon>
+                        Profile
+                      </MenuItem>
+                      <MenuItem onClick={handleClose}>
+                        <ListItemIcon>
+                          <SupportIcon fontSize="small" />
+                        </ListItemIcon>
+                        Help & Support
+                      </MenuItem>
+                      <MenuItem onClick={() => { handleClose(); handleLogout() }}>
+                        <ListItemIcon>
+                          <Logout fontSize="small" />
+                        </ListItemIcon>
+                        Logout
+                      </MenuItem>
+                    </Menu>
+                  </>
+                  : isClient&&
+                  router.asPath === "/forgotpassword" ?
+                    <>
+                      <Button style={{
+                        borderRadius: "10px",
+                        background: "#174F78", border: "none",margin:"20px"
+                      }}
+                        onClick={() => {
+                          const path = "/signin"
+                          router.push(path)
+                        }}
+                      >Log In</Button>
+                       <Button style={{
+                        borderRadius: "10px",
+                        background: "#174F78", border: "none"
+                      }}
+                        onClick={() => {
+                          const path = "/signup"
+                          router.push(path)
+                        }}
+                      >Sign Up</Button>
+
+                    </> 
+                    : isClient&&
+                    router.asPath === "/signin" ?
+                    <Button style={{
+                      borderRadius: "10px",
+                      background: "#174F78", border: "none"
                     }}
-                  >Login</Button>
+                      onClick={() => {
+                        const path = "/signup"
+                        router.push(path)
+                      }}
+                    >Sigup</Button>:
+                    <Button style={{
+                      borderRadius: "10px",
+                      background: "#174F78", border: "none"
+                    }}
+                      onClick={() => {
+                        const path = "/signin"
+                        router.push(path)
+                      }}
+                    >Login</Button>
                 }
               </div>
+
             </Offcanvas.Body>
           </Navbar.Offcanvas>
         </Container>
       </Navbar>
-    
+
     </div>
   );
 }

@@ -5,9 +5,9 @@ const SendOtp = ({ formData, setFormData }) => {
   return (<>
     <div className={styles.forgot_form}>
       <div className={styles.forgot_form_container}>
-        <Form>
+        <Form style={{textAlign:"left"}}>
           <Form.Group className={styles.input_field}>
-            <Form.Label style={{float:"left"}} >Email address</Form.Label>
+            <Form.Label >Email address</Form.Label>
             <Form.Control
               type="email"
               placeholder="Email"
@@ -16,7 +16,12 @@ const SendOtp = ({ formData, setFormData }) => {
                 setFormData({ ...formData, email: e.target.value });
               }}
             />
+
+
           </Form.Group>
+
+
+          
         </Form>
       </div>
     </div>

@@ -100,6 +100,19 @@ a {
   font-weight: bolder !important;
 }
 
+.button_theme:disabled {
+  border-radius: 10px !important;
+  /* background: transparent !important; */
+  background-color: gray !important;
+  /* box-shadow: 0px 4px 24px 0px rgba(14, 13, 13, 0.14) !important; */
+  border: 1px solid black !important;
+  padding: 10px 5px !important;
+  width: 100%;
+  color: gray;
+  font-weight: bolder !important;
+}
+
+
 .button_theme:hover {
   border-radius: 10px !important;
   background: #EE2325 !important;
@@ -277,7 +290,7 @@ color: white !important;
 	--comman-padding: 25px 40px;
 }	
 .modal-body {
-padding: 5px !important;
+/* padding: 5px !important; */
 }
 
 .main{
@@ -433,4 +446,9 @@ padding: 5px !important;
 	background-color: #12143B;
 	border: none;
 	color: #fff;
+}
+.card-title,.card-text{
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
 }

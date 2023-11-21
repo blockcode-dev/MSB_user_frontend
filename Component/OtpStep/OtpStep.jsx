@@ -7,10 +7,11 @@ import { Button } from "react-bootstrap";
 import { SendOTPAPI, VerifyOtpAPI } from "@/Constants/Api/Api";
 import { useRouter } from "next/router";
 import DescriptionAlerts from "@/Constants/alert/alert";
+import CreateAccount from "./CreateAccount";
 export default function OtpStep() {
   const steps = [
     "Select campaign settings",
-    "Create an ad group"
+    "Create an ad group","test"
   ];
   const [alert, setAlert] = useState(false);
   const [alertConfig, setAlertConfig] = useState({
@@ -55,15 +56,13 @@ export default function OtpStep() {
             icon: "success",
           });
           setTimeout(() => {
-            navigate("/signup")
+            // navigate("/signup")
             const newCompleted = completed;
             newCompleted[activeStep] = true;
             setCompleted(newCompleted);
             handleNext();
-
           }, 2000);
         }
-
       })
       .catch((error) => {
         console.log(error, 'error')
@@ -75,7 +74,7 @@ export default function OtpStep() {
     SendOTPAPI(formData.email)
       .then((res) => {
         console.log(res)
-        if (res.data === 200 || res.data.status === 200) {
+        if ( res.data.status === 200) {
           setAlert(true);
           setAlertConfig({
             text: "OTP has been Sent To Your Email",
@@ -86,17 +85,14 @@ export default function OtpStep() {
             newCompleted[activeStep] = true;
             setCompleted(newCompleted);
             handleNext();
-
           }, 2000);
         }
-
       })
       .catch((error) => {
         console.log(error, "error")
       });
   };
   const [isClient, setIsClient] = useState(false)
- 
   useEffect(() => {
     setIsClient(true)
   }, [])
@@ -120,45 +116,40 @@ export default function OtpStep() {
             {activeStep === 1 && (
               <VerifyOtp formData={formData} setFormData={setFormData} />
             )}
+              {activeStep === 2 && (
+              <CreateAccount formData={formData} setFormData={setFormData} />
+            )}
           </Typography>
-          <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+          <Box sx={{ display: "flex", flexDirection: "row"}}>
             <Box sx={{ flex: "1 1 auto" }} />
             <>
-              {isClient&& completedSteps() === totalSteps() - 2 ? (
+              {isClient&& completedSteps() === totalSteps() - 3 ? (
                 <div className="procced-btn">
                   <Button
                     onClick={handleSendOTP}
-                    className="forgot_form_button"
+                    className="forgot_form_button button_theme"
                     style={{ marginLeft: "20px", marginRight: "20px" }}
                     disabled={!formData.email}
                   // size="sm"
                   >
-                    Proceed
+                    Send Otp
                   </Button>
                 </div>
-              ) : isClient &&  completedSteps() === totalSteps() - 1 ? (
+              ) : isClient &&  completedSteps() === totalSteps() - 2 ? (
                 <div className="next-btn">
                   <Button
                     onClick={handleVerifyOTP}
-                    className="forgot_form_button"
+                    className="forgot_form_button button_theme"
                     style={{ marginLeft: "20px", marginRight: "20px" }}
                     // size="sm"
                     disabled={!formData.otp}
                   >
-                    Next
+                    Verify Otp
                   </Button>
                 </div>
-              ) : (
+              ) :
+              (
                 <div className="reset-btn">
-                  <Button
-                    // onClick={handleChangePassword}
-                    className="forgot_form_button"
-                    style={{ marginLeft: "20px", marginRight: "20px" }}
-                    // size="sm"
-                    disabled={!formData.password || !formData.confirmPassword}
-                  >
-                    Reset Password
-                  </Button>
                 </div>
               )}
             </>

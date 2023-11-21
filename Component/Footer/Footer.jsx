@@ -5,11 +5,13 @@ import { AiFillFacebook, AiOutlineTwitter, AiFillYoutube } from "react-icons/ai"
 import { BsVimeo } from "react-icons/bs"
 import { FaQuestionCircle } from "react-icons/fa"
 const FooterSection = () => {
+  const currentYear = new Date().getFullYear();
+
     return (
         <div className={styles.FooterSection}>
             <Container className={styles.footer_inner}>
                 <div className={styles.sec1}>
-                    <p>© 2022 My Story Bank. All rights reserved.</p>
+                    <p>© {currentYear} My Story Bank. All rights reserved.</p>
                 </div>
                 <div className={styles.sec1}>
                     <h5>My Story Bank</h5>

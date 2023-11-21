@@ -11,6 +11,7 @@ export default function App({ Component, pageProps }) {
     <>
       <Provider store={store}>
         <div className='navsection'>
+          
           <NavSection />
         </div>
         <div className="content">
