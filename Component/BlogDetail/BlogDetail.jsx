@@ -3,8 +3,6 @@ import styles from "./BlogDetail.module.scss"
 import { Container } from 'react-bootstrap'
 import Pic from "../../public/assets/pic.png"
 import Image from 'next/image'
-import { CldVideoPlayer } from 'next-cloudinary';
-
 // import Video from "../../public/assets/Animated Logo_mystorybank.mp4"
 import { useRouter } from 'next/router'
 import { getLocalStorageItem } from '@/Constants/Api/Api'
