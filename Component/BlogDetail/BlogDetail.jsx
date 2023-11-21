@@ -3,6 +3,8 @@ import styles from "./BlogDetail.module.scss"
 import { Container } from 'react-bootstrap'
 import Pic from "../../public/assets/pic.png"
 import Image from 'next/image'
+import { CldVideoPlayer } from 'next-cloudinary';
+
 // import Video from "../../public/assets/Animated Logo_mystorybank.mp4"
 import { useRouter } from 'next/router'
 import { getLocalStorageItem } from '@/Constants/Api/Api'
@@ -15,6 +17,7 @@ import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import Signin from '@/pages/signin'
 import { getBlog } from '@/redux/getBlog'
 import ReactPlayer from 'react-player'
+import { useRef } from 'react'
 export default function BlogDetailComponent({ data }) {
     console.log(data, "data")
     const router = useRouter()
@@ -54,12 +57,40 @@ export default function BlogDetailComponent({ data }) {
     useEffect(() => {
         setIsClient(true)
     }, [])
-    const videoPath = "../../public/assets/video.mp4"
+    const path = "https://node.mystorybank.info:4000/videos/Animated_Logo_mystorybank.mp4"
+    const playerRef = useRef(null);
+
+    const handleVideoEnd = () => {
+        if (playerRef && playerRef.current) {
+          const currentRef = playerRef.current;
+          if (currentRef.seekTo) {
+            currentRef.seekTo(0); // Seek to the beginning of the video
+          }
+          if (currentRef.play) {
+            currentRef.play(); // Play the video again
+          }
+        }
+      };
+
     return (<div>
-        {/* {storedValue ? */}
-        {isClient&&
-        <ReactPlayer url={videoPath} controls style={{ width: "90%", margin: "20px auto" }} width="90%" />}
-        {/* <ReactPlayer url='../../public/assets/video.mp4' /> */}
+
+
+            {isClient &&
+                <ReactPlayer
+                    ref={playerRef}
+                    url={path}
+                    onEnded={handleVideoEnd} // When the video ends, replay it
+                    // controls
+                    controls={false}
+                    loop={false}
+                    muted={true}
+                    playing={true} // Autoplay the video
+                    // style={{ width: "90%", margin: "20px auto" }} 
+                    height="100%"
+                    width="100%"
+                />}
+
+
         <Container className={styles.BlogDetailComponent}>
             <div>
                 <Image
@@ -79,7 +110,6 @@ export default function BlogDetailComponent({ data }) {
                         __html: data?.data?.description
                     }}
                 />
-                {/* <h6>{data?.data?.description}</h6> */}
             </div>
         </Container>
         {/* :

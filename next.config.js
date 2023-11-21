@@ -5,7 +5,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "*mystorybank.info/.com",
+        hostname: "*mystorybank",
       },
     ],
     unoptimized: true,

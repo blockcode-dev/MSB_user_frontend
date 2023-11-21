@@ -4,7 +4,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
-import Logo from "../../public/assets/msblogo.png"
+import Logo from "../../public/assets/msb.png"
 import Image from 'next/image';
 import styles from "./NavSection.module.scss"
 import Avatar from '@mui/material/Avatar';
@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FaSearch, FaBars } from "react-icons/fa";
 import { getClinetProfile } from '@/redux/getClientProfileSlice';
 import { BiSearch } from "react-icons/bi"
+
 import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Link, NavbarBrand, NavbarContent, NavbarItem } from '@nextui-org/react';
 function NavSection() {
   const [searchPlaceholder, setSearchPlaceholder] = useState("Search");
@@ -96,7 +97,7 @@ function NavSection() {
             const path = "/"
             router.push(path)
           }}>
-            <Image src={Logo} width={120} height={50} style={{ cursor: "pointer" }} alt='' className={styles.logo} />
+            <Image src={Logo} width={50} height={50} style={{ cursor: "pointer" }} alt='' className={styles.logo} />
           </Navbar.Brand>
           {router.asPath === "/otp" || router.asPath === "/signin" || router.asPath === "/signup" || router.asPath === "/forgotpassword" ? null :
 
