@@ -1,11 +1,31 @@
-import Blogs from '@/Component/Blogs/Blogs'
 import React from 'react'
-
+import { useEffect } from 'react';
+import { useState } from 'react';
+import Blogs from '@/Component/Blogs/Blogs'
+import { getLocalStorageItem } from '@/Constants/Api/Api';
+import Signin from '../signin';
+import styles from "../../styles/Home.module.css"
+import Banner from '@/Component/Banner/Banner';
 const index = () => {
-  return (
-    <div>
-      <Blogs/>
-    </div>
+  const storedValue = getLocalStorageItem("UserLoginToken");
+  const [isClient, setIsClient] = useState(false)
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+  return (<>
+    {isClient && storedValue ?
+      <div className={styles.Home}>
+        <Banner />
+        {/* <Image src={MsbLogo} width={100} height={100}/> */}
+
+        <div style={{ margin: "50px 0px" }}>
+
+          <Blogs />
+
+        </div>
+      </div>
+      : <Signin/>}
+      </>
   )
 }
 

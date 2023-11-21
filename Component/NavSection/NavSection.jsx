@@ -141,7 +141,7 @@ function NavSection() {
                 {router.asPath === "/otp" || router.asPath === "/signin" || router.asPath === "/signup" || router.asPath === "/forgotpassword" ? null :
                   <>
                     <Nav.Link onClick={() => {
-                      const path = "/home"
+                      const path = "/"
                       router.push(path)
                     }}>Home</Nav.Link>
                     <NavDropdown

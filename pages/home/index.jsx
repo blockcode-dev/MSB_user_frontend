@@ -7,8 +7,10 @@ import { Container } from 'react-bootstrap';
 import Pic1 from "../../public/assets/card1.png"
 import Pic2 from "../../public/assets/card2.png"
 import Blogs from '@/Component/Blogs/Blogs';
+import MsbLogo from "../../public/assets/msb.png"
 import { getLocalStorageItem } from '@/Constants/Api/Api';
 import Signin from '../signin';
+import Image from 'next/image';
 const Home = () => {
   const [sliderSettings, setSliderSettings] = useState({
     dots: false,
@@ -28,6 +30,7 @@ const Home = () => {
       {isClient && storedValue ?
         <div className={styles.Home}>
           <Banner />
+          {/* <Image src={MsbLogo} width={100} height={100}/> */}
 
           <div style={{ margin: "50px 0px" }}>
 

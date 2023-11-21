@@ -1,13 +1,55 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styles from "./landing.module.scss"
 import Image1 from "../../public/assets/landingpage1.png"
 import Banner from '../Banner/Banner'
 import Image from 'next/image'
 import { Button, Container } from 'react-bootstrap'
+import { useRouter } from 'next/router'
+import ReactPlayer from 'react-player'
 const Landing = () => {
+  const router =useRouter()
+  const [isClient, setIsClient] = useState(false)
+    console.log(router.asPath, "check path")
+    useEffect(() => {
+        setIsClient(true)
+    }, [])
+    const path = "https://node.mystorybank.info:4000/videos/Animated_Logo_mystorybank.mp4"
+    const playerRef = useRef(null);
+
+    const handleVideoEnd = () => {
+        if (playerRef && playerRef.current) {
+          const currentRef = playerRef.current;
+          if (currentRef.seekTo) {
+            currentRef.seekTo(0); // Seek to the beginning of the video
+          }
+          if (currentRef.play) {
+            currentRef.play(); // Play the video again
+          }
+        }
+      };
+
   return (
     <div className={styles.Landing} >
-      <Banner />
+      {/* <Banner /> */}
+      <div className={styles.Video_Banner}>
+
+      {isClient &&
+                <ReactPlayer
+                ref={playerRef}
+                url={path}
+                onEnded={handleVideoEnd} // When the video ends, replay it
+                // controls
+                controls={false}
+                    loop={false}
+                    muted={true}
+                    playing={true} // Autoplay the video
+                    // style={{ width: "90%", margin: "20px auto" }} 
+                    className={styles.video_banner_inner}
+                    height="450px"
+                    width="100%"
+                    />}
+                    </div>
+
       <Container className={styles.main}>
         <div className={styles.section1}>
           <div className={styles.imagesss}>

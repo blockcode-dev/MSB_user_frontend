@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Container, Form } from 'react-bootstrap'
+import { Button, Container, Form, Image } from 'react-bootstrap'
 import styles from "./signin.module.scss"
 import Link from 'next/link'
 import { UserLoginAPI } from '@/Constants/Api/Api'
@@ -8,6 +8,7 @@ import { useState } from 'react'
 import DescriptionAlerts from '@/Constants/alert/alert'
 import { useDispatch } from 'react-redux'
 import { getClinetProfile } from '@/redux/getClientProfileSlice'
+import MsbLogo from "/public/assets/msb.png"
 const Signin = () => {
     const router = useRouter();
     const navigate = router.replace;
@@ -25,7 +26,7 @@ const Signin = () => {
         )
 
             .then((res) => {
-                console.log(res,"response")
+                console.log(res, "response")
                 if (res.data === 200 || res.data.status === 200) {
                     setAlert(true);
                     setAlertConfig({
@@ -42,8 +43,8 @@ const Signin = () => {
                 }
             })
             .catch((error) => {
-                console.log(error,"error")
-                if (error.response.data.status === 401||error.response.data.status === 400) {
+                console.log(error, "error")
+                if (error.response.data.status === 401 || error.response.data.status === 400) {
                     setAlert(true);
                     setAlertConfig({
                         text: error.response.data.message,
@@ -62,6 +63,8 @@ const Signin = () => {
         <Container className={styles.Signin}>
             <div className={styles.Main} >
                 <div className={styles.Left}>
+                    <Image src="http://localhost:3000/_next/static/media/msb.cd57a8cd.png" width={50} height={50} style={{ cursor: "pointer" ,width:"100%" ,height:"100%"}} alt='' />
+
                 </div>
                 <div className={styles.Right}>
                     <div className={styles.form_inner}>
@@ -82,7 +85,7 @@ const Signin = () => {
                                 router.push(path)
                             }} style={{ cursor: "pointer" }} >Forgot pasword?</p>
                         </Form>
-                        <Button className="button_theme" onClick={handleSubmit}>Sign in</Button>
+                        <Button className="button_theme" onClick={handleSubmit} style={{ width: "100%" }}>Sign in</Button>
                     </div>
                     <p className={styles.buttom_text}>Don’t have an account? <span style={{ color: "blue", textDecoration: "underline", cursor: "pointer" }} onClick={() => {
                         const path = "/otp"

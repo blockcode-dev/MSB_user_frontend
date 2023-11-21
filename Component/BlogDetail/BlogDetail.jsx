@@ -16,6 +16,7 @@ import Signin from '@/pages/signin'
 import { getBlog } from '@/redux/getBlog'
 import ReactPlayer from 'react-player'
 import { useRef } from 'react'
+import Banner from '../Banner/Banner'
 export default function BlogDetailComponent({ data }) {
     console.log(data, "data")
     const router = useRouter()
@@ -50,30 +51,30 @@ export default function BlogDetailComponent({ data }) {
     const storedValue = getLocalStorageItem("UserLoginToken");
     console.log(like, "like")
 
-    // const [isClient, setIsClient] = useState(false)
-    // console.log(router.asPath, "check path")
-    // useEffect(() => {
-    //     setIsClient(true)
-    // }, [])
-    // const path = "https://node.mystorybank.info:4000/videos/Animated_Logo_mystorybank.mp4"
-    // const playerRef = useRef(null);
+    const [isClient, setIsClient] = useState(false)
+    console.log(router.asPath, "check path")
+    useEffect(() => {
+        setIsClient(true)
+    }, [])
+    const path = "https://node.mystorybank.info:4000/videos/Animated_Logo_mystorybank.mp4"
+    const playerRef = useRef(null);
 
-    // const handleVideoEnd = () => {
-    //     if (playerRef && playerRef.current) {
-    //       const currentRef = playerRef.current;
-    //       if (currentRef.seekTo) {
-    //         currentRef.seekTo(0); // Seek to the beginning of the video
-    //       }
-    //       if (currentRef.play) {
-    //         currentRef.play(); // Play the video again
-    //       }
-    //     }
-    //   };
+    const handleVideoEnd = () => {
+        if (playerRef && playerRef.current) {
+          const currentRef = playerRef.current;
+          if (currentRef.seekTo) {
+            currentRef.seekTo(0); // Seek to the beginning of the video
+          }
+          if (currentRef.play) {
+            currentRef.play(); // Play the video again
+          }
+        }
+      };
 
-    return (<div>
+    return (<div >
 
-
-            {/* {isClient &&
+{/* 
+            {isClient &&
                 <ReactPlayer
                     ref={playerRef}
                     url={path}
@@ -87,11 +88,13 @@ export default function BlogDetailComponent({ data }) {
                     height="100%"
                     width="100%"
                 />} */}
+        <Banner />
+
 
 
         <Container className={styles.BlogDetailComponent}>
             <div>
-                <h2 style={{textTransform:"capitalize"}}>{data?.data?.heading}</h2>
+                <h2 style={{textTransform:"capitalize",marginTop:"30px"}}>{data?.data?.heading}</h2>
                 <Image
                     src={`${Image_URL}${data?.data?.blog_attachment[0]?.file_name}`}
                     width={100} height={100} alt='' className={styles.picture} />

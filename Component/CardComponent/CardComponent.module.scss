@@ -1,9 +1,16 @@
 .CardComponent {
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px !important;
-    border: none !important;
+    // box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px !important;
+border-radius: 10px;
+    border: 0.5px solid #8F001E !important;
+    img{
+        border-top-right-radius: 10px;
+        border-top-left-radius: 10px;
+
+    }
     .descc{
         img{
             width: 100% !important;
+            border-radius: 10px;
         }
     }
 }

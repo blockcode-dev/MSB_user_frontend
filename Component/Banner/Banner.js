@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from "./Banner.module.scss"
 import { Container } from 'react-bootstrap'
-import BannerPic from "../../public/assets/banner.png"
+import BannerPic from "../../public/assets/msb.png"
 import Image from 'next/image'
 const Banner = () => {
     return (
