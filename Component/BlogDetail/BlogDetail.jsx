@@ -52,30 +52,30 @@ export default function BlogDetailComponent({ data }) {
     const storedValue = getLocalStorageItem("UserLoginToken");
     console.log(like, "like")
 
-    const [isClient, setIsClient] = useState(false)
-    console.log(router.asPath, "check path")
-    useEffect(() => {
-        setIsClient(true)
-    }, [])
-    const path = "https://node.mystorybank.info:4000/videos/Animated_Logo_mystorybank.mp4"
-    const playerRef = useRef(null);
+    // const [isClient, setIsClient] = useState(false)
+    // console.log(router.asPath, "check path")
+    // useEffect(() => {
+    //     setIsClient(true)
+    // }, [])
+    // const path = "https://node.mystorybank.info:4000/videos/Animated_Logo_mystorybank.mp4"
+    // const playerRef = useRef(null);
 
-    const handleVideoEnd = () => {
-        if (playerRef && playerRef.current) {
-          const currentRef = playerRef.current;
-          if (currentRef.seekTo) {
-            currentRef.seekTo(0); // Seek to the beginning of the video
-          }
-          if (currentRef.play) {
-            currentRef.play(); // Play the video again
-          }
-        }
-      };
+    // const handleVideoEnd = () => {
+    //     if (playerRef && playerRef.current) {
+    //       const currentRef = playerRef.current;
+    //       if (currentRef.seekTo) {
+    //         currentRef.seekTo(0); // Seek to the beginning of the video
+    //       }
+    //       if (currentRef.play) {
+    //         currentRef.play(); // Play the video again
+    //       }
+    //     }
+    //   };
 
     return (<div>
 
 
-            {isClient &&
+            {/* {isClient &&
                 <ReactPlayer
                     ref={playerRef}
                     url={path}
@@ -88,15 +88,15 @@ export default function BlogDetailComponent({ data }) {
                     // style={{ width: "90%", margin: "20px auto" }} 
                     height="100%"
                     width="100%"
-                />}
+                />} */}
 
 
         <Container className={styles.BlogDetailComponent}>
             <div>
+                <h2 style={{textTransform:"capitalize"}}>{data?.data?.heading}</h2>
                 <Image
                     src={`${Image_URL}${data?.data?.blog_attachment[0]?.file_name}`}
                     width={100} height={100} alt='' className={styles.picture} />
-                <h2>{data?.data?.heading}</h2>
                 <div>
                     <span
                         style={{ color: like?.message === "User Liked Successfully." ? "#007FFF" : "unset", cursor: "pointer" }}
@@ -104,7 +104,7 @@ export default function BlogDetailComponent({ data }) {
                     <span>Share </span>
                     <span>Comment </span>
                 </div>
-                <h6 className={styles.blogdescc}
+                <div className={styles.blogdescc}
                     style={{ paddingBottom: "20px" }}
                     dangerouslySetInnerHTML={{
                         __html: data?.data?.description

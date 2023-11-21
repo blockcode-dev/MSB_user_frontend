@@ -45,7 +45,16 @@
         img{
             width: 100% !important;
         }
-    }
+        
+            color: #696969;
+            // font-feature-settings: 'clig' off, 'liga' off;
+            font-family: SF Pro Display;
+            font-size: 20px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 38px;
+        }
+    
 }
 
 @media(max-width:767px){
