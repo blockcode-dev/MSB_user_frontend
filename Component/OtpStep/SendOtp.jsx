@@ -16,12 +16,7 @@ const SendOtp = ({ formData, setFormData }) => {
                 setFormData({ ...formData, email: e.target.value });
               }}
             />
-
-
           </Form.Group>
-
-
-          
         </Form>
       </div>
     </div>

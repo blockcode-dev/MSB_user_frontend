@@ -8,7 +8,7 @@ import { Button } from "react-bootstrap";
 import { useCallback } from "react";
 import { useRouter } from "next/router";
 import DescriptionAlerts from "@/Constants/alert/alert";
-import { ForgotPassword, SendOTPAPI } from "@/Constants/Api/Api";
+import { ForgetSendOTPAPI, ForgotPassword, SendOTPAPI } from "@/Constants/Api/Api";
 import styles from  "./Forgot.module.scss";
 const steps = ["Create an ad group", "Create an ad"];
 export default function ForgotPasswordComponent() {
@@ -51,7 +51,7 @@ export default function ForgotPasswordComponent() {
     router.replace(value);
   }, [router]);
   const handleChangePassword = () => {
-    console.log(formData)
+    setalert(false)
     ForgotPassword(
       formData.email,
       parseInt(formData.otp),
@@ -86,7 +86,8 @@ export default function ForgotPasswordComponent() {
       });
   };
   const handleSendOTP = () => {
-    SendOTPAPI(formData.email)
+    setalert(false)
+    ForgetSendOTPAPI(formData.email)
       .then((res) => {
         console.log(res)
         if (res.status === 200) {

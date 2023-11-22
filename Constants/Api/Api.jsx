@@ -30,6 +30,20 @@ export const SendOTPAPI = async (
   };
   return await axios.post("https://node.mystorybank.info:4000/api/v1/auth/otp", config);
 };
+
+
+export const ForgetSendOTPAPI = async (
+  value1
+) => {
+  let config = {
+    email: value1,
+    type: "forget_password"
+  };
+  return await axios.post("https://node.mystorybank.info:4000/api/v1/auth/otp", config);
+};
+
+
+
 // ************Verify OTP API****************
 
 export const VerifyOtpAPI = async (

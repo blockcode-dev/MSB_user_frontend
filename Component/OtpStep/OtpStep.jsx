@@ -11,7 +11,7 @@ import CreateAccount from "./CreateAccount";
 export default function OtpStep() {
   const steps = [
     "Select campaign settings",
-    "Create an ad group","test"
+    "Create an ad group", "test"
   ];
   const [alert, setAlert] = useState(false);
   const [alertConfig, setAlertConfig] = useState({
@@ -46,9 +46,10 @@ export default function OtpStep() {
     setActiveStep(newActiveStep);
   };
   const handleVerifyOTP = () => {
+    setAlert(false);
     VerifyOtpAPI(formData.email, formData.otp)
       .then((res) => {
-        console.log(res,"ress")
+        setAlert(false)
         if (res.data === 200 || res.data.status === 200) {
           setAlert(true);
           setAlertConfig({
@@ -69,12 +70,10 @@ export default function OtpStep() {
       });
   };
   const handleSendOTP = () => {
-    // alert("helllo")
-    console.log("object")
+    setAlert(false);
     SendOTPAPI(formData.email)
       .then((res) => {
-        console.log(res)
-        if ( res.data.status === 200) {
+        if (res.data.status === 200) {
           setAlert(true);
           setAlertConfig({
             text: "OTP has been Sent To Your Email",
@@ -110,20 +109,20 @@ export default function OtpStep() {
       ) : (
         <React.Fragment>
           <Typography sx={{ mt: 2, mb: 1, py: 1 }}>
-            {isClient&& activeStep === 0 && (
+            {isClient && activeStep === 0 && (
               <SendOtp formData={formData} setFormData={setFormData} />
             )}
             {activeStep === 1 && (
               <VerifyOtp formData={formData} setFormData={setFormData} />
             )}
-              {activeStep === 2 && (
+            {activeStep === 2 && (
               <CreateAccount formData={formData} setFormData={setFormData} />
             )}
           </Typography>
-          <Box sx={{ display: "flex", flexDirection: "row"}}>
+          <Box sx={{ display: "flex", flexDirection: "row" }}>
             <Box sx={{ flex: "1 1 auto" }} />
             <>
-              {isClient&& completedSteps() === totalSteps() - 3 ? (
+              {isClient && completedSteps() === totalSteps() - 3 ? (
                 <div className="procced-btn">
                   <Button
                     onClick={handleSendOTP}
@@ -135,7 +134,7 @@ export default function OtpStep() {
                     Send Otp
                   </Button>
                 </div>
-              ) : isClient &&  completedSteps() === totalSteps() - 2 ? (
+              ) : isClient && completedSteps() === totalSteps() - 2 ? (
                 <div className="next-btn">
                   <Button
                     onClick={handleVerifyOTP}
@@ -148,10 +147,10 @@ export default function OtpStep() {
                   </Button>
                 </div>
               ) :
-              (
-                <div className="reset-btn">
-                </div>
-              )}
+                (
+                  <div className="reset-btn">
+                  </div>
+                )}
             </>
           </Box>
         </React.Fragment>

@@ -20,11 +20,11 @@ const Signin = () => {
     });
     const dispatch = useDispatch()
     const handleSubmit = (event) => {
+        setAlert(false);
         UserLoginAPI(
             email,
             password
         )
-
             .then((res) => {
                 console.log(res, "response")
                 if (res.data === 200 || res.data.status === 200) {
@@ -64,7 +64,6 @@ const Signin = () => {
             <div className={styles.Main} >
                 <div className={styles.Left}>
                     <Image src="http://localhost:3000/_next/static/media/msb.cd57a8cd.png" width={50} height={50} style={{ cursor: "pointer" ,width:"100%" ,height:"100%"}} alt='' />
-
                 </div>
                 <div className={styles.Right}>
                     <div className={styles.form_inner}>

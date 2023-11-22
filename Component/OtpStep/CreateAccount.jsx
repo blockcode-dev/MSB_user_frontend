@@ -22,8 +22,8 @@ const CreateAccount = ({ formData, setFormData }) => {
     text: "",
   });
   const handleCreateAccount = (event) => {
+    setAlert(false);
     // if (!agree) {
-    //   setAlert(true);
     //   setAlertConfig({
     //     text: "Please agree to the terms and conditions to submit the form.",
     //     icon: "info",
