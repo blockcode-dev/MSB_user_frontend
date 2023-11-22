@@ -134,27 +134,14 @@ const SignUp = () => {
 
   const handleAlertSubmit = () => {
     const missingFields = [];
-
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isEmailValid = emailRegex.test(email.trim());
     if (!name) missingFields.push("Name");
     if (!email) missingFields.push("Email");
     if (!mobile) missingFields.push("Mobile");
     if (!password) missingFields.push("Password");
     if (!confirmPassword) missingFields.push("Confirm Password");
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const isEmailValid = emailRegex.test(email.trim());
-  
-    if (!isEmailValid) {
-      setAlert(true);
-      setAlertConfig({
-        icon: "error",
-        text: "Invalid email format",
-      });
-      setTimeout(() => {
-        setAlert(false);
-      }, 2000);
-      return;
-    }
+    if (!isEmailValid) missingFields.push("Invalid email format")
 
     if (missingFields.length > 0) {
       setAlert(true);
