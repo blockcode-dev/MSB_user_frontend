@@ -7,7 +7,7 @@ import Card from 'react-bootstrap/Card';
 import styles from "./CardComponent.module.scss"
 import { useState } from 'react';
 function CardComponent(props) {
-    console.log(props, "props")
+    // console.log(props, "props")
     const router = useRouter();
     const handleRedirect = () => {
         const path = `/blogdetail/${props.path}`;

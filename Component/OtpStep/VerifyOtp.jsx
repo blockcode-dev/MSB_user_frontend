@@ -19,7 +19,7 @@ const VerifyOtp = ({ formData, setFormData }) => {
             />
           </Form.Group>
           <Form.Group className="input_field">
-            <Form.Label >OTP</Form.Label>
+            <Form.Label className="mt-3">OTP</Form.Label>
             {/* <Form.Control
               type="number"
               placeholder="OTP"

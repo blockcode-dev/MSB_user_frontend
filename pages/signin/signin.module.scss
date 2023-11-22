@@ -1,54 +1,72 @@
 .Signin {
-    .Main {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        height: 80vh;
+  .Main {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    height: 80vh;
 
-        .Left {
-            width: 50% !important;
-            // background-color: #EE2325;
-            // height: 100px;
-        }
-
-        .Right {
-            width: 50%;
-            align-self: center;
-
-            .form_inner {
-                width: 70%;
-                margin: auto;
-
-                h1 {
-                    text-align: center;
-                }
-                p{
-                    text-align: right;
-                    font-weight: bolder;
-                    color: #696969;
-                }
-            }
-
-            .buttom_text {
-                margin: 20px;
-                text-align: center;
-                font-size: 18px;
-            }
-        }
-
+    .Left {
+      width: 50% !important;
+      // background-color: #EE2325;
+      // height: 100px;
     }
-    @media (max-width: 767px) {
-        .Left {
-            display: none;
-        }
 
-        .Right {
-            width: 100% !important;
-            align-self: auto !important;
+    .Right {
+      width: 50%;
+      align-self: center;
 
-            .form_inner {
-                width: 95% !important;
-            }
+      .form_inner {
+        width: 70%;
+        margin: auto;
+
+        h1 {
+          text-align: center;
         }
+        p {
+          text-align: right;
+          font-weight: bolder;
+          color: #696969;
+        }
+      }
+
+      .buttom_text {
+        margin: 20px;
+        text-align: center;
+        font-size: 18px;
+      }
     }
+    .input_container {
+      position: relative;
+      span {
+        position: absolute;
+        right: 10px;
+        top: -10px;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+    }
+    .error_message{
+        padding-top: 5px;
+        color: red !important;
+        text-align: left !important;
+        font-weight: 500;
+        font-size: 12px;
+        
+    }
+  }
+  @media (max-width: 767px) {
+    .Left {
+      display: none;
+    }
+
+    .Right {
+      width: 100% !important;
+      align-self: auto !important;
+
+      .form_inner {
+        width: 95% !important;
+      }
+    }
+  }
 }

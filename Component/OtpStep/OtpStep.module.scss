@@ -90,6 +90,26 @@
     color: var(--primary);
   }
 }
+.error_message{
+  padding-top: 5px;
+  color: red !important;
+  text-align: left !important;
+  font-weight: 500;
+  font-size: 12px;
+  
+}
+
+.input_container {
+  position: relative;
+  span {
+    position: absolute;
+    right: 10px;
+    top: -10px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+}
 @media (max-width: 400px) {
   .forgot_form_button {
     margin-top: 10px;

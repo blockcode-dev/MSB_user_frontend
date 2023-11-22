@@ -32,7 +32,7 @@ function NavSection() {
   const [searchResults, setSearchResults] = useState([]);
   const [isClient, setIsClient] = useState(false)
 
-  console.log(router.asPath, "check path")
+  
   useEffect(() => {
     setIsClient(true)
   }, [])
@@ -84,11 +84,14 @@ function NavSection() {
     }
   };
   const callAPI = () => {
+    setOepnlist(false)
     SearchAPI(searchQuery).then((res) => {
       setOepnlist(true)
       setSearchResults(res.data)
     })
   };
+
+  
   return (
     <div className={styles.Navsection}>
       <Navbar expand="md">
@@ -116,7 +119,9 @@ function NavSection() {
               {searchQuery && openlist && (
                 // <ul className="search-results">
                 <ListGroup style={{ width: "100%" }}>
-                  {searchResults.map((item, index) => (
+                  {searchResults.length === 0 ?
+                  <ListGroup.Item>No data found</ListGroup.Item>:
+                   searchResults.map((item, index) => (
                     <ListGroup.Item key={index} style={{ cursor: "pointer" }} onClick={() => {
                       const path = `/blogdetail/${item?.id}`
                       router.push(path); setOepnlist(false)
@@ -182,7 +187,7 @@ function NavSection() {
                         aria-haspopup="true"
                         aria-expanded={open ? 'true' : undefined}
                       >
-                        <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+                        <Avatar sx={{ width: 32, height: 32 }}>{profile?.name.charAt(0)}</Avatar>
                       </IconButton>
                     </Tooltip>
                     <Menu

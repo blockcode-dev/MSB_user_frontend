@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { Button, Container } from 'react-bootstrap'
 import { useRouter } from 'next/router'
 import ReactPlayer from 'react-player'
+
 const Landing = () => {
   const router =useRouter()
   const [isClient, setIsClient] = useState(false)
