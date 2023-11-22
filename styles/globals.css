@@ -164,6 +164,7 @@ body {
   /* padding-top: 64px; */
   /* max-width: 640px; */
   /* width: 94%; */
+  margin-top: 40px;
   width: 100%;
   font-family: "Raleway", sans-serif;
   line-height: 30px;
@@ -206,9 +207,12 @@ body {
   font-size: 35px !important;
   opacity: 1 !important;
 }
+p{
+  margin-bottom: 0px !important;
+}
 
 .card-text {
-  height: 75.2px rem;
+  /* height: 75.2px rem; */
   overflow: hidden;
   height: 1.2 rem;
   text-overflow: ellipsis;
@@ -331,7 +335,7 @@ color: white !important;
 }
 .card-top h3,p
 {
- padding-top: 15px;
+ /* padding-top: 15px; */
 }
 .card-top h3
 {

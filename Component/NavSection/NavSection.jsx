@@ -235,12 +235,12 @@ function NavSection() {
                         </ListItemIcon>
                         Profile
                       </MenuItem>
-                      <MenuItem onClick={handleClose}>
+                      {/* <MenuItem onClick={handleClose}>
                         <ListItemIcon>
                           <SupportIcon fontSize="small" />
                         </ListItemIcon>
                         Help & Support
-                      </MenuItem>
+                      </MenuItem> */}
                       <MenuItem onClick={() => { handleClose(); handleLogout() }}>
                         <ListItemIcon>
                           <Logout fontSize="small" />
