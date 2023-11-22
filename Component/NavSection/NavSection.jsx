@@ -28,7 +28,7 @@ function NavSection() {
   const [category, setCategory] = useState([])
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const [openlist, setOepnlist] = useState(true)
+  const [openlist, setOepnlist] = useState(false)
   const [searchResults, setSearchResults] = useState([]);
   const [isClient, setIsClient] = useState(false)
 
@@ -79,8 +79,11 @@ function NavSection() {
     callAPI();
   }
   const keyPressHandler = (e) => {
-    if (e.key === 'Enter') { // Check if the pressed key is 'Enter'
+    setOepnlist(false)
+    if (e.key === 'Enter') { 
+     // Check if the pressed key is 'Enter'
       callAPI(); // Call your API function here
+      setOepnlist(true)
     }
   };
   const callAPI = () => {
