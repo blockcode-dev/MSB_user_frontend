@@ -9,10 +9,7 @@ import { useRouter } from "next/router";
 import DescriptionAlerts from "@/Constants/alert/alert";
 import CreateAccount from "./CreateAccount";
 export default function OtpStep() {
-  const steps = [
-    "Select campaign settings",
-    "Create an ad group", "test"
-  ];
+  const steps = ["Select campaign settings", "Create an ad group", "test"];
   const [alert, setAlert] = useState(false);
   const [alertConfig, setAlertConfig] = useState({
     text: "",
@@ -23,6 +20,19 @@ export default function OtpStep() {
     email: "",
     otp: "",
   });
+
+  const [emailError, setEmailError] = useState("");
+  const validateEmail = (input) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (input.trim() === "") {
+      setEmailError("");
+    } else if (!emailRegex.test(input)) {
+      setEmailError("Invalid email format");
+    } else {
+      setEmailError("");
+    }
+  };
+
   const router = useRouter();
   const navigate = router.replace;
   const totalSteps = () => {
@@ -40,8 +50,7 @@ export default function OtpStep() {
   const handleNext = () => {
     const newActiveStep =
       isLastStep() && !allStepsCompleted()
-        ?
-        steps.findIndex((step, i) => !(i in completed))
+        ? steps.findIndex((step, i) => !(i in completed))
         : activeStep + 1;
     setActiveStep(newActiveStep);
   };
@@ -49,7 +58,7 @@ export default function OtpStep() {
     setAlert(false);
     VerifyOtpAPI(formData.email, formData.otp)
       .then((res) => {
-        setAlert(false)
+        console.log(res, "ress");
         if (res.data === 200 || res.data.status === 200) {
           setAlert(true);
           setAlertConfig({
@@ -66,96 +75,120 @@ export default function OtpStep() {
         }
       })
       .catch((error) => {
-        console.log(error, 'error')
+        console.log(error, "error");
       });
   };
   const handleSendOTP = () => {
-    setAlert(false);
-    SendOTPAPI(formData.email)
-      .then((res) => {
-        if (res.data.status === 200) {
-          setAlert(true);
-          setAlertConfig({
-            text: "OTP has been Sent To Your Email",
-            icon: "success",
-          });
-          setTimeout(() => {
-            const newCompleted = completed;
-            newCompleted[activeStep] = true;
-            setCompleted(newCompleted);
-            handleNext();
-          }, 2000);
-        }
-      })
-      .catch((error) => {
-        console.log(error, "error")
+    // alert("helllo")
+    console.log("object");
+    if (emailError) {
+      setAlert(true);
+      setAlertConfig({
+        text: "Invalid email format",
+        icon: "error",
       });
+    } else {
+      SendOTPAPI(formData.email)
+        .then((res) => {
+          console.log(res);
+          if (res.data.status === 200) {
+            setAlert(true);
+            setAlertConfig({
+              text: "OTP has been Sent To Your Email",
+              icon: "success",
+            });
+            setTimeout(() => {
+              const newCompleted = completed;
+              newCompleted[activeStep] = true;
+              setCompleted(newCompleted);
+              handleNext();
+            }, 2000);
+          }
+        })
+        .catch((error) => {
+          console.log(error, "error");
+          if (error.response.data.message) {
+            setAlert(true);
+            setAlertConfig({
+              text: error.response.data.message,
+              icon: "error",
+            });
+            setTimeout(() => {
+              setAlert(false);
+            }, 2000);
+          }
+        });
+    }
   };
-  const [isClient, setIsClient] = useState(false)
+  const [isClient, setIsClient] = useState(false);
   useEffect(() => {
-    setIsClient(true)
-  }, [])
-  return (<>
-    {alert ? (
-      <DescriptionAlerts text={alertConfig.text} icon={alertConfig.icon} />
-    ) : null}
-    <div className="forgot_form-11">
-      {allStepsCompleted() ? (
-        <React.Fragment>
-          <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-            <Box sx={{ flex: "1 1 auto" }} />
-          </Box>
-        </React.Fragment>
-      ) : (
-        <React.Fragment>
-          <Typography sx={{ mt: 2, mb: 1, py: 1 }}>
-            {isClient && activeStep === 0 && (
-              <SendOtp formData={formData} setFormData={setFormData} />
-            )}
-            {activeStep === 1 && (
-              <VerifyOtp formData={formData} setFormData={setFormData} />
-            )}
-            {activeStep === 2 && (
-              <CreateAccount formData={formData} setFormData={setFormData} />
-            )}
-          </Typography>
-          <Box sx={{ display: "flex", flexDirection: "row" }}>
-            <Box sx={{ flex: "1 1 auto" }} />
-            <>
-              {isClient && completedSteps() === totalSteps() - 3 ? (
-                <div className="procced-btn">
-                  <Button
-                    onClick={handleSendOTP}
-                    className="forgot_form_button button_theme"
-                    style={{ marginLeft: "20px", marginRight: "20px" }}
-                    disabled={!formData.email}
-                  // size="sm"
-                  >
-                    Send Otp
-                  </Button>
-                </div>
-              ) : isClient && completedSteps() === totalSteps() - 2 ? (
-                <div className="next-btn">
-                  <Button
-                    onClick={handleVerifyOTP}
-                    className="forgot_form_button button_theme"
-                    style={{ marginLeft: "20px", marginRight: "20px" }}
-                    // size="sm"
-                    disabled={!formData.otp}
-                  >
-                    Verify Otp
-                  </Button>
-                </div>
-              ) :
-                (
-                  <div className="reset-btn">
+    setIsClient(true);
+  }, []);
+  return (
+    <>
+      {alert ? (
+        <DescriptionAlerts text={alertConfig.text} icon={alertConfig.icon} />
+      ) : null}
+      <div className="forgot_form-11">
+        {allStepsCompleted() ? (
+          <React.Fragment>
+            <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+              <Box sx={{ flex: "1 1 auto" }} />
+            </Box>
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
+            <Typography sx={{ mt: 2, mb: 1, py: 1 }}>
+              {isClient && activeStep === 0 && (
+                <SendOtp
+                  formData={formData}
+                  setFormData={setFormData}
+                  emailError={emailError}
+                  validateEmail={validateEmail}
+                />
+              )}
+              {activeStep === 1 && (
+                <VerifyOtp formData={formData} setFormData={setFormData} />
+              )}
+              {activeStep === 2 && (
+                <CreateAccount formData={formData} setFormData={setFormData} />
+              )}
+            </Typography>
+            <Box sx={{ display: "flex", flexDirection: "row" }}>
+              <Box sx={{ flex: "1 1 auto" }} />
+              <>
+                {isClient && completedSteps() === totalSteps() - 3 ? (
+                  <div className="procced-btn">
+                    <Button
+                      onClick={handleSendOTP}
+                      className="forgot_form_button button_theme"
+                      style={{ marginLeft: "20px", marginRight: "20px" }}
+                      disabled={!formData.email}
+                      // size="sm"
+                    >
+                      Send Otp
+                    </Button>
                   </div>
+                ) : isClient && completedSteps() === totalSteps() - 2 ? (
+                  <div className="next-btn">
+                    <Button
+                      onClick={handleVerifyOTP}
+                      className="forgot_form_button button_theme"
+                      style={{ marginLeft: "20px", marginRight: "20px" }}
+                      // size="sm"
+                      disabled={!formData.otp}
+                    >
+                      Verify Otp
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="reset-btn"></div>
                 )}
-            </>
-          </Box>
-        </React.Fragment>
-      )}
-    </div>
-  </>
+              </>
+            </Box>
+          </React.Fragment>
+        )}
+      </div>
+    </>
   );
 }

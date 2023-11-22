@@ -32,6 +32,25 @@
                 font-size: 18px;
             }
         }
+        .input_container {
+            position: relative;
+            span {
+              position: absolute;
+              right: 10px;
+              top: -10px;
+              font-size: 12px;
+              font-weight: 600;
+              cursor: pointer;
+            }
+          }
+          .error_message{
+            padding-top: 5px;
+            color: red !important;
+            text-align: left !important;
+            font-weight: 500;
+            font-size: 12px;
+            
+          }
 
     }
 
