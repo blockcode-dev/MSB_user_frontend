@@ -131,11 +131,11 @@ export const BlogByCategoryApi = async (
 // ************Getprofile API****************
 
 
-export const GetProfile = async () => {
+export const GetProfile = async (value) => {
   try {
     const response = await axios.get("https://node.mystorybank.info:4000/api/v1/user/profile", {
       headers: {
-        "x-access-token": storedValue,
+        "x-access-token": value,
       },
     });
     return response.data;

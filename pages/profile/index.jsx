@@ -1,4 +1,5 @@
 import ProfileComponent from '@/Component/Profile/ProfileComponent'
+import { getLocalStorageItem } from '@/Constants/Api/Api'
 import { getClinetProfile } from '@/redux/getClientProfileSlice'
 import React from 'react'
 import { useEffect } from 'react'
@@ -8,9 +9,11 @@ const Profile = () => {
   const ProfileGet = useSelector((state) => state.rootReducer.clientProfile.clientProfile
   )
   const dispatch = useDispatch()
+  const storedValue = getLocalStorageItem("UserLoginToken");
+  
   useEffect(() => {
-      dispatch(getClinetProfile())
-  }, [dispatch])
+      dispatch(getClinetProfile(storedValue))
+  }, [dispatch,storedValue])
   return (
   <ProfileComponent data={ProfileGet}/>
   )

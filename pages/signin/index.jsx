@@ -2,7 +2,7 @@ import React from 'react'
 import { Button, Container, Form, Image } from 'react-bootstrap'
 import styles from "./signin.module.scss"
 import Link from 'next/link'
-import { UserLoginAPI } from '@/Constants/Api/Api'
+import { UserLoginAPI, getLocalStorageItem } from '@/Constants/Api/Api'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import DescriptionAlerts from '@/Constants/alert/alert'
@@ -19,6 +19,8 @@ const Signin = () => {
         text: "",
     });
     const dispatch = useDispatch()
+    const storedValue = getLocalStorageItem("UserLoginToken");
+
     const handleSubmit = (event) => {
         setAlert(false);
         UserLoginAPI(
@@ -34,7 +36,7 @@ const Signin = () => {
                         icon: "success",
                     });
                     setTimeout(() => {
-                        dispatch(getClinetProfile())
+                        dispatch(getClinetProfile(storedValue))
                         const token = res.data.data.tokens.access.token;
                         localStorage.removeItem("UserLoginToken");
                         localStorage.setItem("UserLoginToken", token);

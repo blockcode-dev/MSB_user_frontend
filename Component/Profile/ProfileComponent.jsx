@@ -24,12 +24,14 @@ const ProfileComponent = () => {
     const [alert, setAlert] = useState(false);
     const [alertConfig, setAlertConfig] = useState({
         text: "",
+        icon: ""
     });
     const [isClient, setIsClient] = useState(false)
 
     useEffect(() => {
-      setIsClient(true)
+        setIsClient(true)
     }, [])
+
     const handleValueChangeEdit = () => {
         setValue("edit")
     }
@@ -39,27 +41,30 @@ const ProfileComponent = () => {
     const handlePhoneChange = (newPhone) => {
         setMobile(newPhone);
     };
+
+    const storedValue = getLocalStorageItem("UserLoginToken");
     useEffect(() => {
-        GetProfile().then((res) => {
-            console.log(res,"profile res")
+        GetProfile(storedValue).then((res) => {
             setProfile(res.data)
             setName(res?.data?.name)
             setMobile(res?.data?.mobile)
         }).catch((error) => {
             console.log(error, "error")
         })
-    }, [])
+    }, [storedValue])
+
     const dispatch = useDispatch()
     useEffect(() => {
-        dispatch(getClinetProfile())
-    }, [dispatch])
+        dispatch(getClinetProfile(storedValue))
+    }, [dispatch,storedValue])
     const handleSubmit = () => {
+        setAlert(false);
         const formData = new FormData();
         formData.append("image", selectedImage);
         UserEditProfileAPI(name, selectedImage, mobile)
             .then((res) => {
                 console.log(res)
-                dispatch(getClinetProfile());
+                dispatch(getClinetProfile(storedValue));
                 setProfile(res.data)
                 if (res.data.code === 200 || res.data.status === 200) {
                     setAlert(true);
@@ -75,20 +80,18 @@ const ProfileComponent = () => {
                 console.log(error)
             });
     };
+
     const handleChangePassword = () => {
         ChangePasswordAPI(old_password, new_password, new_c_password).then((res) => {
         }).catch((error) => {
             console.log(error)
         })
     }
-    console.log(selectedImage, "selectedImage")
-    const storedValue = getLocalStorageItem("UserLoginToken");
-    console.log(profile,"profile")
     return (<>
         {alert ? (
             <DescriptionAlerts text={alertConfig.text} icon={alertConfig.icon} />
         ) : null}
-        {isClient&&storedValue ?
+        {isClient && storedValue ?
             <Container className={styles.profile}>
                 <div className={styles.profile_inner}>
                     <div className={styles.section1}>

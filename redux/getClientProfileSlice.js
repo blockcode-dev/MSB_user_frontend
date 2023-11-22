@@ -4,9 +4,9 @@ import { GetProfile } from "@/Constants/Api/Api";
 
 export const getClinetProfile = createAsyncThunk(
   "profile/getprofile",
-  async () => {
+  async (value) => {
     try {
-      const response = await GetProfile();
+      const response = await GetProfile(value);
       return response.data;
     } catch (error) {
       throw error;

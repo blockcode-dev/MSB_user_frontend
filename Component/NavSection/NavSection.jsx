@@ -69,12 +69,12 @@ function NavSection() {
   const storedValue = getLocalStorageItem("UserLoginToken");
   const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(getClinetProfile()).then((res) => {
+    dispatch(getClinetProfile(storedValue)).then((res) => {
       setProfile(res?.payload)
     }).catch((error) => {
       console.log(error)
     })
-  }, [dispatch])
+  }, [dispatch,storedValue])
   const handleSearchApi = () => {
     callAPI();
   }
