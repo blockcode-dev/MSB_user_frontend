@@ -9,6 +9,7 @@ import { UserRegisterAPI } from "@/Constants/Api/Api";
 import { useRouter } from "next/router";
 import DescriptionAlerts from "@/Constants/alert/alert";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import ImagesCom from "@/Component/images";
 const SignUp = () => {
   const router = useRouter();
   const navigate = router.replace;
@@ -194,13 +195,8 @@ const SignUp = () => {
       <Container className={styles.Signup}>
         <div className={styles.Main}>
           <div className={styles.Left}>
-            <Image
-              src="http://localhost:3000/_next/static/media/msb.cd57a8cd.png"
-              width={50}
-              height={50}
-              style={{ cursor: "pointer", width: "100%", height: "100%" }}
-              alt=""
-            />
+          <ImagesCom/>
+
           </div>
           <div className={styles.Right}>
             <div className={styles.form_inner}>
