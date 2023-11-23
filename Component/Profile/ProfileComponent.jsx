@@ -12,6 +12,7 @@ import { getClinetProfile } from '@/redux/getClientProfileSlice'
 import { Image_URL } from '@/Constants/host'
 import Signin from '@/pages/signin'
 import DescriptionAlerts from '@/Constants/alert/alert'
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 const ProfileComponent = () => {
     const [profile, setProfile] = useState()
     const [selectedImage, setSelectedImage] = useState("");
@@ -27,6 +28,15 @@ const ProfileComponent = () => {
         icon: ""
     });
     const [isClient, setIsClient] = useState(false)
+    const [showPassword, setShowPassword] = useState(false);
+    const [passwordError, setPasswordError] = useState("");
+    const [confirmPasswordError, setConfirmPasswordError] = useState("");
+
+    const handleShowPass = () => setShowPassword((showPassword) => !showPassword);
+
+    const handleMouseDownPass = (event) => {
+      event.preventDefault();
+    };
 
     useEffect(() => {
         setIsClient(true)
@@ -57,6 +67,7 @@ const ProfileComponent = () => {
     useEffect(() => {
         dispatch(getClinetProfile(storedValue))
     }, [dispatch,storedValue])
+
     const handleSubmit = () => {
         setAlert(false);
         const formData = new FormData();
@@ -87,6 +98,40 @@ const ProfileComponent = () => {
             console.log(error)
         })
     }
+
+
+    
+  const handlePasswordChange = (e) => {
+    const newPassword = e.target.value;
+    setNewPassword(newPassword);
+
+    const strongPasswordRegex =
+      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
+    const isStrongPassword = strongPasswordRegex.test(newPassword);
+
+    if (newPassword.trim() === "") {
+      setPasswordError("");
+    } else if (!isStrongPassword) {
+      setPasswordError(
+        "Password should contain at least one digit, one lowercase letter, one uppercase letter, and be at least eight characters long"
+      );
+    } else {
+      setPasswordError("");
+    }
+  };
+  const handleConfirmPasswordChange = (e) => {
+    const newConfirmPassword = e.target.value;
+    setNewCPassword(newConfirmPassword);
+
+    if (newConfirmPassword.trim() === "") {
+      setConfirmPasswordError("");
+    } else if (newConfirmPassword !== new_password) {
+      setConfirmPasswordError("Passwords do not match");
+    } else {
+      setConfirmPasswordError("");
+    }
+  };
+
     return (<>
         {alert ? (
             <DescriptionAlerts text={alertConfig.text} icon={alertConfig.icon} />
@@ -198,13 +243,41 @@ const ProfileComponent = () => {
                                         </Form.Group>
                                         <Form.Group className="mb-3">
                                             <Form.Label>New Password </Form.Label>
-                                            <Form.Control type="password" placeholder="Enter Passsword" value={new_password}
-                                                onChange={(e) => setNewPassword(e.target.value)} />
+                                            <div className={styles.input_container}>
+                                            <Form.Control type={showPassword ? "text" : "password"} placeholder="Enter Passsword" value={new_password}
+                                                onChange={handlePasswordChange} />
+                                                <span className="eyesHidden">
+                                                    <p
+                                                        onClick={handleShowPass}
+                                                        onMouseDown={handleMouseDownPass}>
+                                                        {showPassword ? (
+                                                        <AiFillEye size={25} />
+                                                        ) : (
+                                                        <AiFillEyeInvisible size={25} />
+                                                        )}
+                                                    </p>
+                                                </span>
+                                            </div>
+                                            {passwordError && (<p className={styles.error_message}>{passwordError}</p>)}
                                         </Form.Group>
                                         <Form.Group className="mb-3">
                                             <Form.Label>Confirm Passsword</Form.Label>
-                                            <Form.Control type="password" placeholder="Enter confirm paassword" value={new_c_password}
-                                                onChange={(e) => setNewCPassword(e.target.value)} />
+                                            <div className={styles.input_container}>
+                                            <Form.Control type={showPassword ? "text" : "password"} placeholder="Enter confirm paassword" value={new_c_password}
+                                                onChange={handleConfirmPasswordChange} />
+                                                <span className="eyesHidden">
+                                                    <p onClick={handleShowPass}
+                                                        onMouseDown={handleMouseDownPass}>
+                                                        {showPassword ? (
+                                                        <AiFillEye size={25} />
+                                                        ) : (
+                                                        <AiFillEyeInvisible size={25} />
+                                                        )}
+                                                    </p>
+                                                </span>
+                                            </div>
+                                            {confirmPasswordError && (
+                                        <p       p className={styles.error_message}>{confirmPasswordError}</p>)}
                                         </Form.Group>
                                     </Form>
                                     <div style={{ display: "flex", margin: "100px 0px" }}>

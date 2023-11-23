@@ -70,6 +70,22 @@
             font-weight: bolder;
         }
     }
+    .input_container {
+        position: relative;
+        span {
+          position: absolute;
+          right: 10px;
+          top: 5px;
+          font-size: 12px;
+          font-weight: 600;
+          cursor: pointer;
+        }
+      }
+      .error_message{
+        padding-top: 5px;
+        color: red !important;
+        
+      }
 }
 
 @media (max-width:767px) {
