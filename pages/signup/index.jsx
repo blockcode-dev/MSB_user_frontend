@@ -248,7 +248,7 @@ const SignUp = () => {
                   <Form.Label>Confirm Passsword</Form.Label>
                   <div className={styles.input_container}>
                     <Form.Control
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       placeholder="Enter confirm paassword"
                       value={confirmPassword}
                       onChange={handleConfirmPasswordChange}

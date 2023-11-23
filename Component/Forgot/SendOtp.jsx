@@ -1,13 +1,10 @@
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 import styles from  "./Forgot.module.scss";
-const SendOtp = ({ formData, setFormData }) => {
+const SendOtp = ({ formData, setFormData,validateEmail }) => {
   const [otp,setOtp] = useState("")
   const [emailValid, setEmailValid] = useState(true);
-  const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
+ 
   return (<>
     <div className={styles.forgot_form}>
       <div className={styles.forgot_form_container}>
