@@ -458,3 +458,10 @@ color: white !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
 }
+@media  (max-width:767px) {
+  .forgot_form-1{
+    width:90% !important;
+   
+    padding: 10px !important;
+  }
+}
