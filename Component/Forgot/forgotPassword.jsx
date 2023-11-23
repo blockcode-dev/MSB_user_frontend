@@ -25,6 +25,12 @@ export default function ForgotPasswordComponent() {
   const [alertConfig, setAlertConfig] = useState({
     text: "",
   });
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const totalSteps = () => {
     return steps.length;
   };
@@ -50,6 +56,7 @@ export default function ForgotPasswordComponent() {
     let value = "/signin";
     router.replace(value);
   }, [router]);
+
   const handleChangePassword = () => {
     setalert(false)
     ForgotPassword(
@@ -78,18 +85,46 @@ export default function ForgotPasswordComponent() {
         setalert(true);
         setAlertConfig({
           icon: "warning",
-          text: error.response.data.message,
+          text: "Password and Confirm Password must be equal",
         });
         setTimeout(() => {
           setalert(false);
         }, 7000);
       });
   };
+
   const handleSendOTP = () => {
-    setalert(false)
+    setalert(false);
+  
+    // Check if formData.email is empty
+    if (formData.email.trim() === '') {
+      setalert(true);
+      setAlertConfig({
+        icon: "warning",
+        text: "Email is required to send OTP.",
+      });
+      setTimeout(() => {
+        setalert(false);
+      }, 5000);
+      return; // Prevent further execution
+    }
+
+     // Check if email format is invalid
+  if (!validateEmail(formData.email)) {
+    setalert(true);
+    setAlertConfig({
+      icon: "warning",
+      text: "Invalid email format. Please enter a valid email address.",
+    });
+    setTimeout(() => {
+      setalert(false);
+    }, 5000);
+    return; // Prevent further execution
+  }
+  
     ForgetSendOTPAPI(formData.email)
       .then((res) => {
-        console.log(res)
+        console.log(res);
         if (res.status === 200) {
           setalert(true);
           setAlertConfig({
@@ -117,6 +152,7 @@ export default function ForgotPasswordComponent() {
         }, 7000);
       });
   };
+
   return (
     <div className="forgot_form-1">
       {alert && (
@@ -129,7 +165,7 @@ export default function ForgotPasswordComponent() {
         <div>
           <div >
             {activeStep === 0 && (
-              <SendOtp formData={formData} setFormData={setFormData} />
+              <SendOtp formData={formData} setFormData={setFormData} validateEmail={validateEmail} />
             
             )}
             {activeStep === 1 && (
