@@ -8,6 +8,7 @@ import { SendOTPAPI, VerifyOtpAPI } from "@/Constants/Api/Api";
 import { useRouter } from "next/router";
 import DescriptionAlerts from "@/Constants/alert/alert";
 import CreateAccount from "./CreateAccount";
+import  Styles from "./OtpStep.module.scss";
 export default function OtpStep() {
   const steps = ["Select campaign settings", "Create an ad group", "test"];
   const [alert, setAlert] = useState(false);
@@ -158,11 +159,11 @@ export default function OtpStep() {
               <Box sx={{ flex: "1 1 auto" }} />
               <>
                 {isClient && completedSteps() === totalSteps() - 3 ? (
-                  <div className="procced-btn">
+                  <div className={`procced-btn ${Styles.nextBtn}`}>
                     <Button
                       onClick={handleSendOTP}
-                      className="forgot_form_button button_theme"
-                      style={{ marginLeft: "20px", marginRight: "20px" }}
+                      className={`button_theme ${Styles.forgot_form_button}`}
+                      // style={{ marginLeft: "20px", marginRight: "20px" }}
                       disabled={!formData.email}
                       // size="sm"
                     >
@@ -170,11 +171,11 @@ export default function OtpStep() {
                     </Button>
                   </div>
                 ) : isClient && completedSteps() === totalSteps() - 2 ? (
-                  <div className="next-btn">
+                  <div className={`next-btn ${Styles.nextBtn}`}>
                     <Button
                       onClick={handleVerifyOTP}
-                      className="forgot_form_button button_theme"
-                      style={{ marginLeft: "20px", marginRight: "20px" }}
+                      className={`button_theme ${Styles.forgot_form_button}`}
+                      // style={{ marginLeft: "20px", marginRight: "20px" }}
                       // size="sm"
                       disabled={!formData.otp}
                     >

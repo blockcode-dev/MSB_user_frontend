@@ -14,6 +14,8 @@ import Pic1 from "../../public/assets/card1.png";
 import Signin from "@/pages/signin";
 import { Image_URL } from "@/Constants/host";
 import { CircularProgress } from "@mui/material";
+import styles from "./Blogs.module.scss"
+
 function Blogs() {
   const [blog, setBlog] = useState();
   const router = useRouter();
@@ -40,7 +42,7 @@ function Blogs() {
     <>
       {isClient && storedValue ? (
         <Container>
-          <h1 style={{ textAlign: "center", margin: "20px 30px" }}>
+          <h1 className={styles.heading} style={{ textAlign: "center", margin: "20px 30px" }}>
             My Stories
           </h1>
           <div class="row row-cols-1 row-cols-md-4 g-4">
@@ -57,7 +59,7 @@ function Blogs() {
             ) : (
               blog?.map((item, index) => {
                 return (
-                  <div class="col" key={index} style={{ margin: "40px 0px" }}>
+                  <div className={`col ${styles.cardContainer}`} key={index} style={{ margin: "40px 0px" }}>
                     <div>
                       <CardComponent
                         title={item.heading}

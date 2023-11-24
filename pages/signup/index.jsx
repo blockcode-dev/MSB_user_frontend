@@ -277,7 +277,7 @@ const SignUp = () => {
                   )}
                 </Form.Group>
               </Form>
-              <Button className="button_theme" onClick={handleAlertSubmit}>
+              <Button className={`button_theme ${styles.SignUpBtn}`} onClick={handleAlertSubmit}>
                 Continue
               </Button>
             </div>

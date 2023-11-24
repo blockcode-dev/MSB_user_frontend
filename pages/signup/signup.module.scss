@@ -55,16 +55,25 @@
     }
 
     @media (max-width: 767px) {
+        .Main{
+            height:100% !important;
+        }
         .Left {
             display: none;
         }
 
         .Right {
             width: 100% !important;
+            margin-bottom: 30px !important;
             align-self: auto !important;
 
             .form_inner {
                 width: 95% !important;
+                margin: auto !important;
+            }
+            .SignUpBtn{
+                width: 100%;
+                margin-top: 20px;
             }
         }
     }

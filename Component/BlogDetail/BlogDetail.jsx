@@ -18,7 +18,7 @@ import ReactPlayer from 'react-player'
 import { useRef } from 'react'
 import Banner from '../Banner/Banner'
 export default function BlogDetailComponent({ data }) {
-    console.log(data, "data")
+    // console.log(data, "data")
     const router = useRouter()
     const { id } = router.query
     const [likeCount, setLikeCount] = useState()
@@ -26,9 +26,9 @@ export default function BlogDetailComponent({ data }) {
     const blogdetail = useSelector((state) => {
         state.rootReducer.blogdetail
     })
-    console.log(blogdetail, "bloggg")
+    // console.log(blogdetail, "bloggg")
     const dispatch = useDispatch()
-    console.log(likeCount, "likecounttt")
+    // console.log(likeCount, "likecounttt")
     useEffect(() => {
         dispatch(getLike(id)).then((res) => {
             dispatch(getBlog(id)).then((res) => {
@@ -49,10 +49,10 @@ export default function BlogDetailComponent({ data }) {
     const likeFeature = useSelector((state) => state.rootReducer.like.clientProfile
     )
     const storedValue = getLocalStorageItem("UserLoginToken");
-    console.log(like, "like")
+    // console.log(like, "like")
 
     const [isClient, setIsClient] = useState(false)
-    console.log(router.asPath, "check path")
+    // console.log(router.asPath, "check path")
     useEffect(() => {
         setIsClient(true)
     }, [])
@@ -94,7 +94,7 @@ export default function BlogDetailComponent({ data }) {
 
         <Container className={styles.BlogDetailComponent}>
             <div>
-                <h2 style={{textTransform:"capitalize",marginTop:"30px"}}>{data?.data?.heading}</h2>
+                <h2 >{data?.data?.heading}</h2>
                 <Image
                     src={`${Image_URL}${data?.data?.blog_attachment[0]?.file_name}`}
                     width={100} height={100} alt='' className={styles.picture} />

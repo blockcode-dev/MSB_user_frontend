@@ -37,6 +37,9 @@ p{
 
     }
     @media (max-width: 767px) {
+        .Main{
+            height: 100% !important;
+        }
         .Left {
             display: none;
         }
@@ -44,7 +47,7 @@ p{
         .Right {
             width: 100% !important;
             align-self: auto !important;
-
+            margin-bottom: 20px !important;
             .form_inner {
                 width: 95% !important;
             }

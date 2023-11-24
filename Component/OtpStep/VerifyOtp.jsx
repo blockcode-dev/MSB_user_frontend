@@ -45,6 +45,7 @@ const VerifyOtp = ({ formData, setFormData }) => {
             renderInput={(props) => (
               <input
                 {...props}
+                className={styles.otpInput}
                 style={{
                   width: "90px", // Adjust the width according to your preference
                   height: "40px", // Adjust the height according to your preference

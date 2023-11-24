@@ -119,6 +119,19 @@
 }
 @media (max-width:767px) {
   .forgot_form_container{
-    margin: 20px 20px 60px !important;
+    height: auto !important;
+    margin: 0px !important;
+    .SignUpBtn{
+      width: 100% !important;
+    }
+  }
+  .otpInput{
+    width: 40% !important;
+  }
+  .nextBtn{
+    width: 100% !important;
+    .forgot_form_button{
+      width: 100% !important;
+    }
   }
 }
