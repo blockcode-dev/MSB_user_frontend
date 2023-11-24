@@ -5,19 +5,15 @@ import Link from "next/link";
 import OtpStep from "@/Component/OtpStep/OtpStep";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import ImagesCom from "@/Component/images";
 const Otp = () => {
   const router = useRouter();
   return (
     <Container className={styles.Otp}>
       <div className={styles.Main}>
         <div className={styles.Left}>
-          <Image
-            src="http://localhost:3000/_next/static/media/msb.cd57a8cd.png"
-            width={50}
-            height={50}
-            style={{ cursor: "pointer", width: "100%", height: "100%" }}
-            alt=""
-          />
+          <ImagesCom />
+
         </div>
         <div className={styles.Right}>
           <div className={styles.form_inner}>

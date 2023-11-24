@@ -8,9 +8,9 @@ import { useState } from "react";
 import DescriptionAlerts from "@/Constants/alert/alert";
 import { useDispatch } from "react-redux";
 import { getClinetProfile } from "@/redux/getClientProfileSlice";
-import MsbLogo from "/public/assets/msb.png";
+import Logo from "../../public/assets/msb.png"
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-
+import ImagesCom from "@/Component/images";
 const Signin = () => {
   const router = useRouter();
   const navigate = router.replace;
@@ -84,6 +84,7 @@ const Signin = () => {
   const handleMouseDownPass = (event) => {
     event.preventDefault();
   };
+  console.log("hello")
   return (
     <>
       {alert ? (
@@ -92,13 +93,15 @@ const Signin = () => {
       <Container className={styles.Signin}>
         <div className={styles.Main}>
           <div className={styles.Left}>
-            <Image
-              src="http://localhost:3000/_next/static/media/msb.cd57a8cd.png"
+            {/* <Image
+              src={MsbLogo}
               width={50}
               height={50}
               style={{ cursor: "pointer", width: "100%", height: "100%" }}
               alt=""
-            />
+            /> */}
+            {/* <Image src={Logo} width={50} height={50} style={{ cursor: "pointer" }} alt='' className={styles.logo} /> */}
+<ImagesCom/>
           </div>
           <div className={styles.Right}>
             <div className={styles.form_inner}>

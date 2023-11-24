@@ -136,43 +136,36 @@ a {
   box-shadow: none !important;
 }
 
+
 html {
   height: 100%;
   box-sizing: border-box;
 }
-
 *,
 *:before,
 *:after {
   box-sizing: inherit;
 }
-
 body {
   position: relative;
   margin: 0;
-  padding-bottom: 8rem;
+  padding-bottom: 18rem;
   min-height: 100%;
   background-color: white;
   color: black;
 }
-.navsection{
-
-}
 .content {
   /* margin: 0 auto; */
-  /* padding-top: 64px; */
+  padding-top: 20px;
   /* max-width: 640px; */
   /* width: 94%; */
-  margin-top: 40px;
   width: 100%;
   font-family: "Raleway", sans-serif;
   line-height: 30px;
 }
-
 .content h1 {
   margin-top: 0;
 }
-
 /**
  * Footer Styles
  */
@@ -182,9 +175,8 @@ body {
   bottom: 0;
   left: 0;
   /* padding: 1rem; */
-  /* text-align: center; */
-  /* color: #fff; */
-  /* color: black; */
+  text-align: center;
+  color: #fff;
 }
 
 .slick-prev,
