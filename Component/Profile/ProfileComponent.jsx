@@ -227,7 +227,7 @@ const ProfileComponent = () => {
                                             />
                                         </Form.Group>
                                     </Form>
-                                    <div style={{ display: "flex", margin: "100px 0px" }}>
+                                    <div className={styles.buttons}>
                                         <Button className="button_theme" style={{ margin: "10px 5px", width: "28%" }}>Cancle</Button>
                                         <Button className="button_theme" style={{ margin: "10px 5px", width: "70%" }} onClick={handleSubmit}>Update
                                         </Button>
@@ -280,7 +280,7 @@ const ProfileComponent = () => {
                                         <p       p className={styles.error_message}>{confirmPasswordError}</p>)}
                                         </Form.Group>
                                     </Form>
-                                    <div style={{ display: "flex", margin: "100px 0px" }}>
+                                    <div className={styles.buttons}>
                                         <Button className="button_theme" style={{ margin: "10px 5px", width: "28%" }}>Cancle</Button>
                                         <Button className="button_theme" style={{ margin: "10px 5px", width: "70%" }} onClick={handleChangePassword}>Change Password
                                         </Button>

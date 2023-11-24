@@ -15,7 +15,7 @@
             justify-content: space-between;
             width: 100% !important;
             .imagesss{
-                width: 30% !important;
+                width: 30%;
                 margin: 20px;
 
             }
@@ -26,9 +26,37 @@
             }
             .content{
                 align-self: center;
-                width: 70% !important;
+                width: 70% ;
                 margin: 30px;
             }
+            .button_theme{
+                width: 20%;
+            }
+
+        }
+    }
+    @media (max-width:767px) {
+        .main{
+            padding: 10px 0px;
+            .section1{
+                display: block !important;
+                width: 100% !important;
+                .imagesss{
+                    width: 90% !important;
+                }
+                .content{
+                    width: 90% !important;
+                    margin: auto !important;
+                }
+               .btnStarted{
+                width: 100% !important;
+               }
+            }
+            .reverse{
+                display: flex !important;
+                flex-direction: column !important;
+                flex-direction: column-reverse !important;
+               }
         }
     }
 }

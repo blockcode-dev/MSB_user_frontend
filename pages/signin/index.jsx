@@ -10,7 +10,6 @@ import { useDispatch } from "react-redux";
 import { getClinetProfile } from "@/redux/getClientProfileSlice";
 import Logo from "../../public/assets/msb.png"
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import ImagesCom from "@/Component/images";
 const Signin = () => {
   const router = useRouter();
   const navigate = router.replace;
@@ -71,7 +70,9 @@ const Signin = () => {
             text: error.response.data.message,
             icon: "error",
           });
-          setTimeout(() => { }, 1000);
+          setTimeout(() => {
+            setAlert(false)
+          }, 500);
         }
         console.log(error, "error");
       });
@@ -148,11 +149,11 @@ const Signin = () => {
                   Forgot pasword?
                 </p>
               </Form>
-              <Button
+              <Button 
                 className="button_theme"
                 onClick={handleSubmit}
                 style={{ width: "100%" }}
-              >
+                >
                 Sign in
               </Button>
             </div>

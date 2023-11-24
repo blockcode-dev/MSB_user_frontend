@@ -69,6 +69,10 @@
             border: none !important;
             font-weight: bolder;
         }
+        .buttons{
+            display: flex; 
+            margin: 100px 0px;
+        }
     }
     .input_container {
         position: relative;
@@ -102,6 +106,9 @@
 
         .Form_ctm {
             width: 100% !important;
+        }
+        .buttons{
+            margin: 20px 0px !important;
         }
     }
 }

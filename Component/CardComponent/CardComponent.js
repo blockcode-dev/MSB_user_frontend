@@ -46,7 +46,7 @@ function CardComponent(props) {
                                 Ignore
                             </Button>
                             <Button className='button_theme' style={{ margin: "5px", padding: "5px", borderRadius: "10px" }} onClick={() => {
-                                const path = "/pay"
+                                const path = "https://transactions.sendowl.com/products/78271145/4A5919F0/view"
                                 router.push(path)
                             }}>Subscribe</Button>
                         </div>

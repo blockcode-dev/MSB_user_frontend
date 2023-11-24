@@ -10,7 +10,7 @@ const FooterSection = () => {
     return (
         <div className={styles.FooterSection}>
             <Container className={styles.footer_inner}>
-                <div className={styles.sec1}>
+                <div className={`${styles.sec1} ${styles.desktopSec1}`}>
                     <p>© {currentYear} My Story Bank. All rights reserved.</p>
                 </div>
                 <div className={styles.sec1}>
@@ -23,6 +23,9 @@ const FooterSection = () => {
                     <AiFillYoutube size={25} className={styles.icon} />
                     <FaQuestionCircle size={25} className={styles.icon} />
 
+                </div>
+                <div className={styles.mobileSec1}>
+                    <p>© {currentYear} My Story Bank. All rights reserved.</p>
                 </div>
             </Container>
         </div>
