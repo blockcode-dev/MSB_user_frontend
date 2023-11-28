@@ -81,7 +81,7 @@ export default function OtpStep() {
   };
   const handleSendOTP = () => {
     // alert("helllo")
-    console.log("object");
+    // console.log("object");
     if (emailError) {
       setAlert(true);
       setAlertConfig({
