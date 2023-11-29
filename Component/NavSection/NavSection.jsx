@@ -172,7 +172,7 @@ function NavSection() {
                     <Nav.Link onClick={() => {
                       const path = "/blogs/all"
                       router.push(path)
-                    }}>Blogs</Nav.Link>
+                    }}>Stories</Nav.Link>
                   </>
                 }
               </Nav>

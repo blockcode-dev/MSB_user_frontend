@@ -32,7 +32,53 @@
             .button_theme{
                 width: 20%;
             }
+            // .paraText{
+            //     margin-top: 18px;
+            // }
+            // .linkText{
+            //     margin-top: 15px;
+            //     margin-bottom: 15px;
+            // }
 
+        }
+        .section3{
+            width: 100% !important;
+            text-align: center;
+        }
+        .paraText{
+            margin-top: 20px;
+            font-size: 19px;
+        }
+        .linkText{
+            margin-top: 15px;
+            margin-bottom: 15px;
+            color: rgb(24, 79, 120);
+        }
+        .boldText{
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .section4{
+            display: flex !important;
+            
+        }
+        .firstBox{
+            box-shadow: rgba(0,0,0,0.25) 0 3px 11px 0 !important;
+            padding: 20px;
+            margin-right: 12px;
+            width: 50% !important;
+            text-align: center;
+        }
+        .boxText{
+            color: rgb(237, 27, 36);
+        }
+        .innerText{
+            margin-top: 25px;
+            margin-bottom: 10px;
+            color: black;
+        }
+        .buyButton{
+            width: 40% !important;
         }
     }
     @media (max-width:767px) {
