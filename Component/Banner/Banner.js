@@ -8,11 +8,10 @@ const Banner = () => {
         <Container fluid className={styles.Banner}>
             <Container className={styles.section1}>
                 <div className={styles.left}>
-                    <h3>Case Studies</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ac, elit id suscipit vel. Amet et laoreet pharetra, est ipsum. Lorem integer vitae enim et. Tortor vestibulum maecenas cursus ac enim nibh mollis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ac, elit id suscipit vel. Amet et laoreet pharetra, est ipsum. Lorem integer vitae enim et. Tortor vestibulum maecenas cursus ac enim nibh mollis. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <p>MSB is a data bank of stories for the storyteller in you. MSB provides you with a categorized list of stories to help take your audience to a place they can’t go on their own. MSB puts at your fingertips over 130 messages to empower, inspire and transform an audience experience <div> Everyone loves a good story. Storytelling is a critical, but often overlooked, skill every business owner should have.</div></p>
                 </div>
                 <div className={styles.right}>
-                    <Image src={BannerPic} width={100} height={100} alt='picture' className={styles.picture}  />
+                    <Image src={BannerPic} width={100} height={100} alt='picture' className={styles.picture} />
                 </div>
             </Container>
         </Container>

@@ -158,7 +158,7 @@ const Signin = () => {
                 Sign in
               </Button>
             </div>
-            <p className={styles.buttom_text}>
+            {/* <p className={styles.buttom_text}>
               Don’t have an account?{" "}
               <span
                 style={{
@@ -173,7 +173,7 @@ const Signin = () => {
               >
                 Sign Up
               </span>
-            </p>
+            </p> */}
           </div>
         </div>
       </Container>

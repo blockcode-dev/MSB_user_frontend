@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./landing.module.scss";
-import Image1 from "../../public/assets/landingpage1.png";
+import Image1 from "../../public/assets/story.png";
 import Banner from "../Banner/Banner";
 import Image from "next/image";
 import { Button, Container } from "react-bootstrap";
@@ -16,6 +16,10 @@ const Landing = () => {
   }, []);
   const path =
     "https://node.mystorybank.info:4000/videos/Animated_Logo_mystorybank.mp4";
+  const homeVideoPath = "/assets/homeVideo.mp4";
+  const secondVideoPath = "/assets/secondVideo.mp4";
+  const thirdVideoPath = "/assets/thirdVideo.mp4";
+
   const playerRef = useRef(null);
 
   const handleVideoEnd = () => {
@@ -95,15 +99,22 @@ const Landing = () => {
             </Button>
           </div>
           <div className={styles.imagesss}>
-            <Image
-              src={Image1}
-              width={100}
-              height={100}
-              className={styles.Images}
+            <ReactPlayer
+              ref={playerRef}
+              url={homeVideoPath}
+              onEnded={handleVideoEnd}
+              // controls
+              controls={true}
+              loop={false}
+              muted={true}
+              playing={false}
+              height="100%"
+              width="100%"
             />
           </div>
         </div>
       </Container>
+      <div className={styles.backgroundImage}>
       <Container className={styles.main}>
         <div className={styles.section3}>
           <h1>My Story Bank</h1>
@@ -137,6 +148,7 @@ const Landing = () => {
           </li>
         </ul>
       </Container>
+      </div>
       <Container className={styles.main}>
         <div className={styles.section4}>
           <div className={styles.firstBox}>
@@ -164,6 +176,37 @@ const Landing = () => {
               Buy Now
             </Button>
           </div>
+        </div>
+      </Container>
+      <h2 className={styles.exampleText}>HERE ARE SOME STORY EXAMPLES</h2>
+      <Container className={styles.main}>
+        <div className={styles.imagesss}>
+          <ReactPlayer
+            ref={playerRef}
+            url={secondVideoPath}
+            onEnded={handleVideoEnd}
+            // controls
+            controls={true}
+            loop={false}
+            muted={true}
+            playing={false}
+            height="100%"
+            width="100%"
+          />
+        </div>
+        <div className={styles.imagesss}>
+          <ReactPlayer
+            ref={playerRef}
+            url={thirdVideoPath}
+            onEnded={handleVideoEnd}
+            // controls
+            controls={true}
+            loop={false}
+            muted={true}
+            playing={false}
+            height="100%"
+            width="100%"
+          />
         </div>
       </Container>
     </div>

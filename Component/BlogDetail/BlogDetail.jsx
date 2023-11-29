@@ -88,7 +88,7 @@ export default function BlogDetailComponent({ data }) {
                     height="100%"
                     width="100%"
                 />} */}
-        <Banner />
+        {/* <Banner /> */}
 
 
 

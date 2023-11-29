@@ -5,6 +5,8 @@ import { Modal, Nav } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import styles from "./CardComponent.module.scss"
+import CommonImage from "../../public/assets/msb.png"
+
 import { useState } from 'react';
 function CardComponent(props) {
     // console.log(props, "props")
@@ -16,9 +18,11 @@ function CardComponent(props) {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    console.log(props.image, "||||")
     return (
         <div className={`${styles.CardComponent} card`} style={{ margin: "0px 20px" }} >
-            <Image variant="top" src={props.image} width={100} height={100} style={{ width: "auto", height: "135px" }} />
+            {props.image === "https://node.mystorybank.info:4000/images/undefined" ? <Image variant="top" src={CommonImage} width={100} height={100} style={{ width: "auto", height: "135px" }} /> : <Image variant="top" src={props.image} width={100} height={100} style={{ width: "auto", height: "135px" }} />}
+
             <div class="card-body">
                 <h5 class="card-title">{props.title}</h5>
                 <p class="card-text"
@@ -48,7 +52,7 @@ function CardComponent(props) {
                             <Button className='button_theme' style={{ margin: "5px", padding: "5px", borderRadius: "10px" }} onClick={() => {
                                 const path = "https://transactions.sendowl.com/products/78271145/4A5919F0/view"
                                 router.push(path)
-                            }}>Subscribe</Button>
+                            }}>Buy Now</Button>
                         </div>
                     </Modal.Footer>
                 </Modal>
