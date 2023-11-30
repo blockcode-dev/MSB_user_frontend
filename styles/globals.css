@@ -149,7 +149,7 @@ html {
 body {
   position: relative;
   margin: 0;
-  padding-bottom: 18rem;
+  padding-bottom: 10dvh;
   min-height: 100%;
   background-color: white;
   color: black;
