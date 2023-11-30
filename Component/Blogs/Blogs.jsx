@@ -126,12 +126,12 @@ function Blogs() {
             </Offcanvas.Body>
           </Offcanvas>
 
-          <h1
+          {/* <h1
             className={styles.heading}
             style={{ textAlign: "center", margin: "20px 30px", textTransform: 'capitalize' }}
           >
             My Stories
-          </h1>
+          </h1> */}
 
           <Row>
             <Col sm={3} className={styles.filter_list}>

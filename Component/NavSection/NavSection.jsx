@@ -118,7 +118,7 @@ function NavSection() {
   return (
     <div className={styles.NavbarSection}>
      
-      <Navbar expand="lg">
+     <Navbar>
         <Container>
           <Navbar.Brand
             onClick={() => {
