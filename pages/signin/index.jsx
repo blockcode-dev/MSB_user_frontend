@@ -55,7 +55,7 @@ const Signin = () => {
             const token = res.data.data.tokens.access.token;
             localStorage.removeItem("UserLoginToken");
             localStorage.setItem("UserLoginToken", token);
-            navigate("/home");
+            navigate("/");
           }, 1000);
         }
       })
