@@ -5,7 +5,6 @@ import { BlogDetailAPI } from "@/Constants/Api/Api";
 export const getBlog = createAsyncThunk(
   "profile/getprofile",
   async (value) => {
-    console.log(value,"valuee")
     try {
       const response = await BlogDetailAPI(value);
       return response.data;

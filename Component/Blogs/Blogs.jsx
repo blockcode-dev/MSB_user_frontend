@@ -7,53 +7,66 @@ import {
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useEffect } from "react";
-import Button from "react-bootstrap/Button";
-import Card from "react-bootstrap/Card";
+import { FaFilter } from "react-icons/fa6";
 import CardComponent from "../CardComponent/CardComponent";
-import { Container } from "react-bootstrap";
+import { Container, Offcanvas } from "react-bootstrap";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Pic1 from "../../public/assets/card1.png";
 import Signin from "@/pages/signin";
 import { Image_URL } from "@/Constants/host";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, Pagination } from "@mui/material";
 import styles from "./Blogs.module.scss";
 import ListGroup from "react-bootstrap/ListGroup";
+import Banner from "../Banner/Banner";
 
 function Blogs() {
   const [blog, setBlog] = useState();
   const [category, setCategory] = useState([])
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [blogTitle, setBlogTitle] = useState("My stories")
+  const [blogimg, setBlogImage] = useState("")
+
   const router = useRouter();
   const { slug } = router.query;
-  // console.log(slug, "params")
 
-  const handleCategoryClick = (index) => {
-    console.log(index, '======')
+
+  const [dataCount, setDataCount] = useState(0);
+  const [page, setPage] = useState(1);
+  const itemsPerPage = 6; // Adjust as needed
+
+  const handleChange = (event, value) => {
+    setPage(value);
+  };
+
+
+  const handleCategoryClick = (index, title, url) => {
+    console.log(index, title, url, "index")
+    setBlogImage(url)
+    setBlogTitle(title)
     setSelectedCategory(index);
-    const path = index === "all" ? `/blogs/all` : `/blogs/${category[index].slug}`;
+    const path = index === "all" ? `/story/all` : `/story/${category[index].slug}`;
     router.push(path);
   };
 
   useEffect(() => {
     BlogByCategoryApi(slug)
       .then((res) => {
-        // console.log(res, "addd");
+        console.log(res.data?.data?.length, "addd");
         setBlog(res.data.data);
+        setDataCount(res.data?.data?.length || 0);
       })
       .catch((error) => {
-        console.log(error);
       });
   }, [slug]);
   const storedValue = getLocalStorageItem("UserLoginToken");
   const [isClient, setIsClient] = useState(false);
-  // console.log(router.asPath, "check path")
   useEffect(() => {
     AllCategoryAPI()
       .then((res) => {
-        console.log(res.data, "*******")
+        console.log(res.data, "data")
         setCategory(res.data);
-       
+
       })
       .catch((error) => {
         console.log(error);
@@ -62,32 +75,43 @@ function Blogs() {
   useEffect(() => {
     setIsClient(true);
   }, []);
-  // console.log(blog, "blog")
+  const paginatedBlog = blog?.slice((page - 1) * itemsPerPage, page * itemsPerPage);
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const [offcanvasWidth, setOffcanvasWidth] = useState("");
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const width = window.innerWidth >= 1200 ? "50%" : "80%";
+      setOffcanvasWidth(width);
+    }
+  }, []);
+  console.log(paginatedBlog, "paginatedBlog")
   return (
     <>
+      <Banner title={blogTitle} uri={blogimg} />
+
       {isClient && storedValue ? (
         <Container>
-          <h1
-            className={styles.heading}
-            style={{ textAlign: "center", margin: "20px 30px", textTransform: 'capitalize' }}
-          >
-            {isClient && slug == "all" ? "My Stories" : slug}
-          </h1>
+          <div className={styles.filter_icon} onClick={handleShow}>
+            <FaFilter size={30} />Filter
 
-          <Row>
-            <Col sm={3}>
-              <div>
+          </div>
+          <Offcanvas show={show} onHide={handleClose} style={{ width: offcanvasWidth }}>
+
+            <Offcanvas.Body>
               <ListGroup className={styles.category_list}>
                 <h4 className={styles.categoryText}>Categories</h4>
                 <ListGroup.Item
-                      style={{
-                        cursor: "pointer",
-                      }}
-                      className={`${styles.category_item} ${selectedCategory === "all" ? styles.selectedCategory : ''}`}
-                      onClick={() => handleCategoryClick("all")}
-                    >
-                      All Category
-                    </ListGroup.Item>
+                  style={{
+                    cursor: "pointer",
+                  }}
+                  className={`${styles.category_item} ${selectedCategory === "all" ? styles.selectedCategory : ''}`}
+                  onClick={() => { handleCategoryClick("all"); handleClose() }}
+                >
+                  All Category
+                </ListGroup.Item>
                 {category.map((item, index) => {
                   return (
                     <ListGroup.Item
@@ -96,29 +120,77 @@ function Blogs() {
                       }}
                       className={`${styles.category_item} ${selectedCategory === index ? styles.selectedCategory : ''}`}
                       key={index}
-                      onClick={() => handleCategoryClick(index)}
+                      onClick={() => { handleCategoryClick(index); handleClose() }}
                     >
                       {item.title}
                     </ListGroup.Item>
                   );
                 })}
               </ListGroup>
+            </Offcanvas.Body>
+          </Offcanvas>
+
+          <h1
+            className={styles.heading}
+            style={{ textAlign: "center", margin: "20px 30px", textTransform: 'capitalize' }}
+          >
+            My Stories
+          </h1>
+
+          <Row>
+            <Col sm={3} className={styles.filter_list}>
+              <div>
+                <ListGroup className={styles.category_list}>
+                  <h4 className={styles.categoryText}>Categories</h4>
+                  <ListGroup.Item
+                    style={{
+                      cursor: "pointer",
+                    }}
+                    className={`${styles.category_item} ${selectedCategory === "all" ? styles.selectedCategory : ''}`}
+                    onClick={() => handleCategoryClick("all")}
+                  >
+                    All Category
+                  </ListGroup.Item>
+                  {category.map((item, index) => {
+                    return (
+                      <ListGroup.Item
+                        style={{
+                          cursor: "pointer",
+                        }}
+                        className={`${styles.category_item} ${selectedCategory === index ? styles.selectedCategory : ''}`}
+                        key={index}
+                        onClick={() => handleCategoryClick(index, item.title, item.file_name)}
+                      >
+                        {item.title}
+                      </ListGroup.Item>
+                    );
+                  })}
+                </ListGroup>
               </div>
             </Col>
-            <Col sm={9}>
+            <Col sm={9} className={styles.filter_blog} >
               <div class="row row-cols-1 row-cols-md-3 g-4">
-                {blog === undefined ? (
+                {paginatedBlog === undefined ? (
                   <div
                     className="loader-container"
-                    style={{ width: "100%", textAlign: "center" }}
+                    style={{ width: "100%", textAlign: "center", height: "1000px" }}
                   >
                     <div className="loader-content">
                       <CircularProgress />
                       <p>Fetching Stories...</p>
                     </div>
                   </div>
-                ) : (
-                  blog?.map((item, index) => {
+                ) : paginatedBlog.length ===0?
+                <div
+                // className="loader-container"
+                style={{ width: "100%", textAlign: "center", height: "1000px" }}
+              >
+                <div className="loader-content">
+                  {/* <CircularProgress /> */}
+                  <p>No Stories Available.... </p>
+                </div>
+              </div>:(
+                  paginatedBlog?.map((item, index) => {
                     return (
                       <div
                         className={`col ${styles.cardContainer}`}
@@ -142,6 +214,23 @@ function Blogs() {
                     );
                   })
                 )}
+              </div>
+              {/* <Pagination
+        count={Math.ceil(dataCount / itemsPerPage)}
+        page={page}
+        onChange={handleChange}
+      /> */}
+              <div className={styles.pagination_custom}>
+
+                <Pagination
+                  count={Math.ceil(dataCount / itemsPerPage)}
+                  size="large"
+                  page={page}
+                  variant="outlined"
+                  shape="rounded"
+
+                  onChange={handleChange}
+                />
               </div>
             </Col>
           </Row>

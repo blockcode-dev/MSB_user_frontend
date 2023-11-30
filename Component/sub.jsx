@@ -6,14 +6,10 @@ const Sub = ({ priceTypes,loading,createSubscription,stripe }) => {
   const [price, setPrice] = useState();
 
   const handleModalOpen = (item) => {
-    console.log("id",item)
     setPrice(item);
     setModalShow(true);
   };
 
-  console.log(
-    priceTypes,"pricee"
-  )
 
   return (
     <div>

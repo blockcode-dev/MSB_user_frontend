@@ -59,7 +59,6 @@ export default function OtpStep() {
     setAlert(false);
     VerifyOtpAPI(formData.email, formData.otp)
       .then((res) => {
-        console.log(res, "ress");
         if (res.data === 200 || res.data.status === 200) {
           setAlert(true);
           setAlertConfig({
@@ -80,8 +79,6 @@ export default function OtpStep() {
       });
   };
   const handleSendOTP = () => {
-    // alert("helllo")
-    // console.log("object");
     if (emailError) {
       setAlert(true);
       setAlertConfig({
@@ -91,7 +88,6 @@ export default function OtpStep() {
     } else {
       SendOTPAPI(formData.email)
         .then((res) => {
-          console.log(res);
           if (res.data.status === 200) {
             setAlert(true);
             setAlertConfig({

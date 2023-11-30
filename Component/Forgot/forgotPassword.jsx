@@ -66,7 +66,6 @@ export default function ForgotPasswordComponent() {
       formData.confirmPassword
     )
       .then((res) => {
-        console.log(res)
         if (res.status) {
           setalert(true);
           setAlertConfig({
@@ -81,7 +80,6 @@ export default function ForgotPasswordComponent() {
         }, 2000);
       })
       .catch((error) => {
-        console.log(error)
         setalert(true);
         setAlertConfig({
           icon: "warning",
@@ -124,7 +122,6 @@ export default function ForgotPasswordComponent() {
   
     ForgetSendOTPAPI(formData.email)
       .then((res) => {
-        console.log(res);
         if (res.status === 200) {
           setalert(true);
           setAlertConfig({

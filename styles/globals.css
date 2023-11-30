@@ -93,7 +93,7 @@ a {
   border-radius: 8px !important;
   background: transparent !important;
   /* box-shadow: 0px 4px 24px 0px rgba(14, 13, 13, 0.14) !important; */
-  border: 1px solid #8F001E !important;
+  border: 1px solid #C8232C !important;
   padding: 8px !important;
   /* width: 100%; */
   /* width: 40% !important; */
@@ -116,9 +116,9 @@ a {
 
 .button_theme {
   border-radius: 8px !important;
-  background: #8F001E !important;
+  background: #C8232C !important;
   /* box-shadow: 0px 4px 24px 0px rgba(238, 35, 37, 0.14) !important; */
-  border: 1px solid #8F001E !important;
+  border: 1px solid #C8232C !important;
   padding:  8px !important;
   /* width: 100%; */
   /* width: 40% !important; */
@@ -156,7 +156,7 @@ body {
 }
 .content {
   /* margin: 0 auto; */
-  padding-top: 20px;
+  /* padding-top: 20px; */
   /* max-width: 640px; */
   /* width: 94%; */
   width: 100%;

@@ -6,11 +6,9 @@ import Image from "next/image";
 import { Button, Container } from "react-bootstrap";
 import { useRouter } from "next/router";
 import ReactPlayer from "react-player";
-
 const Landing = () => {
   const router = useRouter();
   const [isClient, setIsClient] = useState(false);
-  console.log(router.asPath, "check path");
   useEffect(() => {
     setIsClient(true);
   }, []);
@@ -19,9 +17,7 @@ const Landing = () => {
   const homeVideoPath = "/assets/homeVideo.mp4";
   const secondVideoPath = "/assets/secondVideo.mp4";
   const thirdVideoPath = "/assets/thirdVideo.mp4";
-
   const playerRef = useRef(null);
-
   const handleVideoEnd = () => {
     if (playerRef && playerRef.current) {
       const currentRef = playerRef.current;
@@ -33,7 +29,6 @@ const Landing = () => {
       }
     }
   };
-
   return (
     <div className={styles.Landing}>
       {/* <Banner /> */}
@@ -55,7 +50,6 @@ const Landing = () => {
           />
         )}
       </div>
-
       <Container className={styles.main}>
         <div className={styles.section1}>
           <div className={styles.imagesss}>
@@ -99,6 +93,7 @@ const Landing = () => {
             </Button>
           </div>
           <div className={styles.imagesss}>
+         { isClient && 
             <ReactPlayer
               ref={playerRef}
               url={homeVideoPath}
@@ -110,7 +105,7 @@ const Landing = () => {
               playing={false}
               height="100%"
               width="100%"
-            />
+            />}
           </div>
         </div>
       </Container>
@@ -181,6 +176,7 @@ const Landing = () => {
       <h2 className={styles.exampleText}>HERE ARE SOME STORY EXAMPLES</h2>
       <Container className={styles.main}>
         <div className={styles.imagesss}>
+          {isClient && 
           <ReactPlayer
             ref={playerRef}
             url={secondVideoPath}
@@ -192,9 +188,10 @@ const Landing = () => {
             playing={false}
             height="100%"
             width="100%"
-          />
+          />}
         </div>
         <div className={styles.imagesss}>
+        {isClient && 
           <ReactPlayer
             ref={playerRef}
             url={thirdVideoPath}
@@ -206,7 +203,7 @@ const Landing = () => {
             playing={false}
             height="100%"
             width="100%"
-          />
+          />}
         </div>
       </Container>
     </div>

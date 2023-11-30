@@ -242,7 +242,6 @@ export const LikeApi = async (
 // ************Search API****************
 
 export const SearchAPI = async (value) => {
-  console.log(value,"value")
   try {
     const response = await axios.get(`https://node.mystorybank.info:4000/api/v1/user/blog/search?query=${value}`);
     return response.data;

@@ -82,7 +82,6 @@ const CreateAccount = ({ formData, setFormData }) => {
     // }
     UserRegisterAPI(name, formData.email, mobile, password, confirmPassword)
       .then((res) => {
-        console.log(res, "res");
         if (res.data === 200 || res.data.status === 200) {
           setAlert(true);
           setAlertConfig({

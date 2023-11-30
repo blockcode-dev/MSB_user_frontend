@@ -19,7 +19,6 @@ const Home = () => {
     slidesToShow: 4,
     slidesToScroll: 1
   });
-
   const storedValue = getLocalStorageItem("UserLoginToken");
   const [isClient, setIsClient] = useState(false)
   useEffect(() => {
@@ -30,12 +29,8 @@ const Home = () => {
       {isClient && storedValue ?
         <div className={styles.Home}>
           <Banner />
-          {/* <Image src={MsbLogo} width={100} height={100}/> */}
-
           <div style={{ margin: "50px 0px" }}>
-
             <Blogs />
-
           </div>
         </div>
         : <Signin />}

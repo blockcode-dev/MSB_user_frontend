@@ -33,17 +33,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { FaSearch, FaBars } from "react-icons/fa";
 import { getClinetProfile } from "@/redux/getClientProfileSlice";
 import { BiSearch } from "react-icons/bi";
-
-import {
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-  Link,
-  NavbarBrand,
-  NavbarContent,
-  NavbarItem,
-} from "@nextui-org/react";
 function NavSection() {
   const [searchPlaceholder, setSearchPlaceholder] = useState("Search");
   const router = useRouter();
@@ -57,11 +46,9 @@ function NavSection() {
   const [show, setShow] = useState(false);
   const handleCloseModal = () => setShow(false);
   const handleShow = () => setShow(true);
-
   useEffect(() => {
     setIsClient(true);
   }, []);
-
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -88,7 +75,7 @@ function NavSection() {
   const handleLogout = () => {
     removeLocalStorageItem("UserLoginToken");
     UserLogOutAPI()
-      .then((res) => {})
+      .then((res) => { })
       .catch((error) => {
         router.replace("/");
         console.log(error);
@@ -106,30 +93,28 @@ function NavSection() {
       });
   }, [dispatch, storedValue]);
   const handleSearchApi = () => {
+    setOepnlist(false);
     callAPI();
   };
   const keyPressHandler = (e) => {
-    setOepnlist(false);
+    // setOepnlist(false);
     if (e.key === "Enter") {
       // Check if the pressed key is 'Enter'
       callAPI(); // Call your API function here
-      setOepnlist(true);
+      // setOepnlist(true);
     }
   };
   const callAPI = () => {
     setOepnlist(false);
     SearchAPI(searchQuery).then((res) => {
-      console.log(res, "++++");
       setOepnlist(true);
       setSearchResults(res.data);
     });
   };
-
   const handleRedirect = (id) => {
-    const path = `/blogdetail/${id}`;
+    const path = `/story-detail/${id}`;
     router.push(path);
   };
-
   return (
     <div className={styles.Navsection}>
       <Navbar expand="md">
@@ -140,13 +125,12 @@ function NavSection() {
               router.push(path);
             }}
           >
-            {/* <Image src={Logo} width={50} height={50} style={{ cursor: "pointer" }} alt='' className={styles.logo} /> */}
-            <h2>My Story Bank</h2>
+            <h4 style={{ cursor: "pointer" }} >My Story Bank</h4>
           </Navbar.Brand>
           {router.asPath === "/otp" ||
-          router.asPath === "/signin" ||
-          router.asPath === "/signup" ||
-          router.asPath === "/forgotpassword" ? null : (
+            router.asPath === "/signin" ||
+            router.asPath === "/signup" ||
+            router.asPath === "/forgotpassword" ? null : (
             <div className="search-container">
               <InputGroup>
                 <Form.Control
@@ -167,7 +151,6 @@ function NavSection() {
                 </InputGroup.Text>
               </InputGroup>
               {searchQuery && openlist && (
-                // <ul className="search-results">
                 <ListGroup style={{ width: "100%" }}>
                   {searchResults.length === 0 ? (
                     <ListGroup.Item>No data found</ListGroup.Item>
@@ -176,11 +159,6 @@ function NavSection() {
                       <ListGroup.Item
                         key={index}
                         style={{ cursor: "pointer" }}
-                        // onClick={() => {
-                        //   const path = `/blogdetail/${item?.id}`;
-                        //   router.push(path);
-                        //   setOepnlist(false);
-                        // }}
                         onClick={() =>
                           item.type === "PAID"
                             ? handleShow()
@@ -233,7 +211,7 @@ function NavSection() {
                       onClick={() => {
                         const path =
                           "https://transactions.sendowl.com/products/78271145/4A5919F0/view";
-                        router.push(path);
+                        window.open(path, '_blank'); handleCloseModal()
                       }}
                     >
                       Buy Now
@@ -253,9 +231,9 @@ function NavSection() {
             <Offcanvas.Body>
               <Nav className="justify-content-end flex-grow-1">
                 {router.asPath === "/otp" ||
-                router.asPath === "/signin" ||
-                router.asPath === "/signup" ||
-                router.asPath === "/forgotpassword" ? null : (
+                  router.asPath === "/signin" ||
+                  router.asPath === "/signup" ||
+                  router.asPath === "/forgotpassword" ? null : (
                   <>
                     <Nav.Link
                       onClick={() => {
@@ -265,34 +243,9 @@ function NavSection() {
                     >
                       Home
                     </Nav.Link>
-                    {/* <NavDropdown
-                      title="Categories"
-                      id={`offcanvasNavbarDropdown-expand-md`}
-                    >
-                      <ul className="list_name">
-                        {category.map((item, index) => {
-                          return (
-                            <li
-                              style={{
-                                cursor: "pointer",
-                                listStyle: "none",
-                                padding: "2px",
-                              }}
-                              key={index}
-                              onClick={() => {
-                                const path = `/blogs/${item.slug}`;
-                                router.push(path);
-                              }}
-                            >
-                              {item.title}
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </NavDropdown> */}
                     <Nav.Link
                       onClick={() => {
-                        const path = "/blogs/all";
+                        const path = "/story/all";
                         router.push(path);
                       }}
                     >
@@ -355,11 +308,6 @@ function NavSection() {
                       transformOrigin={{ horizontal: "right", vertical: "top" }}
                       anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
                     >
-                      {/* <div style={{ margin: "10px", padding: "4px" }}>
-                      <h5 style={{ textTransform: "capitalize" }}>{profile?.name}</h5>
-                      <p>{profile?.email}</p>
-                    </div> */}
-                      {/* <Divider /> */}
                       <MenuItem
                         onClick={() => {
                           handleClose;
@@ -372,12 +320,6 @@ function NavSection() {
                         </ListItemIcon>
                         Profile
                       </MenuItem>
-                      {/* <MenuItem onClick={handleClose}>
-                        <ListItemIcon>
-                          <SupportIcon fontSize="small" />
-                        </ListItemIcon>
-                        Help & Support
-                      </MenuItem> */}
                       <MenuItem
                         onClick={() => {
                           handleClose();
@@ -422,23 +364,7 @@ function NavSection() {
                     </Button>
                   </>
                 )
-                //  : isClient && router.asPath === "/signin" ? 
-                // (
-                //   <Button
-                //     style={{
-                //       borderRadius: "10px",
-                //       background: "#174F78",
-                //       border: "none",
-                //     }}
-                //     onClick={() => {
-                //       const path = "/signup";
-                //       router.push(path);
-                //     }}
-                //   >
-                //     Sigup
-                //   </Button>
-                // ) 
-                : 
+                  :
                   <Button
                     style={{
                       borderRadius: "10px",

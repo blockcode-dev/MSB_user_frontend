@@ -15,7 +15,6 @@ const index = () => {
   return (<>
     {isClient && storedValue ?
       <div className={styles.Home}>
-        <Banner />
         {/* <Image src={MsbLogo} width={100} height={100}/> */}
 
         <div style={{ margin: "50px 0px" }}>
@@ -32,7 +31,6 @@ const index = () => {
 export async function getServerSideProps() {
   // Here you can fetch data or perform any server-side logic
   const message = "Hello from Server-Side Rendering!";
-console.log("hello")
   // Return the data as props
   return {
     props: {

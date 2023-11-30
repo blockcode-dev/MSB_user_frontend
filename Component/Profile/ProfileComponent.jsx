@@ -74,7 +74,6 @@ const ProfileComponent = () => {
         formData.append("image", selectedImage);
         UserEditProfileAPI(name, selectedImage, mobile)
             .then((res) => {
-                console.log(res)
                 dispatch(getClinetProfile(storedValue));
                 setProfile(res.data)
                 if (res.data.code === 200 || res.data.status === 200) {

@@ -44,7 +44,6 @@ const Signin = () => {
   const handleSubmit = (event) => {
     UserLoginAPI(email, password)
       .then((res) => {
-        console.log(res, "response");
         if (res.data === 200 || res.data.status === 200) {
           setAlert(true);
           setAlertConfig({
@@ -84,7 +83,6 @@ const Signin = () => {
   const handleMouseDownPass = (event) => {
     event.preventDefault();
   };
-  console.log("hello")
   return (
     <>
       {alert ? (

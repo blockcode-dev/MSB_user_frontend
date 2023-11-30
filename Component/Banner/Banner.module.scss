@@ -1,7 +1,7 @@
 .Banner {
     border-radius: 15px;
     // background: #F79192;
-    background-color: #8F001E;
+    background-color: #C8232C;
     color: white;
     width: 95%;
     margin: 25px auto;
@@ -10,6 +10,7 @@
         display: flex;
         width: 100%;
         align-items: center;
+        padding: 20px;
         .left {
             width: 50%;
             h3 {
@@ -40,8 +41,10 @@
             width: 50%;
         }
         .picture {
-            width: inherit;
-            height: auto;
+            // width: inherit;
+            // height: auto;
+            width: 230px;
+            height: 230px;
         }
     }
 }
