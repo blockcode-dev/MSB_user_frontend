@@ -156,22 +156,18 @@ const Signin = () => {
                 Sign in
               </Button>
             </div>
-            {/* <p className={styles.buttom_text}>
-              Don’t have an account?{" "}
-              <span
-                style={{
+            <p className={styles.buttom_text}   style={{
                   color: "blue",
                   textDecoration: "underline",
                   cursor: "pointer",
                 }}
                 onClick={() => {
-                  const path = "/otp";
+                  const path = "https://transactions.sendowl.com/products/78271145/4A5919F0/view";
                   router.push(path);
-                }}
-              >
-                Sign Up
-              </span>
-            </p> */}
+                }}>
+            Subscribe to create an account
+              
+            </p>
           </div>
         </div>
       </Container>

@@ -88,61 +88,65 @@ const Landing = () => {
             <h5 className={styles.linkText}>
               <b>Click The Link To Purchase Immediately:</b>
             </h5>
-            <Button className={`button_theme ${styles.btnStarted}`}>
+            <Button className={`button_theme ${styles.btnStarted}`} onClick={() => {
+              const path =
+                "https://transactions.sendowl.com/products/78271145/4A5919F0/view";
+              window.open(path, '_blank')
+            }}>
               Buy Now
             </Button>
           </div>
           <div className={styles.imagesss}>
-         { isClient && 
-            <ReactPlayer
-              // ref={playerRef}
-              url={homeVideoPath}
-              // onEnded={handleVideoEnd}
-              controls
-              // controls={true}
-              // loop={false}
-              // muted={true}
-              // playing={false}
-              height="100%"
-              width="100%"
-            />}
+            {isClient &&
+              <ReactPlayer
+                // ref={playerRef}
+                url={homeVideoPath}
+                // onEnded={handleVideoEnd}
+                controls
+                // controls={true}
+                // loop={false}
+                // muted={true}
+                // playing={false}
+                height="100%"
+                width="100%"
+              />}
           </div>
         </div>
       </Container>
       <div className={styles.backgroundImage}>
-      <Container className={styles.main}>
-        <div className={styles.section3}>
-          <h1>My Story Bank</h1>
-          <p className={styles.paraText}>
-            MSB is a data bank of stories for the storyteller in you. MSB
-            provides you with a categorized list of stories to help take your
-            audience to a place they can’t go on their own. MSB puts at your
-            fingertips over 130 messages to empower, inspire and transform an
-            audience experience.
-          </p>
-          <p className={styles.paraText}>
-            Everyone loves a good story. Storytelling is a critical, but often
-            overlooked, skill every business owner should have.
-          </p>
-          <h4 className={styles.boldText}>
-            <b>WHAT’S INCLUDED IN YOUR “MY STORY BANK” PURCHASE:</b>
-          </h4>
-        </div>
-        <ul>
-          <li>Over 130 stories in over 30 different categories</li>
-          <li>Tips on why story telling is important</li>
-          <li>On average $1.83 per story</li>
-          <li>
-            Stories Customized by Category: Accountability, Blindspot,
-            Character, Communication, Comfort Zone, Consistency, Connection,
-            Desire, Emotional Intelligence, Fear, Funny Openers, Good
-            Intentions, Greatness, Growth, Influence, Integrity, Leadership,
-            Limiting Beliefs, Making Adjustments, Mindset, Momentum, Motivation,
-            Overcoming, Passion, Perspective, Priorities, Resilience, Religion,
-            Self Confidence, Teachability, Teamwork, Traditions, etc….
-          </li>
-        </ul>
-      </Container>
+        <Container className={styles.main}>
+          <div className={styles.section3}>
+            <h1>My Story Bank</h1>
+            <p className={styles.paraText}>
+              MSB is a data bank of stories for the storyteller in you. MSB
+              provides you with a categorized list of stories to help take your
+              audience to a place they can’t go on their own. MSB puts at your
+              fingertips over 130 messages to empower, inspire and transform an
+              audience experience.
+            </p>
+            <p className={styles.paraText}>
+              Everyone loves a good story. Storytelling is a critical, but often
+              overlooked, skill every business owner should have.
+            </p>
+            <h4 className={styles.boldText}>
+              <b>WHAT’S INCLUDED IN YOUR “MY STORY BANK” PURCHASE:</b>
+            </h4>
+          </div>
+          <ul>
+            <li>Over 130 stories in over 30 different categories</li>
+            <li>Tips on why story telling is important</li>
+            <li>On average $1.83 per story</li>
+            <li>
+              Stories Customized by Category: Accountability, Blindspot,
+              Character, Communication, Comfort Zone, Consistency, Connection,
+              Desire, Emotional Intelligence, Fear, Funny Openers, Good
+              Intentions, Greatness, Growth, Influence, Integrity, Leadership,
+              Limiting Beliefs, Making Adjustments, Mindset, Momentum, Motivation,
+              Overcoming, Passion, Perspective, Priorities, Resilience, Religion,
+              Self Confidence, Teachability, Teamwork, Traditions, etc….
+            </li>
+          </ul>
+        </Container>
       </div>
       <Container className={styles.main}>
         <div className={styles.section4}>
@@ -155,7 +159,11 @@ const Landing = () => {
               Click The Link To Purchase Immediately:
             </h4>
             <br></br>
-            <Button className={`button_theme ${styles.buyButton}`}>
+            <Button className={`button_theme ${styles.buyButton}`} onClick={() => {
+              const path =
+                "https://transactions.sendowl.com/products/78271145/4A5919F0/view";
+              window.open(path, '_blank')
+            }}>
               Buy Now
             </Button>
           </div>
@@ -167,7 +175,11 @@ const Landing = () => {
             <h4 className={styles.innerText}>
               Tell, don't sell. Click The Link To Purchase Immediately:
             </h4>
-            <Button className={`button_theme ${styles.buyButton}`}>
+            <Button className={`button_theme ${styles.buyButton}`} onClick={() => {
+              const path =
+                "https://transactions.sendowl.com/products/78271145/4A5919F0/view";
+              window.open(path, '_blank')
+            }}>
               Buy Now
             </Button>
           </div>
@@ -176,34 +188,34 @@ const Landing = () => {
       <h2 className={styles.exampleText}>HERE ARE SOME STORY EXAMPLES</h2>
       <Container className={styles.main}>
         <div className={styles.imagesss}>
-          {isClient && 
-          <ReactPlayer
-            // ref={playerRef}
-            url={secondVideoPath}
-            // onEnded={handleVideoEnd}
-            controls
-            // controls={true}
-            // loop={false}
-            // muted={true}
-            // playing={false}
-            height="100%"
-            width="100%"
-          />}
+          {isClient &&
+            <ReactPlayer
+              // ref={playerRef}
+              url={secondVideoPath}
+              // onEnded={handleVideoEnd}
+              controls
+              // controls={true}
+              // loop={false}
+              // muted={true}
+              // playing={false}
+              height="100%"
+              width="100%"
+            />}
         </div>
         <div className={styles.imagesss}>
-        {isClient && 
-          <ReactPlayer
-            // ref={playerRef}
-            url={thirdVideoPath}
-            // onEnded={handleVideoEnd}
-            controls
-            // controls={true}
-            // loop={false}
-            // muted={true}
-            // playing={false}
-            height="100%"
-            width="100%"
-          />}
+          {isClient &&
+            <ReactPlayer
+              // ref={playerRef}
+              url={thirdVideoPath}
+              // onEnded={handleVideoEnd}
+              controls
+              // controls={true}
+              // loop={false}
+              // muted={true}
+              // playing={false}
+              height="100%"
+              width="100%"
+            />}
         </div>
       </Container>
     </div>

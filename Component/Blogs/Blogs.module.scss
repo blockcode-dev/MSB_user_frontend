@@ -1,8 +1,10 @@
 .category_list {
-  height: 605px;
+  height: 35%;
   overflow: scroll;
+  overflow-x: hidden;
   background-color: #0e1122;
   padding: 12px;
+  margin: 20px 0px;
 }
 
 .pagination_custom {
@@ -16,12 +18,12 @@
 }
 
 .category_list {
-  -ms-overflow-style: none;
-  scroll-width: none;
+  // -ms-overflow-style: none;
+  // scroll-width: none;
 }
 
 .category_list::-webkit-scrollbar {
-  display: none;
+  // display: none;
 }
 
 .categoryText {

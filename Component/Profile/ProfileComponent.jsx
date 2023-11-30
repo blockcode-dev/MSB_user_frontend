@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { Button, Container, Form } from 'react-bootstrap'
 import styles from "./Profile.module.scss"
 import Image from 'next/image'
-import Picture from "../../public/assets/picture.png"
 import 'react-phone-input-2/lib/style.css'
 import { useEffect } from 'react'
 import { ChangePasswordAPI, GetProfile, UserEditProfileAPI, getLocalStorageItem } from '@/Constants/Api/Api'
@@ -13,7 +12,9 @@ import { Image_URL } from '@/Constants/host'
 import Signin from '@/pages/signin'
 import DescriptionAlerts from '@/Constants/alert/alert'
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
+import { useRouter } from 'next/router'
 const ProfileComponent = () => {
+    const router=useRouter()
     const [profile, setProfile] = useState()
     const [selectedImage, setSelectedImage] = useState("");
     const [name, setName] = useState();
@@ -54,13 +55,16 @@ const ProfileComponent = () => {
 
     const storedValue = getLocalStorageItem("UserLoginToken");
     useEffect(() => {
-        GetProfile(storedValue).then((res) => {
-            setProfile(res.data)
-            setName(res?.data?.name)
-            setMobile(res?.data?.mobile)
-        }).catch((error) => {
-            console.log(error, "error")
-        })
+        if(storedValue){
+
+            GetProfile(storedValue).then((res) => {
+                setProfile(res.data)
+                setName(res?.data?.name)
+                setMobile(res?.data?.mobile)
+            }).catch((error) => {
+                console.log(error, "error")
+            })
+        }
     }, [storedValue])
 
     const dispatch = useDispatch()
@@ -72,7 +76,7 @@ const ProfileComponent = () => {
         setAlert(false);
         const formData = new FormData();
         formData.append("image", selectedImage);
-        UserEditProfileAPI(name, selectedImage, mobile)
+        UserEditProfileAPI(name, selectedImage, mobile,storedValue)
             .then((res) => {
                 dispatch(getClinetProfile(storedValue));
                 setProfile(res.data)
@@ -83,6 +87,7 @@ const ProfileComponent = () => {
                         icon: "success",
                     });
                     setTimeout(() => {
+                        // router.replace("/signin");
                     }, 1000);
                 }
             })
@@ -92,7 +97,18 @@ const ProfileComponent = () => {
     };
 
     const handleChangePassword = () => {
-        ChangePasswordAPI(old_password, new_password, new_c_password).then((res) => {
+        ChangePasswordAPI(old_password, new_password, new_c_password,storedValue).then((res) => {
+            console.log(res)
+            if (res.data.code === 200 || res.data.status === 200) {
+                setAlert(true);
+                setAlertConfig({
+                    text: "Password changed Successfully",
+                    icon: "success",
+                });
+                setTimeout(() => {
+                    router.replace("/signin");
+                }, 1000);
+            }
         }).catch((error) => {
             console.log(error)
         })
@@ -132,6 +148,7 @@ const ProfileComponent = () => {
   };
 
     return (<>
+    
         {alert ? (
             <DescriptionAlerts text={alertConfig.text} icon={alertConfig.icon} />
         ) : null}
@@ -194,15 +211,15 @@ const ProfileComponent = () => {
                                                     />
                                                 )
                                             )}
-                                            <label className={styles.custom_file_upload}>
+                                            <label className={styles.custom_file_upload}   onChange={(e) => {
+                                                        setSelectedImage(e.target.files[0]);
+                                                    }}
+                                                    style={{ cursor: "pointer" }}>
                                                 <input
                                                     type="file"
                                                     accept="image/*"
                                                     name="image"
-                                                    onChange={(e) => {
-                                                        setSelectedImage(e.target.files[0]);
-                                                    }}
-                                                    style={{ cursor: "pointer" }}
+                                                  
                                                 />
                                                 &nbsp; Add Profile picture
                                             </label>
@@ -223,6 +240,7 @@ const ProfileComponent = () => {
                                                 country={'us'}
                                                 value={mobile}
                                                 onChange={handlePhoneChange}
+                                                disableDropdown={true}
                                             />
                                         </Form.Group>
                                     </Form>

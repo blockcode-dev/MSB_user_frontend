@@ -41,7 +41,6 @@ function Blogs() {
 
 
   const handleCategoryClick = (index, title, url) => {
-    console.log(index, title, url, "index")
     setBlogImage(url)
     setBlogTitle(title)
     setSelectedCategory(index);
@@ -52,7 +51,6 @@ function Blogs() {
   useEffect(() => {
     BlogByCategoryApi(slug)
       .then((res) => {
-        console.log(res.data?.data?.length, "addd");
         setBlog(res.data.data);
         setDataCount(res.data?.data?.length || 0);
       })
@@ -64,7 +62,6 @@ function Blogs() {
   useEffect(() => {
     AllCategoryAPI()
       .then((res) => {
-        console.log(res.data, "data")
         setCategory(res.data);
 
       })
@@ -87,10 +84,9 @@ function Blogs() {
       setOffcanvasWidth(width);
     }
   }, []);
-  console.log(paginatedBlog, "paginatedBlog")
   return (
     <>
-      <Banner title={blogTitle} uri={blogimg} />
+      <Banner title={blogTitle} uri={blogimg} desc={blogTitle==="My stories"?null:blogTitle}/>
 
       {isClient && storedValue ? (
         <Container>

@@ -28,7 +28,9 @@ function CardComponent(props) {
                     dangerouslySetInnerHTML={{
                         __html: props.text
                     }}></p>
-                <Button className='button_theme' onClick={() => props.paid === "PAID" ? handleShow() : handleRedirect()}>Read More</Button>
+                {/* <Button className='button_theme' onClick={() => props.paid === "PAID" ? handleShow() : handleRedirect()}>Read More</Button> */}
+                <Button className='button_theme' onClick={() =>  handleRedirect()}>Read More</Button>
+              
                 <Modal
                     show={show}
                     onHide={handleClose}

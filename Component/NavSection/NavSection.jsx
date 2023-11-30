@@ -116,8 +116,9 @@ function NavSection() {
     router.push(path);
   };
   return (
-    <div className={styles.Navsection}>
-      <Navbar expand="md">
+    <div className={styles.NavbarSection}>
+     
+      <Navbar expand="lg">
         <Container>
           <Navbar.Brand
             onClick={() => {
@@ -125,9 +126,9 @@ function NavSection() {
               router.push(path);
             }}
           >
-            <h4 style={{ cursor: "pointer" }} >My Story Bank</h4>
+            <h4 style={{ cursor: "pointer" ,color:"#C8232C",fontWeight:"bold" }} >My Story Bank</h4>
           </Navbar.Brand>
-          {router.asPath === "/otp" ||
+          {isClient&&!storedValue||router.asPath === "/otp" ||
             router.asPath === "/signin" ||
             router.asPath === "/signup" ||
             router.asPath === "/forgotpassword" ? null : (
@@ -160,9 +161,10 @@ function NavSection() {
                         key={index}
                         style={{ cursor: "pointer" }}
                         onClick={() =>
-                          item.type === "PAID"
-                            ? handleShow()
-                            : handleRedirect(item.id)
+                          // item.type === "PAID"
+                          //   ? handleShow()
+                            // :
+                             handleRedirect(item.id)
                         }
                       >
                         {item?.heading}
@@ -333,7 +335,7 @@ function NavSection() {
                       </MenuItem>
                     </Menu>
                   </>
-                ) : isClient && router.asPath === "/forgotpassword" ? (
+                ) : isClient && router.asPath === "/forgotpassword" ? 
                   <>
                     <Button
                       style={{
@@ -349,21 +351,9 @@ function NavSection() {
                     >
                       Log In
                     </Button>
-                    <Button
-                      style={{
-                        borderRadius: "10px",
-                        background: "#174F78",
-                        border: "none",
-                      }}
-                      onClick={() => {
-                        const path = "/signup";
-                        router.push(path);
-                      }}
-                    >
-                      Sign Up
-                    </Button>
-                  </>
-                )
+                 
+                  </>: isClient && router.asPath === "/signin" ?null
+                
                   :
                   <Button
                     style={{
