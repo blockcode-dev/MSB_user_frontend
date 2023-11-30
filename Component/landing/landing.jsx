@@ -95,14 +95,14 @@ const Landing = () => {
           <div className={styles.imagesss}>
          { isClient && 
             <ReactPlayer
-              ref={playerRef}
+              // ref={playerRef}
               url={homeVideoPath}
-              onEnded={handleVideoEnd}
-              // controls
-              controls={true}
-              loop={false}
-              muted={true}
-              playing={false}
+              // onEnded={handleVideoEnd}
+              controls
+              // controls={true}
+              // loop={false}
+              // muted={true}
+              // playing={false}
               height="100%"
               width="100%"
             />}
@@ -178,14 +178,14 @@ const Landing = () => {
         <div className={styles.imagesss}>
           {isClient && 
           <ReactPlayer
-            ref={playerRef}
+            // ref={playerRef}
             url={secondVideoPath}
-            onEnded={handleVideoEnd}
-            // controls
-            controls={true}
-            loop={false}
-            muted={true}
-            playing={false}
+            // onEnded={handleVideoEnd}
+            controls
+            // controls={true}
+            // loop={false}
+            // muted={true}
+            // playing={false}
             height="100%"
             width="100%"
           />}
@@ -193,14 +193,14 @@ const Landing = () => {
         <div className={styles.imagesss}>
         {isClient && 
           <ReactPlayer
-            ref={playerRef}
+            // ref={playerRef}
             url={thirdVideoPath}
-            onEnded={handleVideoEnd}
-            // controls
-            controls={true}
-            loop={false}
-            muted={true}
-            playing={false}
+            // onEnded={handleVideoEnd}
+            controls
+            // controls={true}
+            // loop={false}
+            // muted={true}
+            // playing={false}
             height="100%"
             width="100%"
           />}
