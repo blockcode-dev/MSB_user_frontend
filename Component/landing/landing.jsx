@@ -58,6 +58,7 @@ const Landing = () => {
               width={100}
               height={100}
               className={styles.Images}
+              alt=""
             />
           </div>
           <div className={styles.content}>
@@ -71,8 +72,6 @@ const Landing = () => {
             </p>
           </div>
         </div>
-      </Container>
-      <Container className={styles.main} style={{ padding: "0px 0px" }}>
         <div className={`${styles.section1} ${styles.reverse}`}>
           <div className={styles.content}>
             <p>
@@ -112,9 +111,7 @@ const Landing = () => {
               />}
           </div>
         </div>
-      </Container>
-      <div className={styles.backgroundImage}>
-        <Container className={styles.main}>
+        <div className={styles.backgroundImage}>
           <div className={styles.section3}>
             <h1>My Story Bank</h1>
             <p className={styles.paraText}>
@@ -146,9 +143,7 @@ const Landing = () => {
               Self Confidence, Teachability, Teamwork, Traditions, etc….
             </li>
           </ul>
-        </Container>
-      </div>
-      <Container className={styles.main}>
+        </div>
         <div className={styles.section4}>
           <div className={styles.firstBox}>
             <h3 className={styles.boxText}>
@@ -184,37 +179,26 @@ const Landing = () => {
             </Button>
           </div>
         </div>
-      </Container>
-      <h2 className={styles.exampleText}>HERE ARE SOME STORY EXAMPLES</h2>
-      <Container className={styles.main}>
-        <div className={styles.imagesss}>
+        <h2 className={styles.exampleText}>HERE ARE SOME STORY EXAMPLES</h2>
+        <div className={styles.videos}>
           {isClient &&
             <ReactPlayer
-              // ref={playerRef}
               url={secondVideoPath}
-              // onEnded={handleVideoEnd}
               controls
-              // controls={true}
-              // loop={false}
-              // muted={true}
-              // playing={false}
-              height="100%"
-              width="100%"
+              width= "75%"
+              height="557px"
             />}
         </div>
-        <div className={styles.imagesss}>
+        <br/>
+        <br/>
+        <div className={styles.videos}>
+
           {isClient &&
             <ReactPlayer
-              // ref={playerRef}
               url={thirdVideoPath}
-              // onEnded={handleVideoEnd}
               controls
-              // controls={true}
-              // loop={false}
-              // muted={true}
-              // playing={false}
-              height="100%"
-              width="100%"
+              width= "75%"
+              height="557px"
             />}
         </div>
       </Container>

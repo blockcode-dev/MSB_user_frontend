@@ -15,7 +15,6 @@ const index = () => {
   return (<>
     {isClient && storedValue ?
       <div className={styles.Home}>
-        {/* <Image src={MsbLogo} width={100} height={100}/> */}
 
         <div style={{ margin: "50px 0px" }}>
 

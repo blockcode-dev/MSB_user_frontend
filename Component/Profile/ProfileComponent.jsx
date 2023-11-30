@@ -163,6 +163,7 @@ const ProfileComponent = () => {
                                     width={100}
                                     height={100}
                                     className={styles.Picture}
+                                    alt=''
                                 />
                             ) : <>
                                 <Image
@@ -170,6 +171,7 @@ const ProfileComponent = () => {
                                     width={100}
                                     height={100}
                                     className={styles.Picture}
+                                    alt=''
                                 />
                             </>
                             }
