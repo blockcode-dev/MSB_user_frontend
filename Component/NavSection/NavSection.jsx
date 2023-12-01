@@ -126,7 +126,7 @@ function NavSection() {
               router.push(path);
             }}
           >
-            <h4 style={{ cursor: "pointer" ,color:"#C8232C",fontWeight:"bold" }} >My Story Bank</h4>
+            <h4 style={{ cursor: "pointer" ,color:"#C8232C",fontWeight:"bold" }} >MyStoryBank</h4>
           </Navbar.Brand>
           {isClient&&!storedValue||router.asPath === "/otp" ||
             router.asPath === "/signin" ||

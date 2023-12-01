@@ -29,8 +29,8 @@ function CardComponent(props) {
                         __html: props.text
                     }}></p>
                 {/* <Button className='button_theme' onClick={() => props.paid === "PAID" ? handleShow() : handleRedirect()}>Read More</Button> */}
-                <Button className='button_theme' onClick={() =>  handleRedirect()}>Read More</Button>
-              
+                <Button className='button_theme' onClick={() => handleRedirect()}>Read More</Button>
+
                 <Modal
                     show={show}
                     onHide={handleClose}
@@ -52,7 +52,7 @@ function CardComponent(props) {
                             <Button className='button_theme' style={{ margin: "5px", padding: "5px", borderRadius: "10px" }} onClick={() => {
                                 const path = "https://transactions.sendowl.com/products/78271145/4A5919F0/view"
                                 // router.push(path)
-                                window.open(path, '_blank');handleCloseModal()
+                                window.open(path, '_blank'); handleCloseModal()
                             }}>Buy Now</Button>
                         </div>
                     </Modal.Footer>
