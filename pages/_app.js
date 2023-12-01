@@ -16,16 +16,16 @@ export default function App({ Component, pageProps }) {
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet"/>
     </Head>
       <Provider store={store}>
-        <div className='navsection'>
+   
           
           <NavSection />
-        </div>
-        <div className="content">
+     
+        {/* <div className="content"> */}
           <Component {...pageProps} />
-        </div>
-        <div className="footer">
-          <FooterSection />
-        </div>
+        <FooterSection />
+        {/* </div> */}
+        {/* <div className="footer">
+        </div> */}
       </Provider>
     </>
   )

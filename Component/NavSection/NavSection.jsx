@@ -116,9 +116,9 @@ function NavSection() {
     router.push(path);
   };
   return (
-    <div className={styles.NavbarSection}>
+   
      
-     <Navbar>
+    <Navbar expand="lg" className={styles.NavbarSection}  sticky="top" >
         <Container>
           <Navbar.Brand
             onClick={() => {
@@ -131,7 +131,9 @@ function NavSection() {
           {isClient&&!storedValue||router.asPath === "/otp" ||
             router.asPath === "/signin" ||
             router.asPath === "/signup" ||
-            router.asPath === "/forgotpassword" ? null : (
+            router.asPath === "/forgotpassword" ? null
+          : (<>
+          
             <div className="search-container">
               <InputGroup>
                 <Form.Control
@@ -152,7 +154,7 @@ function NavSection() {
                 </InputGroup.Text>
               </InputGroup>
               {searchQuery && openlist && (
-                <ListGroup style={{ width: "100%" }}>
+                <ListGroup style={{ width: "100%",position:"absolute" }}>
                   {searchResults.length === 0 ? (
                     <ListGroup.Item>No data found</ListGroup.Item>
                   ) : (
@@ -222,7 +224,7 @@ function NavSection() {
                 </Modal.Footer>
               </Modal>
             </div>
-          )}
+         
           <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-md`} />
           <Navbar.Offcanvas
             id={`offcanvasNavbar-expand-md`}
@@ -265,12 +267,12 @@ function NavSection() {
                         size="small"
                         sx={{ ml: 2 }}
                         p
-                        style={{ margin: 0 }}
+                        style={{ margin: 0}}
                         aria-controls={open ? "account-menu" : undefined}
                         aria-haspopup="true"
                         aria-expanded={open ? "true" : undefined}
                       >
-                        <Avatar sx={{ width: 32, height: 32 }}>
+                        <Avatar sx={{ width: 32, height: 32 }} style={{background:"#C8232C"}}>
                           {profile?.name.charAt(0)}
                         </Avatar>
                       </IconButton>
@@ -337,12 +339,13 @@ function NavSection() {
                   </>
                 ) : isClient && router.asPath === "/forgotpassword" ? 
                   <>
-                    <Button
+                    <Button className="button_theme"
                       style={{
-                        borderRadius: "10px",
-                        background: "#174F78",
-                        border: "none",
-                        margin: "20px",
+                        // borderRadius: "10px",
+                        // background: "#174F78",
+                        // border: "none",
+                        // margin: "20px",
+                        fontSize:"large"
                       }}
                       onClick={() => {
                         const path = "/signin";
@@ -355,12 +358,14 @@ function NavSection() {
                   </>: isClient && router.asPath === "/signin" ?null
                 
                   :
-                  <Button
-                    style={{
-                      borderRadius: "10px",
-                      background: "#174F78",
-                      border: "none",
-                    }}
+                  <Button className="button_theme"
+                  style={{
+                    // borderRadius: "10px",
+                    // background: "#174F78",
+                    // border: "none",
+                    // margin: "20px",
+                    fontSize:"large"
+                  }}
                     onClick={() => {
                       const path = "/signin";
                       router.push(path);
@@ -371,10 +376,10 @@ function NavSection() {
                 }
               </div>
             </Offcanvas.Body>
-          </Navbar.Offcanvas>
+          </Navbar.Offcanvas> </>)}
         </Container>
       </Navbar>
-    </div>
+   
   );
 }
 export default NavSection;

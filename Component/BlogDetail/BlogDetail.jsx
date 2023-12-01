@@ -17,6 +17,7 @@ import { getBlog } from '@/redux/getBlog'
 import ReactPlayer from 'react-player'
 import { useRef } from 'react'
 import Banner from '../Banner/Banner'
+import { RxDotFilled } from "react-icons/rx";
 export default function BlogDetailComponent({ data }) {
     const router = useRouter()
     const { id } = router.query
@@ -45,29 +46,55 @@ export default function BlogDetailComponent({ data }) {
     const likeFeature = useSelector((state) => state.rootReducer.like.clientProfile
     )
     const storedValue = getLocalStorageItem("UserLoginToken");
-
     const [isClient, setIsClient] = useState(false)
     useEffect(() => {
         setIsClient(true)
     }, [])
     const path = "https://node.mystorybank.info:4000/videos/Animated_Logo_mystorybank.mp4"
     const playerRef = useRef(null);
-
     const handleVideoEnd = () => {
         if (playerRef && playerRef.current) {
-          const currentRef = playerRef.current;
-          if (currentRef.seekTo) {
-            currentRef.seekTo(0); // Seek to the beginning of the video
-          }
-          if (currentRef.play) {
-            currentRef.play(); // Play the video again
-          }
+            const currentRef = playerRef.current;
+            if (currentRef.seekTo) {
+                currentRef.seekTo(0); // Seek to the beginning of the video
+            }
+            if (currentRef.play) {
+                currentRef.play(); // Play the video again
+            }
         }
-      };
+    };
+    console.log(data, "checkk")
+    return (<div className={styles.blockdetails}>
+        <div className={styles.hedaer}>
+            <Container className={styles.content}>
 
-    return (<div >
+                <h2 >{data?.data?.heading}</h2>
 
-{/* 
+                <div className={styles.details}>
+                    <div>
+                        <h6>By <b>
+                            Admin
+                        </b>
+                            <span>
+                                <RxDotFilled />
+                            </span>
+                            <span>
+                                Posted on {new Date(data?.data?.updated_at).toLocaleDateString("en-US")}
+                            </span>
+                        </h6>
+                    </div>
+                    <div>
+                        <span>
+                            <span
+                                style={{ color: like?.message === "User Liked Successfully." ? "#007FFF" : "unset", cursor: "pointer" }}
+                                onClick={handleLike}><ThumbUpIcon /><span>{likeCount?.likes_count}Likes</span> </span>
+                        </span>
+                        {/* <span>90 Comments</span> */}
+                    </div>
+                </div>
+            </Container>
+        </div>
+        {/* 
             {isClient &&
                 <ReactPlayer
                     ref={playerRef}
@@ -83,21 +110,17 @@ export default function BlogDetailComponent({ data }) {
                     width="100%"
                 />} */}
         {/* <Banner /> */}
-
-
-
         <Container className={styles.BlogDetailComponent}>
             <div>
-                <h2 >{data?.data?.heading}</h2>
                 <Image
                     src={`${Image_URL}${data?.data?.blog_attachment[0]?.file_name}`}
                     width={100} height={100} alt='' className={styles.picture} />
                 <div>
-                    <span
+                    {/* <span
                         style={{ color: like?.message === "User Liked Successfully." ? "#007FFF" : "unset", cursor: "pointer" }}
                         onClick={handleLike}><ThumbUpIcon /><span>{likeCount?.likes_count}</span> </span>
                     <span>Share </span>
-                    <span>Comment </span>
+                    <span>Comment </span> */}
                 </div>
                 <div className={styles.blogdescc}
                     style={{ paddingBottom: "20px" }}
