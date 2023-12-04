@@ -143,7 +143,7 @@ const Signin = () => {
                     const path = "/forgotpassword";
                     router.push(path);
                   }}
-                  style={{ cursor: "pointer" }}
+                  style={{ cursor: "pointer" ,padding:"10px 0px"}}
                 >
                   Forgot pasword?
                 </p>

@@ -3,7 +3,6 @@
   // overflow: scroll;
   // overflow-x: hidden;
 }
-
 .container {
   display: flex;
   height: 100vh; /* Adjust this height as needed */
@@ -16,7 +15,6 @@
 // .container::-webkit-scrollbar {
 // display: none;
 // }
-
 // .sidebar {
 //   flex: 0 0 auto; /* Let the first column grow and shrink as needed */
 //   overflow-y: auto; /* Enable vertical scrolling for the sidebar */
@@ -29,14 +27,11 @@
 //   background: #0E1122;
 //   box-shadow: 2px 2px 30px 0px rgba(0, 0, 0, 0.10);
 // }
-
-
 // .content {
 //   flex: 1 1 auto; /* Let the second column grow to fill remaining space */
 //   overflow-y: auto; /* Enable vertical scrolling for the content area */
 //   /* Add any styles for the second column here */
 // }
-
 .content {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -44,15 +39,11 @@
 .content::-webkit-scrollbar {
 display: none;
 }
-
-
-
 .container {
   display: flex;
   height: 100vh; /* Adjust this height as needed */
   overflow: hidden; /* Hide overflow from parent */
 }
-
 .sidebar {
   flex: 0 0 auto;
   overflow-y: hidden; /* Hide sidebar's vertical overflow */
@@ -65,24 +56,20 @@ display: none;
   background: #0E1122;
   box-shadow: 2px 2px 30px 0px rgba(0, 0, 0, 0.10);
 }
-
 /* Style for the list in the sidebar */
 .category_list {
   max-height: calc(100vh - 100px); /* Set max height for the list */
   overflow-y: auto; /* Enable vertical scrolling */
   margin-top: 10px; /* Adjust margin as needed */
-}
 
+}
 .content {
   flex: 1 1 auto; /* Let the second column grow to fill remaining space */
   overflow-y: auto; /* Enable vertical scrolling for the content area */
   padding: 20px;
   /* Add any styles for the content here */
 }
-
-
 .filter_list{
-  
   background-color: #0e1122;
   padding: 12px;
   margin: 20px 0px;
@@ -96,27 +83,22 @@ display: none;
   background-color: red;
   color: white;  /* Text color for better visibility */
 }
-
 .category_list {
   // -ms-overflow-style: none;
   // scroll-width: none;
 }
-
 .category_list::-webkit-scrollbar {
   // display: none;
 }
-
 .categoryText {
   // color: #ffffff;
 }
-
 .category_item {
   border-radius: 8px;
   margin-top: 8px;
   color: #C8232C;
   font-weight: bold;
 }
-
 .selectedCategory {
   background-color: #C8232C;
   color: #ffffff;
@@ -128,8 +110,6 @@ display: none;
   .heading {
     margin: 0px !important;
   }
-
-
   .cardContainer {
     margin-bottom: 0px !important;
   }
@@ -140,6 +120,5 @@ display: none;
     text-align: left;
     font-size: 20px;
   color: #C8232C;
-
   }
 }

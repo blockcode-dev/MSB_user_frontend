@@ -115,271 +115,252 @@ function NavSection() {
     const path = `/story-detail/${id}`;
     router.push(path);
   };
+  console.log(storedValue, "storedValue")
   return (
-   
-     
-    <Navbar expand="lg" className={styles.NavbarSection}  sticky="top" >
-        <Container>
-          <Navbar.Brand
-            onClick={() => {
-              const path = "/";
-              router.push(path);
-            }}
-          >
-            <h4 style={{ cursor: "pointer" ,color:"#C8232C",fontWeight:"bold" }} >MyStoryBank</h4>
-          </Navbar.Brand>
-          {isClient&&!storedValue||router.asPath === "/otp" ||
-            router.asPath === "/signin" ||
-            router.asPath === "/signup" ||
-            router.asPath === "/forgotpassword" ? null
-          : (<>
-          
-            <div className="search-container">
-              <InputGroup>
-                <Form.Control
-                  aria-label="Recipient's username"
-                  aria-describedby="basic-addon2"
-                  type="text"
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  onKeyDown={keyPressHandler}
-                  placeholder="Search here..."
-                />
-                <InputGroup.Text
-                  id="basic-addon2"
-                  style={{ cursor: "pointer" }}
-                  onClick={handleSearchApi}
-                >
-                  <BiSearch />
-                  Search
-                </InputGroup.Text>
-              </InputGroup>
-              {searchQuery && openlist && (
-                <ListGroup style={{ width: "100%",position:"absolute" }}>
-                  {searchResults.length === 0 ? (
-                    <ListGroup.Item>No data found</ListGroup.Item>
-                  ) : (
-                    searchResults.map((item, index) => (
-                      <ListGroup.Item
-                        key={index}
-                        style={{ cursor: "pointer" }}
-                        onClick={() =>
-                          // item.type === "PAID"
-                          //   ? handleShow()
+    <Navbar expand="lg" className={styles.NavbarSection} sticky="top" >
+      <Container>
+        <Navbar.Brand
+          onClick={() => {
+            const path = "/";
+            router.push(path);
+          }}
+        >
+          <h4 style={{ cursor: "pointer", color: "#C8232C", fontWeight: "bold" }} >MyStoryBank</h4>
+        </Navbar.Brand>
+        {router.asPath === "/forgotpassword" ? <Button className="button_theme"
+          style={{
+            fontSize: "large"
+          }}
+          onClick={() => {
+            const path = "/signin";
+            router.push(path);
+          }}
+        >
+          Login
+        </Button> :router.asPath === "/signin"?null:
+          <>
+            {storedValue &&
+              <div className="search-container">
+                <InputGroup>
+                  <Form.Control
+                    aria-label="Recipient's username"
+                    aria-describedby="basic-addon2"
+                    type="text"
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onKeyDown={keyPressHandler}
+                    placeholder="Search here..."
+                  />
+                  <InputGroup.Text
+                    id="basic-addon2"
+                    style={{ cursor: "pointer" }}
+                    onClick={handleSearchApi}
+                  >
+                    <BiSearch />
+                    Search
+                  </InputGroup.Text>
+                </InputGroup>
+                {searchQuery && openlist && (
+                  <ListGroup style={{ width: "100%", position: "absolute" }}>
+                    {searchResults.length === 0 ? (
+                      <ListGroup.Item>No data found</ListGroup.Item>
+                    ) : (
+                      searchResults.map((item, index) => (
+                        <ListGroup.Item
+                          key={index}
+                          style={{ cursor: "pointer" }}
+                          onClick={() =>
+                            // item.type === "PAID"
+                            //   ? handleShow()
                             // :
-                             handleRedirect(item.id)
-                        }
-                      >
-                        {item?.heading}
-                      </ListGroup.Item>
-                    ))
-                  )}
-                </ListGroup>
-                // </ul>
-              )}
-              <Modal
-                show={show}
-                onHide={handleClose}
-                backdrop="static"
-                keyboard={false}
-                // size="lg"
-                aria-labelledby="contained-modal-title-vcenter"
-                centered
-              >
-                <Modal.Header closeButton>
-                  <Modal.Title>Subscribe for Exclusive Updates</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  Join us to get exclusive updates, offers, and access to more
-                  stories!
-                </Modal.Body>
-                <Modal.Footer>
-                  <div style={{ display: "flex" }}>
-                    <Button
-                      className="button_theme"
-                      style={{
-                        margin: "5px",
-                        padding: "5px",
-                        borderRadius: "10px",
-                      }}
-                      onClick={handleCloseModal}
-                    >
-                      Ignore
-                    </Button>
-                    <Button
-                      className="button_theme"
-                      style={{
-                        margin: "5px",
-                        padding: "5px",
-                        borderRadius: "10px",
-                      }}
-                      onClick={() => {
-                        const path =
-                          "https://transactions.sendowl.com/products/78271145/4A5919F0/view";
-                        window.open(path, '_blank'); handleCloseModal()
-                      }}
-                    >
-                      Buy Now
-                    </Button>
-                  </div>
-                </Modal.Footer>
-              </Modal>
-            </div>
-         
-          <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-md`} />
-          <Navbar.Offcanvas
-            id={`offcanvasNavbar-expand-md`}
-            aria-labelledby={`offcanvasNavbarLabel-expand-md`}
-            placement="end"
-            style={{ width: offcanvasWidth }}
-          >
-            <Offcanvas.Body>
-              <Nav className="justify-content-end flex-grow-1">
-                {router.asPath === "/otp" ||
-                  router.asPath === "/signin" ||
-                  router.asPath === "/signup" ||
-                  router.asPath === "/forgotpassword" ? null : (
-                  <>
-                    <Nav.Link
-                      onClick={() => {
-                        const path = "/";
-                        router.push(path);
-                      }}
-                    >
-                      Home
-                    </Nav.Link>
-                    <Nav.Link
-                      onClick={() => {
-                        const path = "/story/all";
-                        router.push(path);
-                      }}
-                    >
-                      Stories
-                    </Nav.Link>
-                  </>
+                            handleRedirect(item.id)
+                          }
+                        >
+                          {item?.heading}
+                        </ListGroup.Item>
+                      ))
+                    )}
+                  </ListGroup>
+                  // </ul>
                 )}
-              </Nav>
-              <div>
-                {isClient && storedValue ? (
-                  <>
-                    <Tooltip title="Account settings">
-                      <IconButton
-                        onClick={handleClick}
-                        size="small"
-                        sx={{ ml: 2 }}
-                        p
-                        style={{ margin: 0}}
-                        aria-controls={open ? "account-menu" : undefined}
-                        aria-haspopup="true"
-                        aria-expanded={open ? "true" : undefined}
+                <Modal
+                  show={show}
+                  onHide={handleClose}
+                  backdrop="static"
+                  keyboard={false}
+                  // size="lg"
+                  aria-labelledby="contained-modal-title-vcenter"
+                  centered
+                >
+                  <Modal.Header closeButton>
+                    <Modal.Title>Subscribe for Exclusive Updates</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    Join us to get exclusive updates, offers, and access to more
+                    stories!
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <div style={{ display: "flex" }}>
+                      <Button
+                        className="button_theme"
+                        style={{
+                          margin: "5px",
+                          padding: "5px",
+                          borderRadius: "10px",
+                        }}
+                        onClick={handleCloseModal}
                       >
-                        <Avatar sx={{ width: 32, height: 32 }} style={{background:"#C8232C"}}>
-                          {profile?.name.charAt(0)}
-                        </Avatar>
-                      </IconButton>
-                    </Tooltip>
-                    <Menu
-                      anchorEl={anchorEl}
-                      id="account-menu"
-                      open={open}
-                      onClose={handleClose}
-                      onClick={handleClose}
-                      PaperProps={{
-                        elevation: 0,
-                        sx: {
-                          overflow: "visible",
-                          filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-                          mt: 1.5,
-                          "& .MuiAvatar-root": {
-                            width: 32,
-                            height: 32,
-                            ml: -0.5,
-                            mr: 1,
-                          },
-                          "&:before": {
-                            content: '""',
-                            display: "block",
-                            position: "absolute",
-                            top: 0,
-                            right: 14,
-                            width: 10,
-                            height: 10,
-                            bgcolor: "background.paper",
-                            transform: "translateY(-50%) rotate(45deg)",
-                            zIndex: 0,
-                          },
-                        },
-                      }}
-                      transformOrigin={{ horizontal: "right", vertical: "top" }}
-                      anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-                    >
-                      <MenuItem
+                        Ignore
+                      </Button>
+                      <Button
+                        className="button_theme"
+                        style={{
+                          margin: "5px",
+                          padding: "5px",
+                          borderRadius: "10px",
+                        }}
                         onClick={() => {
-                          handleClose;
-                          const path = "/profile";
-                          router.push(path);
+                          const path =
+                            "https://transactions.sendowl.com/products/78271145/4A5919F0/view";
+                          window.open(path, '_blank'); handleCloseModal()
                         }}
                       >
-                        <ListItemIcon>
-                          <AccountCircleIcon fontSize="small" />
-                        </ListItemIcon>
-                        Profile
-                      </MenuItem>
-                      <MenuItem
-                        onClick={() => {
-                          handleClose();
-                          handleLogout();
+                        Buy Now
+                      </Button>
+                    </div>
+                  </Modal.Footer>
+                </Modal>
+              </div>
+            }
+            <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-md`} />
+            <Navbar.Offcanvas
+              id={`offcanvasNavbar-expand-md`}
+              aria-labelledby={`offcanvasNavbarLabel-expand-md`}
+              placement="end"
+              style={{ width: offcanvasWidth }}
+            >
+              <Offcanvas.Body>
+                <Nav className="justify-content-end flex-grow-1">
+                  <Nav.Link
+                    onClick={() => {
+                      const path = "/";
+                      router.push(path);
+                    }}
+                  >
+                    Home
+                  </Nav.Link>
+                  <Nav.Link
+                    onClick={() => {
+                      const path = "/story/all";
+                      router.push(path);
+                    }}
+                  >
+                    Stories
+                  </Nav.Link>
+                </Nav>
+                <div>
+                  {storedValue &&
+                    <>
+                      <Tooltip title="Account settings">
+                        <IconButton
+                          onClick={handleClick}
+                          size="small"
+                          sx={{ ml: 2 }}
+                          p
+                          style={{ margin: 0 }}
+                          aria-controls={open ? "account-menu" : undefined}
+                          aria-haspopup="true"
+                          aria-expanded={open ? "true" : undefined}
+                        >
+                          <Avatar sx={{ width: 32, height: 32 }} style={{ background: "#C8232C" }}>
+                            {profile?.name.charAt(0)}
+                          </Avatar>
+                        </IconButton>
+                      </Tooltip>
+                      <Menu
+                        anchorEl={anchorEl}
+                        id="account-menu"
+                        open={open}
+                        onClose={handleClose}
+                        onClick={handleClose}
+                        PaperProps={{
+                          elevation: 0,
+                          sx: {
+                            overflow: "visible",
+                            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                            mt: 1.5,
+                            "& .MuiAvatar-root": {
+                              width: 32,
+                              height: 32,
+                              ml: -0.5,
+                              mr: 1,
+                            },
+                            "&:before": {
+                              content: '""',
+                              display: "block",
+                              position: "absolute",
+                              top: 0,
+                              right: 14,
+                              width: 10,
+                              height: 10,
+                              bgcolor: "background.paper",
+                              transform: "translateY(-50%) rotate(45deg)",
+                              zIndex: 0,
+                            },
+                          },
                         }}
+                        transformOrigin={{ horizontal: "right", vertical: "top" }}
+                        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
                       >
-                        <ListItemIcon>
-                          <Logout fontSize="small" />
-                        </ListItemIcon>
-                        Logout
-                      </MenuItem>
-                    </Menu>
-                  </>
-                ) : isClient && router.asPath === "/forgotpassword" ? 
-                  <>
+                        <MenuItem
+                          onClick={() => {
+                            handleClose;
+                            const path = "/profile";
+                            router.push(path);
+                          }}
+                        >
+                          <ListItemIcon>
+                            <AccountCircleIcon fontSize="small" />
+                          </ListItemIcon>
+                          Profile
+                        </MenuItem>
+                        <MenuItem
+                          onClick={() => {
+                            handleClose();
+                            handleLogout();
+                          }}
+                        >
+                          <ListItemIcon>
+                            <Logout fontSize="small" />
+                          </ListItemIcon>
+                          Logout
+                        </MenuItem>
+                      </Menu>
+                    </>
+                  }
+                  {!storedValue &&
                     <Button className="button_theme"
                       style={{
                         // borderRadius: "10px",
                         // background: "#174F78",
                         // border: "none",
                         // margin: "20px",
-                        fontSize:"large"
+                        fontSize: "large"
                       }}
                       onClick={() => {
                         const path = "/signin";
                         router.push(path);
                       }}
                     >
-                      Log In
+                      Login
                     </Button>
-                 
-                  </>: isClient && router.asPath === "/signin" ?null
-                
-                  :
-                  <Button className="button_theme"
-                  style={{
-                    // borderRadius: "10px",
-                    // background: "#174F78",
-                    // border: "none",
-                    // margin: "20px",
-                    fontSize:"large"
-                  }}
-                    onClick={() => {
-                      const path = "/signin";
-                      router.push(path);
-                    }}
-                  >
-                    Login
-                  </Button>
-                }
-              </div>
-            </Offcanvas.Body>
-          </Navbar.Offcanvas> </>)}
-        </Container>
-      </Navbar>
-   
+                  }
+                </div>
+              </Offcanvas.Body>
+            </Navbar.Offcanvas>
+          </>
+        }
+      </Container>
+    </Navbar>
   );
 }
 export default NavSection;
