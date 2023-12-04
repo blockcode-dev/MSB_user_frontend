@@ -76,7 +76,7 @@ function Blogs() {
   }, []);
   return (
     <>
-      <Banner title={blogTitle} uri={blogimg} desc={blogTitle === "My stories" ? null : blogTitle} />
+      <Banner title={blogTitle} uri={blogimg} desc={isClient&& blogTitle === "My stories" ? null : blogTitle} />
       {isClient && storedValue ? (
         <Container>
           <div className={styles.filter_icon} onClick={handleShow}>
@@ -167,7 +167,7 @@ function Blogs() {
                 >
                   All Category
                 </ListGroup.Item>
-                {category.map((item, index) => {
+                {category?.map((item, index) => {
                   return (
                     <ListGroup.Item
                       style={{
@@ -184,10 +184,10 @@ function Blogs() {
               </ListGroup>
 
             </div>
-            <div></div>
+            
             <div className={styles.content}>
               <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-sm-2 g-4">
-                {paginatedBlog === undefined ? (
+                {isClient&& paginatedBlog === undefined ? (
                   <div
                     className="loader-container"
                     style={{ width: "100%", textAlign: "center", height: "1000px" }}
@@ -197,14 +197,14 @@ function Blogs() {
                       <p>Fetching Stories...</p>
                     </div>
                   </div>
-                ) : paginatedBlog.length === 0 ?
+                ) :isClient&& paginatedBlog.length === 0 ?
                   <div
                     style={{ width: "100%", textAlign: "center", height: "1000px" }}
                   >
                     <div className="loader-content">
                       <p>No Stories Available.... </p>
                     </div>
-                  </div> : (
+                  </div> : isClient&&(
                     paginatedBlog?.map((item, index) => {
                       return (
                         <div

@@ -1,17 +1,12 @@
 import axios from "axios";
 import https from 'https';
 const BASE_URL = "https://node.mystorybank.info:4000/api/v1";
-
-
 export const getLocalStorageItem = (key) => {
   if (typeof window !== 'undefined') {
-
     return localStorage.getItem(key);
   }
   return null;
 };
-
-
 export const removeLocalStorageItem = (key) => {
   if (typeof window !== 'undefined') {
     return localStorage.removeItem(key);
@@ -19,7 +14,6 @@ export const removeLocalStorageItem = (key) => {
   return null;
 };
 const storedValue = getLocalStorageItem("UserLoginToken");
-
 // ************SEND OTP API****************
 export const SendOTPAPI = async (
   value1
@@ -30,8 +24,6 @@ export const SendOTPAPI = async (
   };
   return await axios.post("https://node.mystorybank.info:4000/api/v1/auth/otp", config);
 };
-
-
 export const ForgetSendOTPAPI = async (
   value1
 ) => {
@@ -41,11 +33,7 @@ export const ForgetSendOTPAPI = async (
   };
   return await axios.post("https://node.mystorybank.info:4000/api/v1/auth/otp", config);
 };
-
-
-
 // ************Verify OTP API****************
-
 export const VerifyOtpAPI = async (
   value1,
   value2
@@ -58,7 +46,6 @@ export const VerifyOtpAPI = async (
   return await axios.post("https://node.mystorybank.info:4000/api/v1/auth/verify-otp", config);
 };
 // ************User Register API****************
-
 export const UserRegisterAPI = async (
   value1,
   value2,
@@ -77,7 +64,6 @@ export const UserRegisterAPI = async (
   return await axios.post("https://node.mystorybank.info:4000/api/v1/auth/register", config);
 };
 // ************User Login API****************
-
 export const UserLoginAPI = async (
   value1,
   value2
@@ -89,10 +75,8 @@ export const UserLoginAPI = async (
   return await axios.post("https://node.mystorybank.info:4000/api/v1/auth/login", config);
 };
 // ************User Logout API****************
-
 export const UserLogOutAPI = async (
 ) => {
-
   return await axios.post("https://node.mystorybank.info:4000/api/v1/auth/logout", {
     headers: {
       "x-access-token": storedValue,
@@ -100,7 +84,6 @@ export const UserLogOutAPI = async (
   });
 };
 // ************All Category API****************
-
 export const AllCategoryAPI = async () => {
   try {
     const response = await axios.get("https://node.mystorybank.info:4000/api/v1/category/all");
@@ -110,8 +93,6 @@ export const AllCategoryAPI = async () => {
     throw error;
   }
 };
-
-
 // ************blog by Category API****************
 export const BlogByCategoryApi = async (
   value1
@@ -127,10 +108,7 @@ export const BlogByCategoryApi = async (
     // }
   );
 };
-
 // ************Getprofile API****************
-
-
 export const GetProfile = async (value) => {
   try {
     const response = await axios.get("https://node.mystorybank.info:4000/api/v1/user/profile", {
@@ -144,9 +122,7 @@ export const GetProfile = async (value) => {
     throw error;
   }
 };
-
 // ************Profile Edit API****************
-
 export const UserEditProfileAPI = async (
   value1,
   value2,
@@ -167,7 +143,6 @@ export const UserEditProfileAPI = async (
   });
 };
 // ************Change Password API****************
-
 export const ChangePasswordAPI = async (
   value1,
   value2,
@@ -186,7 +161,6 @@ export const ChangePasswordAPI = async (
   });
 };
 // ************Forgot Password API****************
-
 export const ForgotPassword = async (value1, value2, value3, value4) => {
   let config = {
     email: value1,
@@ -197,7 +171,6 @@ export const ForgotPassword = async (value1, value2, value3, value4) => {
   return await axios.post("https://node.mystorybank.info:4000/api/v1/auth/forgot-password", config);
 };
 // ************Get Blog API****************
-
 export const GetBlog = async () => {
   try {
     const response = await axios.get("https://node.mystorybank.info:4000/api/v1/blog/getAllBlogs");
@@ -207,15 +180,11 @@ export const GetBlog = async () => {
     throw error;
   }
 };
-
 axios.defaults.httpsAgent = new https.Agent({
   rejectUnauthorized: false,
 });
-
 // ************BlogDetail API****************
-
 export const BlogDetailAPI = async (value1) => {
-
   try {
     const response = await axios.post(`https://node.mystorybank.info:4000/api/v1/blog/${value1}`);
     return response.data;
@@ -225,7 +194,6 @@ export const BlogDetailAPI = async (value1) => {
   }
 };
 // ************Like API****************
-
 export const LikeApi = async (
   value1
 ) => {
@@ -238,9 +206,34 @@ export const LikeApi = async (
     },
   });
 };
-
+// ************Comment API****************
+export const AddCommentApi = async (
+  value1,value2
+) => {
+  let config = {
+    comment:value1,
+    blog_id: value2
+  };
+  return await axios.post("https://node.mystorybank.info:4000/api/v1/blog/comment", config, {
+    headers: {
+      "x-access-token": storedValue,
+    },
+  });
+};
+export const GetComment = async (id) => {
+  try {
+    const response = await axios.get(`https://node.mystorybank.info:4000/api/v1/blog/getAllCommentByBlogId?blog_id=${id}`, {
+      headers: {
+        "x-access-token": storedValue,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("API response error:", error);
+    throw error;
+  }
+};
 // ************Search API****************
-
 export const SearchAPI = async (value) => {
   try {
     const response = await axios.get(`https://node.mystorybank.info:4000/api/v1/user/blog/search?query=${value}`);

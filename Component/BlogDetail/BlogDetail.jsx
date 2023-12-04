@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from "./BlogDetail.module.scss"
-import { Container } from 'react-bootstrap'
+import { Container, Offcanvas } from 'react-bootstrap'
 import Pic from "../../public/assets/pic.png"
 import Image from 'next/image'
 // import Video from "../../public/assets/Animated Logo_mystorybank.mp4"
@@ -18,11 +18,14 @@ import ReactPlayer from 'react-player'
 import { useRef } from 'react'
 import Banner from '../Banner/Banner'
 import { RxDotFilled } from "react-icons/rx";
+import Comment from '../Comment/Comment'
+import { getComment } from '@/redux/getcommentSlice'
 export default function BlogDetailComponent({ data }) {
     const router = useRouter()
     const { id } = router.query
     const [likeCount, setLikeCount] = useState()
     const [like, setLike] = useState("")
+    const [comment, setComment] = useState("")
     const blogdetail = useSelector((state) => {
         state.rootReducer.blogdetail
     })
@@ -63,13 +66,31 @@ export default function BlogDetailComponent({ data }) {
             }
         }
     };
-    console.log(data, "checkk")
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => {
+        setShow(true);
+    }
+    // useEffect(() => {
+    //     dispatch(getComment(id))
+    //         .catch((error) => {
+    //             console.log(error);
+    //         });
+    // }, [dispatch, id]);
+    // useEffect(() => {
+    //     dispatch(getComment(id)).then((res) => {
+           
+    //         setComment(res.payload.length)
+    //     })
+    // }, [dispatch, id])
+    // Fetch comments from Redux store
+    const comments  = useSelector((state) => state.rootReducer.comment.comments
+    );
+   
     return (<div className={styles.blockdetails}>
         <div className={styles.hedaer}>
             <Container className={styles.content}>
-
                 <h2 >{data?.data?.heading}</h2>
-
                 <div className={styles.details}>
                     <div>
                         <h6>By <b>
@@ -84,12 +105,22 @@ export default function BlogDetailComponent({ data }) {
                         </h6>
                     </div>
                     <div>
-                        <span>
-                            <span
-                                style={{ color: like?.message === "User Liked Successfully." ? "#007FFF" : "unset", cursor: "pointer" }}
-                                onClick={handleLike}><ThumbUpIcon /><span>{likeCount?.likes_count}Likes</span> </span>
-                        </span>
-                        {/* <span>90 Comments</span> */}
+                        <div>
+                            <span style={{ color: like?.message === "User Liked Successfully." ? "#007FFF" : "unset", cursor: "pointer" }}>
+                                <ThumbUpIcon onClick={handleLike} />
+                            </span>
+                            {likeCount?.likes_count}Likes
+                            &nbsp;
+                            <span style={{ cursor: "pointer" }} onClick={handleShow}>
+                                {comments?.length}Comment
+                            </span>
+                            &nbsp;
+                            <Offcanvas placement="end" show={show} onHide={handleClose}>
+                                <Offcanvas.Body>
+                                    <Comment id={id} />
+                                </Offcanvas.Body>
+                            </Offcanvas>
+                        </div>
                     </div>
                 </div>
             </Container>

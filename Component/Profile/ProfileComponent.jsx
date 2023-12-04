@@ -98,7 +98,6 @@ const ProfileComponent = () => {
 
     const handleChangePassword = () => {
         ChangePasswordAPI(old_password, new_password, new_c_password,storedValue).then((res) => {
-            console.log(res)
             if (res.data.code === 200 || res.data.status === 200) {
                 setAlert(true);
                 setAlertConfig({
