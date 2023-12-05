@@ -109,6 +109,7 @@ export const BlogByCategoryApi = async (
   );
 };
 // ************Getprofile API****************
+
 export const GetProfile = async (value) => {
   try {
     const response = await axios.get("https://node.mystorybank.info:4000/api/v1/user/profile", {
@@ -223,7 +224,7 @@ export const LikeCountApi = async (value,token) => {
 };
 // ************Comment API****************
 export const AddCommentApi = async (
-  value1,value2
+  value1,value2,token
 ) => {
   let config = {
     comment:value1,
@@ -231,7 +232,7 @@ export const AddCommentApi = async (
   };
   return await axios.post("https://node.mystorybank.info:4000/api/v1/blog/comment", config, {
     headers: {
-      "x-access-token": storedValue,
+      "x-access-token": token,
     },
   });
 };

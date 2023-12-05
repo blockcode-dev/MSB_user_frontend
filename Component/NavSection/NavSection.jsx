@@ -42,10 +42,13 @@ function NavSection() {
   const [searchQuery, setSearchQuery] = useState("");
   const [openlist, setOepnlist] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
-  const [show, setShow] = useState(false);
-  const handleCloseModal = () => setShow(false);
+  // const [show, setShow] = useState(false);
+  // const handleCloseModal = () => setShow(false);
   const handleShow = () => setShow(true);
   const [isClient, setIsClient] = useState(false);
+  const [show, setShow] = useState(false);
+  const handleClosesidebar = () => setShow(false);
+  const handleShowsidebar = () => setShow(true);
   useEffect(() => {
     setIsClient(true);
   }, []);
@@ -84,13 +87,16 @@ function NavSection() {
   const storedValue = getLocalStorageItem("UserLoginToken");
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getClinetProfile(storedValue))
+    if(storedValue){
+
+      dispatch(getClinetProfile(storedValue))
       .then((res) => {
         setProfile(res?.payload);
       })
       .catch((error) => {
         console.log(error);
       });
+    }
   }, [dispatch, storedValue]);
   const handleSearchApi = () => {
     setOepnlist(false);
@@ -115,6 +121,10 @@ function NavSection() {
     const path = `/story-detail/${id}`;
     router.push(path);
   };
+  const handleHome=()=>{
+   
+
+  }
   return (
     <Navbar expand="lg" className={styles.NavbarSection} sticky="top" >
       <Container>
@@ -133,6 +143,7 @@ function NavSection() {
           onClick={() => {
             const path = "/signin";
             router.push(path);
+            handleClosesidebar()
           }}
         >
           Login
@@ -182,7 +193,7 @@ function NavSection() {
                     </ListGroup>
                     // </ul>
                   )}
-                  <Modal
+                  {/* <Modal
                     show={show}
                     onHide={handleClose}
                     backdrop="static"
@@ -228,30 +239,35 @@ function NavSection() {
                         </Button>
                       </div>
                     </Modal.Footer>
-                  </Modal>
+                  </Modal> */}
                 </div>
               }
-              <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-md`} />
+                
+              <Navbar.Toggle 
+              onClick={handleShow}
+              // aria-controls={`offcanvasNavbar-expand-md`}
+               />
               <Navbar.Offcanvas
-                id={`offcanvasNavbar-expand-md`}
-                aria-labelledby={`offcanvasNavbarLabel-expand-md`}
+                // id={`offcanvasNavbar-expand-md`}
+                // aria-labelledby={`offcanvasNavbarLabel-expand-md`}
                 placement="end"
                 style={{ width: offcanvasWidth }}
+                show={show} onHide={handleClosesidebar}
               >
                 <Offcanvas.Body>
                   <Nav className="justify-content-end flex-grow-1">
                     <Nav.Link
-                      onClick={() => {
-                        const path = "/";
-                        router.push(path);
-                      }}
+                  onClick={()=>{
+                    const path = "/";
+                    router.push(path);handleClosesidebar()
+                  }}
                     >
                       Home
                     </Nav.Link>
                     <Nav.Link
                       onClick={() => {
                         const path = "/story/all";
-                        router.push(path);
+                        router.push(path);handleClosesidebar()
                       }}
                     >
                       Stories
@@ -316,6 +332,7 @@ function NavSection() {
                               handleClose;
                               const path = "/profile";
                               router.push(path);
+                              handleClosesidebar()
                             }}
                           >
                             <ListItemIcon>
@@ -327,6 +344,8 @@ function NavSection() {
                             onClick={() => {
                               handleClose();
                               handleLogout();
+                              handleClosesidebar()
+
                             }}
                           >
                             <ListItemIcon>
@@ -349,6 +368,8 @@ function NavSection() {
                         onClick={() => {
                           const path = "/signin";
                           router.push(path);
+                          handleClosesidebar()
+
                         }}
                       >
                         Login

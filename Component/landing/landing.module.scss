@@ -12,6 +12,7 @@
         margin: 20px 0px;
         color: #fff;
         background-position: center;
+        background-size: cover;
         padding: 150px;
         background-image: linear-gradient(103.92deg,
                 rgba(145, 130, 86, 0.1) 0.7%,
@@ -58,13 +59,13 @@
         }
         .section4 {
             margin: 40px 0px;
-            display: flex !important;
+            display: flex;
         }
         .firstBox {
             box-shadow: rgba(0, 0, 0, 0.25) 0 3px 11px 0 !important;
             padding: 20px;
             margin-right: 12px;
-            width: 50% !important;
+            width: 50% ;
             text-align: center;
         }
         .boxText {
@@ -84,7 +85,17 @@
         text-align: center;
         color: rgb(237, 27, 36);
     }
+
     @media (max-width:767px) {
+        .backgroundImage{
+            padding: 0 !important;
+        }
+        .section4{
+            display: block !important;
+            .firstBox{
+                width: 100% ;
+            }
+        }
         .main {
             padding: 10px 0px;
             .section1 {

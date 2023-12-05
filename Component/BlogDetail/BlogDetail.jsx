@@ -35,13 +35,15 @@ export default function BlogDetailComponent({ data }) {
         dispatch(fetchLike(data?.data?.id, storedValue))
     }, [])
     const handleLike = useCallback(() => {
-        LikeApi(data?.data?.id, storedValue)
+        {storedValue&&
+            LikeApi(data?.data?.id, storedValue)
             .then((res) => {
                 dispatch(fetchLike(data?.data?.id, storedValue));
             })
             .catch((e) => {
                 console.log(e, "error");
             });
+        }
     }, [data, storedValue, dispatch]);
     useEffect(() => {
         dispatch(fetchComments(data?.data?.id))
@@ -79,7 +81,7 @@ export default function BlogDetailComponent({ data }) {
                             &nbsp;
                             <Offcanvas placement="end" show={show} onHide={handleClose}>
                                 <Offcanvas.Body>
-                                    <Comment id={id} />
+                                    <Comment id={id} storedValue={storedValue}/>
                                 </Offcanvas.Body>
                             </Offcanvas>
                         </div>

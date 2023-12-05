@@ -15,8 +15,9 @@ const Comment = (props) => {
     const [alertConfig, setAlertConfig] = useState({
       text: '',
     });
+    console.log(props.storedValue,"storedValue")
     const handleAddComment = () => {
-      AddCommentApi(comment, props.id)
+      AddCommentApi(comment, props.id,props.storedValue)
         .then((res) => {
           if (res.data === 200 || res.data.status === 200) {
             setAlert(true);

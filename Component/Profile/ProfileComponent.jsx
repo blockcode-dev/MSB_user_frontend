@@ -56,7 +56,6 @@ const ProfileComponent = () => {
     const storedValue = getLocalStorageItem("UserLoginToken");
     useEffect(() => {
         if(storedValue){
-
             GetProfile(storedValue).then((res) => {
                 setProfile(res.data)
                 setName(res?.data?.name)
@@ -69,7 +68,10 @@ const ProfileComponent = () => {
 
     const dispatch = useDispatch()
     useEffect(() => {
-        dispatch(getClinetProfile(storedValue))
+        if(storedValue){
+
+            dispatch(getClinetProfile(storedValue))
+        }
     }, [dispatch,storedValue])
 
     const handleSubmit = () => {
