@@ -1,13 +1,11 @@
-import {LikeCountApi, getLocalStorageItem } from '@/Constants/Api/Api';
+import { BlogDetailAPI } from '@/Constants/Api/Api';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-const storedValue = getLocalStorageItem("UserLoginToken");
 
-export const fetchLike = createAsyncThunk(
-  'like/fetchlike',
+export const fetchblogs = createAsyncThunk(
+  'comments/fetchblogs',
   async (id, thunkAPI) => {
     try {
-      const response = await LikeCountApi(id,storedValue); 
-      // Replace GetComment with your actual API call
+      const response = await BlogDetailAPI(id); // Replace GetComment with your actual API call
       return response.data; // Assuming the response has a 'data' property containing comments
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -15,29 +13,29 @@ export const fetchLike = createAsyncThunk(
   }
 );
 
-const likeSlice = createSlice({
-  name: 'like',
+const blogSlice = createSlice({
+  name: 'blogs',
   initialState: {
-    like: [],
+    blogs: [],
     loading: false,
     error: null,
   },
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchLike.pending, (state) => {
+      .addCase(fetchblogs.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchLike.fulfilled, (state, action) => {
+      .addCase(fetchblogs.fulfilled, (state, action) => {
         state.loading = false;
-        state.like = action.payload;
+        state.blogs = action.payload;
       })
-      .addCase(fetchLike.rejected, (state, action) => {
+      .addCase(fetchblogs.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });
   },
 });
 
-export default likeSlice.reducer;
+export default blogSlice.reducer;

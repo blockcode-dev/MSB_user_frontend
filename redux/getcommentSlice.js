@@ -1,18 +1,18 @@
 import { GetComment } from '@/Constants/Api/Api';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-
 export const fetchComments = createAsyncThunk(
   'comments/fetchComments',
   async (id, thunkAPI) => {
     try {
-      const response = await GetComment(id); // Replace GetComment with your actual API call
-      return response.data; // Assuming the response has a 'data' property containing comments
+      const response = await GetComment(id);
+     // Replace GetComment with your actual API call
+      return response.data; 
+      // Assuming the response has a 'data' property containing comments
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
-
 const commentSlice = createSlice({
   name: 'comments',
   initialState: {
@@ -37,5 +37,4 @@ const commentSlice = createSlice({
       });
   },
 });
-
 export default commentSlice.reducer;

@@ -1,92 +1,54 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import styles from "./BlogDetail.module.scss"
 import { Container, Offcanvas } from 'react-bootstrap'
 import Pic from "../../public/assets/pic.png"
 import Image from 'next/image'
 // import Video from "../../public/assets/Animated Logo_mystorybank.mp4"
 import { useRouter } from 'next/router'
-import { getLocalStorageItem } from '@/Constants/Api/Api'
+import { BlogDetailAPI, LikeApi, LikeCountApi, getLocalStorageItem } from '@/Constants/Api/Api'
 import { Image_URL } from '@/Constants/host'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getLike } from '@/redux/getlikeslice'
+import { fetchLike } from '@/redux/getlikeslice'
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import Signin from '@/pages/signin'
-import { getBlog } from '@/redux/getBlog'
-import ReactPlayer from 'react-player'
-import { useRef } from 'react'
-import Banner from '../Banner/Banner'
 import { RxDotFilled } from "react-icons/rx";
 import Comment from '../Comment/Comment'
-import { getComment } from '@/redux/getcommentSlice'
+import { fetchComments } from '@/redux/getcommentSlice'
 export default function BlogDetailComponent({ data }) {
     const router = useRouter()
     const { id } = router.query
-    const [likeCount, setLikeCount] = useState()
+    // const [likeCount, setLikeCount] = useState()
     const [like, setLike] = useState("")
     const [comment, setComment] = useState("")
-    const blogdetail = useSelector((state) => {
-        state.rootReducer.blogdetail
-    })
     const dispatch = useDispatch()
-    useEffect(() => {
-        dispatch(getLike(id)).then((res) => {
-            dispatch(getBlog(id)).then((res) => {
-                setLikeCount(res.payload)
-            })
-            setLike(res.payload)
-        })
-    }, [dispatch, id])
-    const handleLike = () => {
-        dispatch(getLike(id)).then((res) => {
-            dispatch(getBlog(id)).then((res) => {
-                setLikeCount(res.payload)
-            })
-            setLike(res.payload)
-        })
-    }
-    const likeFeature = useSelector((state) => state.rootReducer.like.clientProfile
-    )
     const storedValue = getLocalStorageItem("UserLoginToken");
-    const [isClient, setIsClient] = useState(false)
-    useEffect(() => {
-        setIsClient(true)
-    }, [])
-    const path = "https://node.mystorybank.info:4000/videos/Animated_Logo_mystorybank.mp4"
-    const playerRef = useRef(null);
-    const handleVideoEnd = () => {
-        if (playerRef && playerRef.current) {
-            const currentRef = playerRef.current;
-            if (currentRef.seekTo) {
-                currentRef.seekTo(0); // Seek to the beginning of the video
-            }
-            if (currentRef.play) {
-                currentRef.play(); // Play the video again
-            }
-        }
-    };
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => {
         setShow(true);
     }
-    // useEffect(() => {
-    //     dispatch(getComment(id))
-    //         .catch((error) => {
-    //             console.log(error);
-    //         });
-    // }, [dispatch, id]);
-    // useEffect(() => {
-    //     dispatch(getComment(id)).then((res) => {
-           
-    //         setComment(res.payload.length)
-    //     })
-    // }, [dispatch, id])
-    // Fetch comments from Redux store
-    const comments  = useSelector((state) => state.rootReducer.comment.comments
-    );
-   
+    const likeCount = useSelector((state) =>
+        state.rootReducer.like.like
+    )
+    useEffect(() => {
+        dispatch(fetchLike(data?.data?.id, storedValue))
+    }, [])
+    const handleLike = useCallback(() => {
+        LikeApi(data?.data?.id, storedValue)
+            .then((res) => {
+                dispatch(fetchLike(data?.data?.id, storedValue));
+            })
+            .catch((e) => {
+                console.log(e, "error");
+            });
+    }, [data, storedValue, dispatch]);
+    useEffect(() => {
+        dispatch(fetchComments(data?.data?.id))
+    }, [])
+    const comments = useSelector((state) =>
+        state.rootReducer.comment.comments
+    )
     return (<div className={styles.blockdetails}>
         <div className={styles.hedaer}>
             <Container className={styles.content}>
@@ -106,13 +68,13 @@ export default function BlogDetailComponent({ data }) {
                     </div>
                     <div>
                         <div>
-                            <span style={{ color: like?.message === "User Liked Successfully." ? "#007FFF" : "unset", cursor: "pointer" }}>
+                            <span style={{ color: likeCount?.is_like === true ? "#007FFF" : "unset", cursor: "pointer" }}>
                                 <ThumbUpIcon onClick={handleLike} />
                             </span>
-                            {likeCount?.likes_count}Likes
+                            {likeCount?.total_likes}Likes
                             &nbsp;
                             <span style={{ cursor: "pointer" }} onClick={handleShow}>
-                                {comments?.length}Comment
+                                {comments.length}Comment
                             </span>
                             &nbsp;
                             <Offcanvas placement="end" show={show} onHide={handleClose}>
