@@ -5,7 +5,6 @@ export const getClinetProfile = createAsyncThunk(
   "profile/getprofile",
   async (value) => {
     try {
-      console.log("hello")
       if(value){
 
         const response = await GetProfile(value);

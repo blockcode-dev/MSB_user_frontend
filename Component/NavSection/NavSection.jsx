@@ -108,7 +108,6 @@ function NavSection() {
   useEffect(()=>{
    if( isTokenValid){
      GetProfile(storedValue).then((res)=>{
-       console.log(res)
       }).catch((e)=>{
         console.log(e,"error")
       })
