@@ -6,8 +6,11 @@ export const getClinetProfile = createAsyncThunk(
   "profile/getprofile",
   async (value) => {
     try {
-      const response = await GetProfile(value);
-      return response.data;
+      if(value){
+
+        const response = await GetProfile(value);
+        return response.data;
+      }
     } catch (error) {
       throw error;
     }

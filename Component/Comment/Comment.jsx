@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from "./Comment.module.scss"
 import { FloatingLabel, Form, Image } from 'react-bootstrap'
-import { AddCommentApi } from '@/Constants/Api/Api'
+import { AddCommentApi, GetComment, getLocalStorageItem } from '@/Constants/Api/Api'
 import { useState } from 'react'
 import DescriptionAlerts from '@/Constants/alert/alert'
 import moment from 'moment/moment'
@@ -12,12 +12,12 @@ const Comment = (props) => {
     const [comment, setComment] = useState('');
     const [result, setResult] = useState([]);
     const [alert, setAlert] = useState(false);
+    const storedValue = getLocalStorageItem("UserLoginToken");
     const [alertConfig, setAlertConfig] = useState({
       text: '',
     });
-    console.log(props.storedValue,"storedValue")
     const handleAddComment = () => {
-      AddCommentApi(comment, props.id,props.storedValue)
+      AddCommentApi(comment, props.id,storedValue)
         .then((res) => {
           if (res.data === 200 || res.data.status === 200) {
             setAlert(true);
@@ -36,6 +36,7 @@ const Comment = (props) => {
   const comments  = useSelector((state) => state.rootReducer.comment.comments
     );
   useEffect(() => {
+    // console.log(storedValue,"props.storedValue")
     dispatch(fetchComments(props.id));
   }, [dispatch, props.id]);
     return (<>

@@ -1,13 +1,19 @@
-import { GetComment } from '@/Constants/Api/Api';
+import { GetComment, getLocalStorageItem } from '@/Constants/Api/Api';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+// let storedValue =""
+
+const storedValue = getLocalStorageItem("UserLoginToken");
+
 export const fetchComments = createAsyncThunk(
   'comments/fetchComments',
-  async (id, thunkAPI) => {
+  async (id,thunkAPI) => {
+
     try {
-      const response = await GetComment(id);
-     // Replace GetComment with your actual API call
-      return response.data; 
-      // Assuming the response has a 'data' property containing comments
+      if(id){
+
+        const response = await GetComment(id,storedValue);
+        return response.data; 
+      }
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }

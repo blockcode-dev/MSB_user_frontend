@@ -236,11 +236,11 @@ export const AddCommentApi = async (
     },
   });
 };
-export const GetComment = async (id) => {
+export const GetComment = async (id,token) => {
   try {
     const response = await axios.get(`https://node.mystorybank.info:4000/api/v1/blog/getAllCommentByBlogId?blog_id=${id}`, {
       headers: {
-        "x-access-token": storedValue,
+        "x-access-token": token,
       },
     });
     return response.data;

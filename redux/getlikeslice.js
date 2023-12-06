@@ -6,9 +6,12 @@ export const fetchLike = createAsyncThunk(
   'like/fetchlike',
   async (id, thunkAPI) => {
     try {
-      const response = await LikeCountApi(id,storedValue); 
-      // Replace GetComment with your actual API call
-      return response.data; // Assuming the response has a 'data' property containing comments
+      if(id){
+
+        const response = await LikeCountApi(id,storedValue); 
+        // Replace GetComment with your actual API call
+        return response.data; // Assuming the response has a 'data' property containing comments
+      }
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }

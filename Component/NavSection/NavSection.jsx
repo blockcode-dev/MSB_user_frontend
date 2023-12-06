@@ -88,7 +88,6 @@ function NavSection() {
   const dispatch = useDispatch();
   useEffect(() => {
     if(storedValue){
-
       dispatch(getClinetProfile(storedValue))
       .then((res) => {
         setProfile(res?.payload);
@@ -122,8 +121,6 @@ function NavSection() {
     router.push(path);
   };
   const handleHome=()=>{
-   
-
   }
   return (
     <Navbar expand="lg" className={styles.NavbarSection} sticky="top" >
@@ -242,7 +239,6 @@ function NavSection() {
                   </Modal> */}
                 </div>
               }
-                
               <Navbar.Toggle 
               onClick={handleShow}
               // aria-controls={`offcanvasNavbar-expand-md`}
@@ -345,7 +341,6 @@ function NavSection() {
                               handleClose();
                               handleLogout();
                               handleClosesidebar()
-
                             }}
                           >
                             <ListItemIcon>
@@ -369,7 +364,6 @@ function NavSection() {
                           const path = "/signin";
                           router.push(path);
                           handleClosesidebar()
-
                         }}
                       >
                         Login
