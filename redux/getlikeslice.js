@@ -6,7 +6,7 @@ export const fetchLike = createAsyncThunk(
   'like/fetchlike',
   async (id, thunkAPI) => {
     try {
-      if(id){
+      if(id &&storedValue){
 
         const response = await LikeCountApi(id,storedValue); 
         // Replace GetComment with your actual API call
