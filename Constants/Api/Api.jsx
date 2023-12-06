@@ -5,6 +5,7 @@ const BASE_URL = "https://node.mystorybank.info:4000/api/v1";
 export const getLocalStorageItem = (key) => {
   if (typeof window !== 'undefined') {
     return localStorage.getItem(key);
+    // return null
   }
   return null;
 };
@@ -117,12 +118,12 @@ export const AllCategoryAPI = async () => {
 };
 // ************blog by Category API****************
 export const BlogByCategoryApi = async (
-  value1
+  value1, limit, page
 ) => {
   let config = {
     category_slug: value1
   };
-  return await axios.post("https://node.mystorybank.info:4000/api/v1/user/get-blog-from-category", config
+  return await axios.post(`https://node.mystorybank.info:4000/api/v1/user/get-blog-from-category?limit=${limit}&page=${page}`, config
     // , {
     //   headers: {
     //     "x-access-token": storedValue,
@@ -218,7 +219,7 @@ export const BlogDetailAPI = async (value1) => {
 };
 // ************Like API****************
 export const LikeApi = async (
-  value1,token
+  value1, token
 ) => {
   let config = {
     blog_id: value1
@@ -230,7 +231,7 @@ export const LikeApi = async (
   });
 };
 // ************Like count API****************
-export const LikeCountApi = async (value,token) => {
+export const LikeCountApi = async (value, token) => {
 
   try {
     const response = await axios.get(`https://node.mystorybank.info:4000/api/v1/blog/getLikesCount?blog_id=${value}`, {
@@ -246,10 +247,10 @@ export const LikeCountApi = async (value,token) => {
 };
 // ************Comment API****************
 export const AddCommentApi = async (
-  value1,value2,token
+  value1, value2, token
 ) => {
   let config = {
-    comment:value1,
+    comment: value1,
     blog_id: value2
   };
   return await axios.post("https://node.mystorybank.info:4000/api/v1/blog/comment", config, {
@@ -258,7 +259,7 @@ export const AddCommentApi = async (
     },
   });
 };
-export const GetComment = async (id,token) => {
+export const GetComment = async (id, token) => {
   try {
     const response = await axios.get(`https://node.mystorybank.info:4000/api/v1/blog/getAllCommentByBlogId?blog_id=${id}`, {
       headers: {

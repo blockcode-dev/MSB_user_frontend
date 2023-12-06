@@ -24,6 +24,7 @@ export default function BlogDetailComponent({ data }) {
     const dispatch = useDispatch()
     const storedValue = getLocalStorageItem("UserLoginToken");
     const [show, setShow] = useState(false);
+    const [likeclick, setLikeClick] = useState(false)
     const handleClose = () => setShow(false);
     const handleShow = () => {
         setShow(true);
@@ -35,14 +36,23 @@ export default function BlogDetailComponent({ data }) {
         dispatch(fetchLike(data?.data?.id, storedValue))
     }, [])
     const handleLike = useCallback(() => {
-        {storedValue&&
-            LikeApi(data?.data?.id, storedValue)
-            .then((res) => {
-                dispatch(fetchLike(data?.data?.id, storedValue));
-            })
-            .catch((e) => {
-                console.log(e, "error");
-            });
+        setLikeClick(true)
+        {
+            storedValue &&
+                LikeApi(data?.data?.id, storedValue)
+                    .then((res) => {
+                        setLikeClick(false)
+                        dispatch(fetchLike(data?.data?.id, storedValue));
+                        setTimeout(() => {
+                            // After your logic completes (simulated by setTimeout here), reset isLoading to false
+                            setLikeClick(false)
+                                ;
+                            // Add your redirection logic here
+                        }, 1000);
+                    })
+                    .catch((e) => {
+                        console.log(e, "error");
+                    });
         }
     }, [data, storedValue, dispatch]);
     useEffect(() => {
@@ -51,6 +61,7 @@ export default function BlogDetailComponent({ data }) {
     const comments = useSelector((state) =>
         state.rootReducer.comment.comments
     )
+    console.log(comments, "comments")
     return (<div className={styles.blockdetails}>
         <div className={styles.hedaer}>
             <Container className={styles.content}>
@@ -73,15 +84,19 @@ export default function BlogDetailComponent({ data }) {
                             <span style={{ color: likeCount?.is_like === true ? "#007FFF" : "unset", cursor: "pointer" }}>
                                 <ThumbUpIcon onClick={handleLike} />
                             </span>
-                            {likeCount?.total_likes}Likes
+                            {likeCount?.total_likes}
+                            {likeclick && likeCount?.is_like === false ? "liked" : likeclick && likeCount?.is_like === true ? "disliked" : "Likes"}
+
+
+
                             &nbsp;
                             <span style={{ cursor: "pointer" }} onClick={handleShow}>
-                                {comments.length}Comment
+                                {comments?.length}Comment
                             </span>
                             &nbsp;
                             <Offcanvas placement="end" show={show} onHide={handleClose}>
                                 <Offcanvas.Body>
-                                    <Comment id={id} storedValue={storedValue}/>
+                                    <Comment id={id} storedValue={storedValue} />
                                 </Offcanvas.Body>
                             </Offcanvas>
                         </div>

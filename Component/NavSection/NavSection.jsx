@@ -2,18 +2,12 @@ import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
-import Logo from "../../public/assets/msb.png";
-import Image from "next/image";
 import styles from "./NavSection.module.scss";
 import Avatar from "@mui/material/Avatar";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Logout from "@mui/icons-material/Logout";
-import SupportIcon from "@mui/icons-material/Support";
-import { Modal } from "react-bootstrap";
 import {
-  Divider,
   IconButton,
   ListItemIcon,
   Menu,
@@ -23,30 +17,22 @@ import {
 import { useRouter } from "next/router";
 import {
   AllCategoryAPI,
-  CheckToken,
-  GetProfile,
   SearchAPI,
   UserLogOutAPI,
   getLocalStorageItem,
   removeLocalStorageItem,
 } from "@/Constants/Api/Api";
 import { Button, Form, InputGroup, ListGroup } from "react-bootstrap";
-// import { useDispatch, useSelector } from "react-redux";
-import { FaSearch, FaBars } from "react-icons/fa";
 import { getClinetProfile } from "@/redux/getClientProfileSlice";
 import { BiSearch } from "react-icons/bi";
 import { useDispatch } from "react-redux";
 function NavSection() {
-  const [searchPlaceholder, setSearchPlaceholder] = useState("Search");
   const router = useRouter();
   const [profile, setProfile] = useState();
-  const [category, setCategory] = useState([]);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [openlist, setOepnlist] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
-  // const handleCloseModal = () => setShow(false);
-  const handleShow = () => setShow(true);
   const [isClient, setIsClient] = useState(false);
   const [show, setShow] = useState(false);
   const handleClosesidebar = () => setShow(false);
@@ -54,6 +40,7 @@ function NavSection() {
   useEffect(() => {
     setIsClient(true);
   }, []);
+
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -62,27 +49,30 @@ function NavSection() {
     setAnchorEl(null);
   };
   const [offcanvasWidth, setOffcanvasWidth] = useState("");
+
+  const handleLogout = () => {
+    removeLocalStorageItem("UserLoginToken");
+    UserLogOutAPI()
+      .then((res) => {
+        router.replace("/");
+      })
+      .catch((error) => {
+        router.replace("/");
+        console.log(error);
+      });
+  };
+  // useEffect(() => {
+   
+  // }, []);
+  
+  const storedValue = getLocalStorageItem("UserLoginToken");
+  const dispatch = useDispatch();
   useEffect(() => {
     if (typeof window !== "undefined") {
       const width = window.innerWidth >= 1200 ? "50%" : "80%";
       setOffcanvasWidth(width);
     }
-  }, []);
-  useEffect(() => {
-    AllCategoryAPI()
-      .then((res) => {
-        setCategory(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
-  const handleLogout = () => {
-    removeLocalStorageItem("UserLoginToken");
-  };
-  const storedValue = getLocalStorageItem("UserLoginToken");
-  const dispatch = useDispatch();
-  useEffect(() => {
+    
     if (storedValue) {
       dispatch(getClinetProfile(storedValue))
         .then((res) => {
@@ -93,36 +83,13 @@ function NavSection() {
         });
     }
   }, [dispatch, storedValue]);
-  const [isTokenValid,setIsTokenValid]=useState(false)
-  // useEffect(()=>{
-  //   if(storedValue){
-  //     CheckToken(storedValue).then((res)=>{
-  //       console.log(res,"ress")
-  //       setIsTokenValid(true)
-  //     }).catch((e)=>{
-  //       // removeLocalStorageItem("UserLoginToken");
-  //       setIsTokenValid(false)
-  //     })
-  //   }
-  // },[storedValue])
-  // console.log(isTokenValid,"isTokenValid")
-
-  // useEffect(()=>{
-  //    GetProfile(storedValue).then((res)=>{
-  //     }).catch((e)=>{
-  //       console.log(e,"error")
-  //     })
-  // },[])
   const handleSearchApi = () => {
     setOepnlist(false);
     callAPI();
   };
   const keyPressHandler = (e) => {
-    // setOepnlist(false);
     if (e.key === "Enter") {
-      // Check if the pressed key is 'Enter'
-      callAPI(); // Call your API function here
-      // setOepnlist(true);
+      callAPI();
     }
   };
   const callAPI = () => {
@@ -191,9 +158,6 @@ function NavSection() {
                             key={index}
                             style={{ cursor: "pointer" }}
                             onClick={() =>
-                              // item.type === "PAID"
-                              //   ? handleShow()
-                              // :
                               handleRedirect(item.id)
                             }
                           >
@@ -202,64 +166,13 @@ function NavSection() {
                         ))
                       )}
                     </ListGroup>
-                    // </ul>
                   )}
-                  {/* <Modal
-                    show={show}
-                    onHide={handleClose}
-                    backdrop="static"
-                    keyboard={false}
-                    // size="lg"
-                    aria-labelledby="contained-modal-title-vcenter"
-                    centered
-                  >
-                    <Modal.Header closeButton>
-                      <Modal.Title>Subscribe for Exclusive Updates</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                      Join us to get exclusive updates, offers, and access to more
-                      stories!
-                    </Modal.Body>
-                    <Modal.Footer>
-                      <div style={{ display: "flex" }}>
-                        <Button
-                          className="button_theme"
-                          style={{
-                            margin: "5px",
-                            padding: "5px",
-                            borderRadius: "10px",
-                          }}
-                          onClick={handleCloseModal}
-                        >
-                          Ignore
-                        </Button>
-                        <Button
-                          className="button_theme"
-                          style={{
-                            margin: "5px",
-                            padding: "5px",
-                            borderRadius: "10px",
-                          }}
-                          onClick={() => {
-                            const path =
-                              "https://transactions.sendowl.com/products/78271145/4A5919F0/view";
-                            window.open(path, '_blank'); handleCloseModal()
-                          }}
-                        >
-                          Buy Now
-                        </Button>
-                      </div>
-                    </Modal.Footer>
-                  </Modal> */}
                 </div>
               }
               <Navbar.Toggle
-                onClick={handleShow}
-              // aria-controls={`offcanvasNavbar-expand-md`}
+                onClick={handleShowsidebar}
               />
               <Navbar.Offcanvas
-                // id={`offcanvasNavbar-expand-md`}
-                // aria-labelledby={`offcanvasNavbarLabel-expand-md`}
                 placement="end"
                 style={{ width: offcanvasWidth }}
                 show={show} onHide={handleClosesidebar}
@@ -368,10 +281,6 @@ function NavSection() {
                     {isClient && !storedValue &&
                       <Button className="button_theme"
                         style={{
-                          // borderRadius: "10px",
-                          // background: "#174F78",
-                          // border: "none",
-                          // margin: "20px",
                           fontSize: "large"
                         }}
                         onClick={() => {
