@@ -81,7 +81,7 @@ export default function BlogDetailComponent({ data }) {
                             &nbsp;
                             <Offcanvas placement="end" show={show} onHide={handleClose}>
                                 <Offcanvas.Body>
-                                    {/* <Comment id={id} storedValue={storedValue}/> */}
+                                    <Comment id={id} storedValue={storedValue}/>
                                 </Offcanvas.Body>
                             </Offcanvas>
                         </div>

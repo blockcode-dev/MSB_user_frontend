@@ -35,6 +35,7 @@ import { Button, Form, InputGroup, ListGroup } from "react-bootstrap";
 import { FaSearch, FaBars } from "react-icons/fa";
 import { getClinetProfile } from "@/redux/getClientProfileSlice";
 import { BiSearch } from "react-icons/bi";
+import { useDispatch } from "react-redux";
 function NavSection() {
   const [searchPlaceholder, setSearchPlaceholder] = useState("Search");
   const router = useRouter();
@@ -80,39 +81,38 @@ function NavSection() {
     removeLocalStorageItem("UserLoginToken");
   };
   const storedValue = getLocalStorageItem("UserLoginToken");
-  // const dispatch = useDispatch();
-  // useEffect(() => {
-  //   if (storedValue) {
-  //     dispatch(getClinetProfile(storedValue))
-  //       .then((res) => {
-  //         setProfile(res?.payload);
-  //       })
-  //       .catch((error) => {
-  //         console.log(error);
-  //       });
-  //   }
-  // }, [dispatch, storedValue]);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (storedValue) {
+      dispatch(getClinetProfile(storedValue))
+        .then((res) => {
+          setProfile(res?.payload);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [dispatch, storedValue]);
   const [isTokenValid,setIsTokenValid]=useState(false)
-  useEffect(()=>{
-    if(storedValue){
-      CheckToken(storedValue).then((res)=>{
-        console.log(res,"ress")
-        setIsTokenValid(true)
-      }).catch((e)=>{
-        removeLocalStorageItem("UserLoginToken");
-        setIsTokenValid(false)
-      })
-    }
-  },[storedValue])
+  // useEffect(()=>{
+  //   if(storedValue){
+  //     CheckToken(storedValue).then((res)=>{
+  //       console.log(res,"ress")
+  //       setIsTokenValid(true)
+  //     }).catch((e)=>{
+  //       // removeLocalStorageItem("UserLoginToken");
+  //       setIsTokenValid(false)
+  //     })
+  //   }
+  // },[storedValue])
   // console.log(isTokenValid,"isTokenValid")
-  useEffect(()=>{
-   if( isTokenValid){
-     GetProfile(storedValue).then((res)=>{
-      }).catch((e)=>{
-        console.log(e,"error")
-      })
-    }
-  },[])
+
+  // useEffect(()=>{
+  //    GetProfile(storedValue).then((res)=>{
+  //     }).catch((e)=>{
+  //       console.log(e,"error")
+  //     })
+  // },[])
   const handleSearchApi = () => {
     setOepnlist(false);
     callAPI();

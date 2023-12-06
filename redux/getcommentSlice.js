@@ -7,7 +7,7 @@ export const fetchComments = createAsyncThunk(
   'comments/fetchComments',
   async (id,thunkAPI) => {
     try {
-      if(id &&storedValue){
+      if(id && storedValue){
         const response = await GetComment(id,storedValue);
         return response.data; 
       }
