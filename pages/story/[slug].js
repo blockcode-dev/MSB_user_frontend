@@ -2,7 +2,7 @@ import React from 'react'
 import { useEffect } from 'react';
 import { useState } from 'react';
 import Blogs from '@/Component/Blogs/Blogs'
-import { getLocalStorageItem } from '@/Constants/Api/Api';
+import { CheckToken, getLocalStorageItem } from '@/Constants/Api/Api';
 import Signin from '../signin';
 import styles from "../../styles/Home.module.css"
 import Banner from '@/Component/Banner/Banner';
@@ -12,21 +12,19 @@ const index = () => {
   useEffect(() => {
     setIsClient(true)
   }, [])
+  
+  
   return (<>
-    {isClient && storedValue ?
+    {isClient && storedValue  ?
       <div className={styles.Home}>
-
         <div style={{ margin: "50px 0px" }}>
-
           <Blogs />
-
         </div>
       </div>
       : <Signin/>}
       </>
   )
 }
-
 export async function getServerSideProps() {
   // Here you can fetch data or perform any server-side logic
   const message = "Hello from Server-Side Rendering!";
@@ -37,5 +35,4 @@ export async function getServerSideProps() {
     }
   };
 }
-
 export default index

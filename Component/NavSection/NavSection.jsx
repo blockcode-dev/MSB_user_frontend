@@ -23,13 +23,15 @@ import {
 import { useRouter } from "next/router";
 import {
   AllCategoryAPI,
+  CheckToken,
+  GetProfile,
   SearchAPI,
   UserLogOutAPI,
   getLocalStorageItem,
   removeLocalStorageItem,
 } from "@/Constants/Api/Api";
 import { Button, Form, InputGroup, ListGroup } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
+// import { useDispatch, useSelector } from "react-redux";
 import { FaSearch, FaBars } from "react-icons/fa";
 import { getClinetProfile } from "@/redux/getClientProfileSlice";
 import { BiSearch } from "react-icons/bi";
@@ -42,7 +44,6 @@ function NavSection() {
   const [searchQuery, setSearchQuery] = useState("");
   const [openlist, setOepnlist] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
-  // const [show, setShow] = useState(false);
   // const handleCloseModal = () => setShow(false);
   const handleShow = () => setShow(true);
   const [isClient, setIsClient] = useState(false);
@@ -77,26 +78,42 @@ function NavSection() {
   }, []);
   const handleLogout = () => {
     removeLocalStorageItem("UserLoginToken");
-    UserLogOutAPI()
-      .then((res) => { })
-      .catch((error) => {
-        router.replace("/");
-        console.log(error);
-      });
   };
   const storedValue = getLocalStorageItem("UserLoginToken");
-  const dispatch = useDispatch();
-  useEffect(() => {
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  //   if (storedValue) {
+  //     dispatch(getClinetProfile(storedValue))
+  //       .then((res) => {
+  //         setProfile(res?.payload);
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //       });
+  //   }
+  // }, [dispatch, storedValue]);
+  const [isTokenValid,setIsTokenValid]=useState(false)
+  useEffect(()=>{
     if(storedValue){
-      dispatch(getClinetProfile(storedValue))
-      .then((res) => {
-        setProfile(res?.payload);
+      CheckToken(storedValue).then((res)=>{
+        console.log(res,"ress")
+        setIsTokenValid(true)
+      }).catch((e)=>{
+        removeLocalStorageItem("UserLoginToken");
+        setIsTokenValid(false)
       })
-      .catch((error) => {
-        console.log(error);
-      });
     }
-  }, [dispatch, storedValue]);
+  },[storedValue])
+  // console.log(isTokenValid,"isTokenValid")
+  useEffect(()=>{
+   if( isTokenValid){
+     GetProfile(storedValue).then((res)=>{
+       console.log(res)
+      }).catch((e)=>{
+        console.log(e,"error")
+      })
+    }
+  },[])
   const handleSearchApi = () => {
     setOepnlist(false);
     callAPI();
@@ -120,8 +137,6 @@ function NavSection() {
     const path = `/story-detail/${id}`;
     router.push(path);
   };
-  const handleHome=()=>{
-  }
   return (
     <Navbar expand="lg" className={styles.NavbarSection} sticky="top" >
       <Container>
@@ -239,10 +254,10 @@ function NavSection() {
                   </Modal> */}
                 </div>
               }
-              <Navbar.Toggle 
-              onClick={handleShow}
+              <Navbar.Toggle
+                onClick={handleShow}
               // aria-controls={`offcanvasNavbar-expand-md`}
-               />
+              />
               <Navbar.Offcanvas
                 // id={`offcanvasNavbar-expand-md`}
                 // aria-labelledby={`offcanvasNavbarLabel-expand-md`}
@@ -253,17 +268,17 @@ function NavSection() {
                 <Offcanvas.Body>
                   <Nav className="justify-content-end flex-grow-1">
                     <Nav.Link
-                  onClick={()=>{
-                    const path = "/";
-                    router.push(path);handleClosesidebar()
-                  }}
+                      onClick={() => {
+                        const path = "/";
+                        router.push(path); handleClosesidebar()
+                      }}
                     >
                       Home
                     </Nav.Link>
                     <Nav.Link
                       onClick={() => {
                         const path = "/story/all";
-                        router.push(path);handleClosesidebar()
+                        router.push(path); handleClosesidebar()
                       }}
                     >
                       Stories

@@ -1,11 +1,11 @@
 // clientProfileSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { GetProfile } from "@/Constants/Api/Api";
-
 export const getClinetProfile = createAsyncThunk(
   "profile/getprofile",
   async (value) => {
     try {
+      console.log("hello")
       if(value){
 
         const response = await GetProfile(value);

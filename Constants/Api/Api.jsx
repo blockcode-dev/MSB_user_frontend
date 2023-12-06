@@ -1,12 +1,14 @@
 import axios from "axios";
 import https from 'https';
 const BASE_URL = "https://node.mystorybank.info:4000/api/v1";
+
 export const getLocalStorageItem = (key) => {
   if (typeof window !== 'undefined') {
     return localStorage.getItem(key);
   }
   return null;
 };
+
 export const removeLocalStorageItem = (key) => {
   if (typeof window !== 'undefined') {
     return localStorage.removeItem(key);
@@ -14,6 +16,25 @@ export const removeLocalStorageItem = (key) => {
   return null;
 };
 const storedValue = getLocalStorageItem("UserLoginToken");
+
+// ************CheckToken API****************
+
+export const CheckToken = async (value) => {
+  try {
+    const response = await axios.get("https://node.mystorybank.info:4000/api/v1/auth/checkTokenStatus", {
+      headers: {
+        "x-access-token": value,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("API response error:", error);
+    throw error;
+  }
+};
+
+
+
 // ************SEND OTP API****************
 export const SendOTPAPI = async (
   value1

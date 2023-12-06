@@ -2,7 +2,8 @@ import {
   BlogByCategoryApi,
   GetBlog,
   getLocalStorageItem,
-  AllCategoryAPI
+  AllCategoryAPI,
+  CheckToken
 } from "@/Constants/Api/Api";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -74,10 +75,11 @@ function Blogs() {
       setOffcanvasWidth(width);
     }
   }, []);
+
   return (
     <>
       <Banner title={blogTitle} uri={blogimg} desc={isClient&& blogTitle === "My stories" ? null : blogTitle} />
-      {isClient && storedValue ? (
+     
         <Container>
           <div className={styles.filter_icon} onClick={handleShow}>
             <FaFilter size={30} />Filter
@@ -243,9 +245,7 @@ function Blogs() {
             />
           </div>
         </Container>
-      ) : (
-        <Signin />
-      )}
+     
     </>
   );
 }
