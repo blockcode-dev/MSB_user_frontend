@@ -11,10 +11,10 @@ const FooterSection = () => {
         <div className={styles.FooterSection}>
             <Container className={styles.footer_inner}>
                 <div className={`${styles.sec1} ${styles.desktopSec1}`}>
-                    <p>© {currentYear} My Story Bank. All rights reserved.</p>
+                    <p>© {currentYear} MyStoryBank. All rights reserved.</p>
                 </div>
                 <div className={styles.sec1}>
-                    <h5>My Story Bank</h5>
+                    <h5>MyStoryBank</h5>
                 </div>  <div className={styles.sec1}>
 
                     <AiFillFacebook size={25} className={styles.icon} />
@@ -25,7 +25,7 @@ const FooterSection = () => {
 
                 </div>
                 <div className={styles.mobileSec1}>
-                    <p>© {currentYear} My Story Bank. All rights reserved.</p>
+                    <p>© {currentYear} MyStoryBank. All rights reserved.</p>
                 </div>
             </Container>
         </div>

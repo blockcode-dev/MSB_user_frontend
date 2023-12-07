@@ -6,7 +6,7 @@ export default function Index() {
   return (
     <>
       <Head>
-        <title>My Story Bank</title>
+        <title>MyStoryBank</title>
         <meta name="description" content="My Story Bank" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
