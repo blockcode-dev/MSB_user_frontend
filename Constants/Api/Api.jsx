@@ -1,12 +1,34 @@
 import axios from "axios";
 import https from 'https';
+import { jwtDecode } from "jwt-decode";
+import moment from "moment";
 const BASE_URL = "https://node.mystorybank.info:4000/api/v1";
-
+// export const getLocalStorageItem = (key) => {
+//   if (typeof window !== 'undefined') {
+//     return localStorage.getItem(key);
+//     // return null
+//   }
+//   return null;
+// };
+const isJwtToken = (token) => {
+  const jwtPattern = /^[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_.+/=]*$/;
+  return jwtPattern.test(token);
+};
 export const getLocalStorageItem = (key) => {
   if (typeof window !== 'undefined') {
-    return localStorage.getItem(key);
-    // return null
+    const item = localStorage.getItem(key);
+    if (item && isJwtToken(item)) {
+    const decoded = jwtDecode(item);
+    const expirationTime = decoded.exp;
+      const currentTime = Math.floor(Date.now() / 1000);
+      if (expirationTime && expirationTime < currentTime) {
+        // Token has expired, set the item to null
+        localStorage.setItem(key, null);
+        return null;
+      }
+    return item;
   }
+}
   return null;
 };
 
@@ -17,11 +39,8 @@ export const removeLocalStorageItem = (key) => {
   return null;
 };
 const storedValue = getLocalStorageItem("UserLoginToken");
-
 // ************CheckToken API****************
-
 // export const CheckToken = async (value) => {
-
 //   try {
 //     const response = await axios.get("https://node.mystorybank.info:4000/api/v1/auth/checkTokenStatus", {
 //       headers: {
@@ -34,9 +53,6 @@ const storedValue = getLocalStorageItem("UserLoginToken");
 //     throw error;
 //   }
 // };
-
-
-
 // ************SEND OTP API****************
 export const SendOTPAPI = async (
   value1
@@ -132,7 +148,6 @@ export const BlogByCategoryApi = async (
   );
 };
 // ************Getprofile API****************
-
 export const GetProfile = async (value) => {
   try {
     const response = await axios.get("https://node.mystorybank.info:4000/api/v1/user/profile", {
@@ -217,6 +232,19 @@ export const BlogDetailAPI = async (value1) => {
     return null;
   }
 };
+export const ViewCountBlog = async (value1,token) => {
+    try {
+      const response = await axios.post(`https://node.mystorybank.info:4000/api/v1/user/markBlogAsViewed?blog_id=${value1}`,null,{
+        headers: {
+          "x-access-token": token,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      return null;
+    }
+  };
 // ************Like API****************
 export const LikeApi = async (
   value1, token
@@ -232,7 +260,6 @@ export const LikeApi = async (
 };
 // ************Like count API****************
 export const LikeCountApi = async (value, token) => {
-
   try {
     const response = await axios.get(`https://node.mystorybank.info:4000/api/v1/blog/getLikesCount?blog_id=${value}`, {
       headers: {

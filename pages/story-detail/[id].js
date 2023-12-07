@@ -1,11 +1,20 @@
 import BlogDetailComponent from '@/Component/BlogDetail/BlogDetail'
-import { BlogDetailAPI } from '@/Constants/Api/Api';
+import { BlogDetailAPI, ViewCountBlog, getLocalStorageItem } from '@/Constants/Api/Api';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react'
 export default function BlogDetail({ data }) {
+  const storedValue = getLocalStorageItem("UserLoginToken");
+
+  useEffect(() => {
+    ViewCountBlog(data?.data?.id,storedValue).then((res) => {
+      // console.log(res, "ress")
+    }).catch((e) => {
+      console.log(e, "error")
+    })
+  }, [])
   return (
     <div>
-      <BlogDetailComponent data={data}/>
+      <BlogDetailComponent data={data} />
     </div>
   )
 }

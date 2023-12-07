@@ -1,8 +1,7 @@
 import { GetComment, getLocalStorageItem } from '@/Constants/Api/Api';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-// let storedValue =""
 const storedValue = getLocalStorageItem("UserLoginToken");
-console.log(storedValue,"storedValue")
+// console.log(storedValue,"storedValue in redux")
 export const fetchComments = createAsyncThunk(
   'comments/fetchComments',
   async (id,thunkAPI) => {

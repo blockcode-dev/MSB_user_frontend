@@ -37,6 +37,9 @@ function NavSection() {
   const [show, setShow] = useState(false);
   const handleClosesidebar = () => setShow(false);
   const handleShowsidebar = () => setShow(true);
+  const storedValue = getLocalStorageItem("UserLoginToken");
+
+  // console.log(storedValue,"storedValue in navsection")
   useEffect(() => {
     setIsClient(true);
   }, []);
@@ -52,7 +55,9 @@ function NavSection() {
 
   const handleLogout = () => {
     removeLocalStorageItem("UserLoginToken");
-    UserLogOutAPI()
+    if(storedValue){
+
+      UserLogOutAPI()
       .then((res) => {
         router.replace("/");
       })
@@ -60,12 +65,13 @@ function NavSection() {
         router.replace("/");
         console.log(error);
       });
+    }
+    
   };
   // useEffect(() => {
    
   // }, []);
   
-  const storedValue = getLocalStorageItem("UserLoginToken");
   const dispatch = useDispatch();
   useEffect(() => {
     if (typeof window !== "undefined") {

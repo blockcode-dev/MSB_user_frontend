@@ -56,11 +56,12 @@ function Blogs() {
     BlogByCategoryApi(slug, PER_PAGE, page)
       .then((res) => {
         // console.log(res, "res")
-        setBlog(res?.data?.data?.blogs);
-        setCount(res?.data?.data?.total)
+        setBlog(res?.data?.data?.rows);
+        setCount(res?.data?.data?.count)
         // setDataCount(res.data?.data?.length || 0);
       })
       .catch((error) => {
+        console.log(error)
       });
   }, [slug, page, PER_PAGE]);
   const storedValue = getLocalStorageItem("UserLoginToken");

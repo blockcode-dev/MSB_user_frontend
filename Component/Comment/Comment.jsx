@@ -30,6 +30,7 @@ const Comment = (props) => {
           })
         .catch((e) => {
           console.log(e);
+          
         });
     };
   const dispatch = useDispatch();
