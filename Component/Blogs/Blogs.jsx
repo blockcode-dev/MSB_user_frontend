@@ -91,7 +91,7 @@ function Blogs() {
   }, []);
   return (
     <>
-      <Banner title={blogTitle} uri={blogimg} desc={isClient && blogTitle === "My Story Bank " ? null : blogTitle} />
+      <Banner title={blogTitle} uri={blogimg} desc={isClient && blogTitle === "My Story Bank" ? null : blogTitle} />
       <Container>
         <div className={styles.filter_icon} onClick={handleShow}>
           <FaFilter size={30} />Filter
