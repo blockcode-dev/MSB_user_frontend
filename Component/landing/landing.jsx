@@ -118,7 +118,7 @@ const Landing = () => {
               MSB is a data bank of stories for the storyteller in you. MSB
               provides you with a categorized list of stories to help take your
               audience to a place they can’t go on their own. MSB puts at your
-              fingertips over 130 messages to empower, inspire and transform an
+              fingertips over 195 messages to empower, inspire and transform an
               audience experience.
             </p>
             <p className={styles.paraText}>
@@ -130,7 +130,7 @@ const Landing = () => {
             </h4>
           </div>
           <ul>
-            <li>Over 130 stories in over 30 different categories</li>
+            <li>Over 195 stories in over 30 different categories</li>
             <li>Tips on why story telling is important</li>
             <li>On average $1.83 per story</li>
             <li>

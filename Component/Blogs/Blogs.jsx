@@ -25,7 +25,7 @@ function Blogs() {
   const [blog, setBlog] = useState();
   const [category, setCategory] = useState([])
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [blogTitle, setBlogTitle] = useState("My stories")
+  const [blogTitle, setBlogTitle] = useState("My Story Bank")
   const [blogimg, setBlogImage] = useState("")
   const router = useRouter();
   const { slug } = router.query;
@@ -91,7 +91,7 @@ function Blogs() {
   }, []);
   return (
     <>
-      <Banner title={blogTitle} uri={blogimg} desc={isClient && blogTitle === "My stories" ? null : blogTitle} />
+      <Banner title={blogTitle} uri={blogimg} desc={isClient && blogTitle === "My Story Bank " ? null : blogTitle} />
       <Container>
         <div className={styles.filter_icon} onClick={handleShow}>
           <FaFilter size={30} />Filter
