@@ -6,9 +6,33 @@ import Image from "next/image";
 import { Button, Container } from "react-bootstrap";
 import { useRouter } from "next/router";
 import ReactPlayer from "react-player";
+import { BannerApi, CardContentApi, Section1Api } from "@/Constants/Api/Api";
+import { Image_URL, Video_URL } from "@/Constants/host";
 const Landing = () => {
   const router = useRouter();
   const [isClient, setIsClient] = useState(false);
+  const [sectioncontent, setSectionContent] = useState()
+  const [bannercontent, setBannerContent] = useState()
+  const [cardcontent, setCardContent] = useState()
+  useEffect(() => {
+    Section1Api().then((res) => {
+      // console.log(res, "ress")
+      setSectionContent(res.data)
+    })
+      .catch((e) => {
+        console.log(e, "error")
+      })
+    BannerApi().then((res) => {
+      setBannerContent(res?.data)
+    }).catch((e) => {
+      console.log(e, "error")
+    })
+    CardContentApi().then((res) => {
+      setCardContent(res?.data)
+    }).catch((e) => {
+      console.log(e, "error")
+    })
+  }, [])
   useEffect(() => {
     setIsClient(true);
   }, []);
@@ -29,6 +53,7 @@ const Landing = () => {
       }
     }
   };
+  console.log(cardcontent, "cardcontent")
   return (
     <div className={styles.Landing}>
       {/* <Banner /> */}
@@ -51,7 +76,7 @@ const Landing = () => {
         )}
       </div>
       <Container className={styles.main}>
-        <div className={styles.section1}>
+        {/* <div className={styles.section1}>
           <div className={styles.imagesss}>
             <Image
               src={Image1}
@@ -110,73 +135,135 @@ const Landing = () => {
                 width="100%"
               />}
           </div>
-        </div>
-        <div className={styles.backgroundImage}>
-          <div className={styles.section3}>
-            <h1>My Story Bank</h1>
-            <p className={styles.paraText}>
-              MSB is a data bank of stories for the storyteller in you. MSB
-              provides you with a categorized list of stories to help take your
-              audience to a place they can’t go on their own. MSB puts at your
-              fingertips over 195 messages to empower, inspire and transform an
-              audience experience.
-            </p>
-            <p className={styles.paraText}>
-              Everyone loves a good story. Storytelling is a critical, but often
-              overlooked, skill every business owner should have.
-            </p>
-            <h4 className={styles.boldText}>
-              <b>WHAT’S INCLUDED IN YOUR “MY STORY BANK” PURCHASE:</b>
-            </h4>
-          </div>
-          <ul>
-            <li>Over 195 stories in over 30 different categories</li>
-            <li>Tips on why story telling is important</li>
-            <li>On average $1.83 per story</li>
-            <li>
-              Stories Customized by Category: Accountability, Blindspot,
-              Character, Communication, Comfort Zone, Consistency, Connection,
-              Desire, Emotional Intelligence, Fear, Funny Openers, Good
-              Intentions, Greatness, Growth, Influence, Integrity, Leadership,
-              Limiting Beliefs, Making Adjustments, Mindset, Momentum, Motivation,
-              Overcoming, Passion, Perspective, Priorities, Resilience, Religion,
-              Self Confidence, Teachability, Teamwork, Traditions, etc….
-            </li>
-          </ul>
-        </div>
+        </div> */}
+        {sectioncontent?.map((item, index) => {
+          console.log(item, "itemmm")
+          return (
+            index % 2 !== 0 ?
+              <Container className={`${styles.Section1}`} key={index}>
+                <div className={styles.HomeRight}>
+                  <div className={styles.content}>
+                    <p dangerouslySetInnerHTML={{
+                      __html: item.section_content
+                    }}></p>
+                    <Button className={`button_theme ${styles.btnStarted}`} onClick={() => {
+                      const path =
+                        "https://transactions.sendowl.com/products/78271145/4A5919F0/view";
+                      window.open(path, '_blank')
+                    }}>
+                      Buy Now
+                    </Button>
+                  </div>
+                </div>
+                <div className={styles.Homeleft}>
+                  
+                    {item.file_uri === "/images" ?
+                      <img
+                        src="https://node.mystorybank.info:4000/images/images-1702022281214.png"
+                        width={100}
+                        height={100}
+                        className={styles.Images}
+                        alt=""
+                      /> :
+                      isClient &&
+                      <ReactPlayer
+                        // ref={playerRef}
+                        url={`${Video_URL}${item.file_name}`}
+                        // onEnded={handleVideoEnd}
+                        controls
+                        // controls={true}
+                        // loop={false}
+                        // muted={true}
+                        // playing={false}
+                        height="100%"
+                        width="100%"
+                      />}
+              
+                </div>
+              </Container>
+              : <Container className={`${styles.Section1} ${styles.reverse}`}>
+                <div className={styles.Homeleft}>
+                
+                    {item.file_uri === "/images" ?
+                      <img
+                        src="https://node.mystorybank.info:4000/images/images-1702022281214.png"
+                        // width={100}
+                        // height={100}
+                        className={styles.Images}
+                        alt=""
+                      /> :
+                      isClient &&
+                      <ReactPlayer
+                        // ref={playerRef}
+                        url={`${Video_URL}${item.file_name}`}
+                        // onEnded={handleVideoEnd}
+                        controls
+                        // controls={true}
+                        // loop={false}
+                        // muted={true}
+                        // playing={false}
+                        height="100%"
+                        width="100%"
+                      />}
+                
+                </div>
+                <div className={styles.HomeRight}>
+                  <div className={styles.content}>
+                    <p dangerouslySetInnerHTML={{
+                      __html: item.section_content
+                    }}></p>
+                    <Button className={`button_theme ${styles.btnStarted}`} onClick={() => {
+                      const path =
+                        "https://transactions.sendowl.com/products/78271145/4A5919F0/view";
+                      window.open(path, '_blank')
+                    }}>
+                      Buy Now
+                    </Button>
+                  </div>
+                </div>
+              </Container>
+          )
+        })}
+        {bannercontent?.map((item, index) => {
+          // console.log(item?.banner_content,"itemm")
+          return (
+            <div className={styles.backgroundImage}
+              style={{
+                backgroundImage: `linear-gradient(103.92deg,
+              rgba(145, 130, 86, 0.1) 0.7%,
+              #0c2e3b 100%), url(${Image_URL}${item?.file_name})`
+              }}
+              key={index}>
+              <div className={styles.section3}>
+                <h1>My Story Bank</h1>
+                <p className={styles.paraText} dangerouslySetInnerHTML={{
+                  __html: item?.banner_content
+                }}></p>
+              </div>
+            </div>
+          )
+        }
+        )}
         <div className={styles.section4}>
-          <div className={styles.firstBox}>
-            <h3 className={styles.boxText}>
-              "Storytelling is the most powerful way to put ideas into the world
-              today." --Robert McKee
-            </h3>
-            <h4 className={styles.innerText}>
-              Click The Link To Purchase Immediately:
-            </h4>
-            <br></br>
-            <Button className={`button_theme ${styles.buyButton}`} onClick={() => {
-              const path =
-                "https://transactions.sendowl.com/products/78271145/4A5919F0/view";
-              window.open(path, '_blank')
-            }}>
-              Buy Now
-            </Button>
-          </div>
-          <div className={styles.firstBox}>
-            <h3 className={styles.boxText}>
-              STORIES MAKES YOUR CUSTOMERS FALL IN LOVE WITH YOU AND BUY FROM
-              YOU OVER AND OVER AGAIN.
-            </h3>
-            <h4 className={styles.innerText}>
-              Tell, don't sell. Click The Link To Purchase Immediately:
-            </h4>
-            <Button className={`button_theme ${styles.buyButton}`} onClick={() => {
-              const path =
-                "https://transactions.sendowl.com/products/78271145/4A5919F0/view";
-              window.open(path, '_blank')
-            }}>
-              Buy Now
-            </Button>
+          <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 row-cols-sm-1 g-2" style={{ justifyContent: "center" }}>
+            {cardcontent?.map((item, index) => {
+              return (
+                <div class="col" key={index}>
+                  <div className={styles.firstBox}>
+                    <h3 className={styles.boxText} dangerouslySetInnerHTML={{ __html: item?.card_content }}>
+                    </h3>
+                    <br></br>
+                    <Button className={`button_theme ${styles.buyButton}`} onClick={() => {
+                      const path =
+                        `${item.redirection_url}`;
+                      window.open(path, '_blank')
+                    }}>
+                      Buy Now
+                    </Button>
+                  </div>
+                </div>
+              )
+            })}
           </div>
         </div>
         <h2 className={styles.exampleText}>HERE ARE SOME STORY EXAMPLES</h2>
@@ -185,19 +272,18 @@ const Landing = () => {
             <ReactPlayer
               url={secondVideoPath}
               controls
-              width= "75%"
+              width="75%"
               height="557px"
             />}
         </div>
-        <br/>
-        <br/>
+        <br />
+        <br />
         <div className={styles.videos}>
-
           {isClient &&
             <ReactPlayer
               url={thirdVideoPath}
               controls
-              width= "75%"
+              width="75%"
               height="557px"
             />}
         </div>

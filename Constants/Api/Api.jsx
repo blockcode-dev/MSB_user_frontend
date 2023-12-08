@@ -301,3 +301,33 @@ export const SearchAPI = async (value) => {
     throw error;
   }
 };
+
+// ************Home Section1 API****************
+export const Section1Api = async () => {
+  try {
+    const response = await axios.get("https://node.mystorybank.info:4000/api/v1/content/getAllSectionContent");
+    return response.data;
+  } catch (error) {
+    console.error("API response error:", error);
+    throw error;
+  }
+};
+
+export const BannerApi = async () => {
+  try {
+    const response = await axios.get("https://node.mystorybank.info:4000/api/v1/content/getAllBannerContent");
+    return response.data;
+  } catch (error) {
+    console.error("API response error:", error);
+    throw error;
+  }
+};
+export const CardContentApi = async () => {
+  try {
+    const response = await axios.get("https://node.mystorybank.info:4000/api/v1/content/getAllCardContent");
+    return response.data;
+  } catch (error) {
+    console.error("API response error:", error);
+    throw error;
+  }
+};
