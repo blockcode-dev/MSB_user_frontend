@@ -18,20 +18,19 @@ export const getLocalStorageItem = (key) => {
   if (typeof window !== 'undefined') {
     const item = localStorage.getItem(key);
     if (item && isJwtToken(item)) {
-    const decoded = jwtDecode(item);
-    const expirationTime = decoded.exp;
+      const decoded = jwtDecode(item);
+      const expirationTime = decoded.exp;
       const currentTime = Math.floor(Date.now() / 1000);
       if (expirationTime && expirationTime < currentTime) {
         // Token has expired, set the item to null
         localStorage.setItem(key, null);
         return null;
       }
-    return item;
+      return item;
+    }
   }
-}
   return null;
 };
-
 export const removeLocalStorageItem = (key) => {
   if (typeof window !== 'undefined') {
     return localStorage.removeItem(key);
@@ -140,11 +139,6 @@ export const BlogByCategoryApi = async (
     category_slug: value1
   };
   return await axios.post(`https://node.mystorybank.info:4000/api/v1/user/get-blog-from-category?limit=${limit}&page=${page}`, config
-    // , {
-    //   headers: {
-    //     "x-access-token": storedValue,
-    //   },
-    // }
   );
 };
 // ************Getprofile API****************
@@ -166,7 +160,6 @@ export const UserEditProfileAPI = async (
   value1,
   value2,
   value3,
-  token
 ) => {
   let config = {
     name: value1,
@@ -175,7 +168,7 @@ export const UserEditProfileAPI = async (
   };
   return await axios.put("https://node.mystorybank.info:4000/api/v1/user/updateProfile", config, {
     headers: {
-      "x-access-token": token,
+      "x-access-token": storedValue,
       "Content-Type": "multipart/form-data",
       Accept: "application/json",
     },
@@ -186,7 +179,6 @@ export const ChangePasswordAPI = async (
   value1,
   value2,
   value3,
-  token
 ) => {
   let config = {
     old_password: value1,
@@ -195,7 +187,7 @@ export const ChangePasswordAPI = async (
   };
   return await axios.post("https://node.mystorybank.info:4000/api/v1/auth/reset-password", config, {
     headers: {
-      "x-access-token": token,
+      "x-access-token": storedValue,
     },
   });
 };
@@ -232,29 +224,29 @@ export const BlogDetailAPI = async (value1) => {
     return null;
   }
 };
-export const ViewCountBlog = async (value1,token) => {
-    try {
-      const response = await axios.post(`https://node.mystorybank.info:4000/api/v1/user/markBlogAsViewed?blog_id=${value1}`,null,{
-        headers: {
-          "x-access-token": token,
-        },
-      });
-      return response.data;
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      return null;
-    }
-  };
+export const ViewCountBlog = async (value1) => {
+  try {
+    const response = await axios.post(`https://node.mystorybank.info:4000/api/v1/user/markBlogAsViewed?blog_id=${value1}`, null, {
+      headers: {
+        "x-access-token": storedValue,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    return null;
+  }
+};
 // ************Like API****************
 export const LikeApi = async (
-  value1, token
+  value1
 ) => {
   let config = {
     blog_id: value1
   };
   return await axios.post("https://node.mystorybank.info:4000/api/v1/blog/like", config, {
     headers: {
-      "x-access-token": token,
+      "x-access-token": storedValue,
     },
   });
 };
@@ -274,7 +266,7 @@ export const LikeCountApi = async (value, token) => {
 };
 // ************Comment API****************
 export const AddCommentApi = async (
-  value1, value2, token
+  value1, value2
 ) => {
   let config = {
     comment: value1,
@@ -282,7 +274,7 @@ export const AddCommentApi = async (
   };
   return await axios.post("https://node.mystorybank.info:4000/api/v1/blog/comment", config, {
     headers: {
-      "x-access-token": token,
+      "x-access-token": storedValue,
     },
   });
 };

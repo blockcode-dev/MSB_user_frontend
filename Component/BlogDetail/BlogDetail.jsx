@@ -1,9 +1,7 @@
 import React, { useCallback } from 'react'
 import styles from "./BlogDetail.module.scss"
 import { Container, Offcanvas } from 'react-bootstrap'
-import Pic from "../../public/assets/pic.png"
 import Image from 'next/image'
-// import Video from "../../public/assets/Animated Logo_mystorybank.mp4"
 import { useRouter } from 'next/router'
 import { BlogDetailAPI, LikeApi, LikeCountApi, getLocalStorageItem } from '@/Constants/Api/Api'
 import { Image_URL } from '@/Constants/host'
@@ -18,7 +16,6 @@ import { fetchComments } from '@/redux/getcommentSlice'
 export default function BlogDetailComponent({ data }) {
     const router = useRouter()
     const { id } = router.query
-    // const [likeCount, setLikeCount] = useState()
     const [like, setLike] = useState("")
     const [comment, setComment] = useState("")
     const dispatch = useDispatch()
@@ -39,15 +36,13 @@ export default function BlogDetailComponent({ data }) {
         setLikeClick(true)
         {
             storedValue &&
-                LikeApi(data?.data?.id, storedValue)
+                LikeApi(data?.data?.id)
                     .then((res) => {
                         setLikeClick(false)
                         dispatch(fetchLike(data?.data?.id, storedValue));
                         setTimeout(() => {
-                            // After your logic completes (simulated by setTimeout here), reset isLoading to false
                             setLikeClick(false)
                                 ;
-                            // Add your redirection logic here
                         }, 1000);
                     })
                     .catch((e) => {
@@ -57,8 +52,7 @@ export default function BlogDetailComponent({ data }) {
     }, [data, storedValue, dispatch]);
     useEffect(() => {
         dispatch(fetchComments(data?.data?.id))
-    }, [dispatch,data?.data?.id])
-    
+    }, [dispatch, data?.data?.id])
     const comments = useSelector((state) =>
         state.rootReducer.comment.comments
     )
@@ -87,9 +81,6 @@ export default function BlogDetailComponent({ data }) {
                             </span>
                             {likeCount?.total_likes}
                             {likeclick && likeCount?.is_like === false ? "liked" : likeclick && likeCount?.is_like === true ? "disliked" : "Likes"}
-
-
-
                             &nbsp;
                             <span style={{ cursor: "pointer" }} onClick={handleShow}>
                                 {comments?.length}Comment
@@ -105,22 +96,6 @@ export default function BlogDetailComponent({ data }) {
                 </div>
             </Container>
         </div>
-        {/* 
-            {isClient &&
-                <ReactPlayer
-                    ref={playerRef}
-                    url={path}
-                    onEnded={handleVideoEnd} // When the video ends, replay it
-                    // controls
-                    controls={false}
-                    loop={false}
-                    muted={true}
-                    playing={true} // Autoplay the video
-                    // style={{ width: "90%", margin: "20px auto" }} 
-                    height="100%"
-                    width="100%"
-                />} */}
-        {/* <Banner /> */}
         <Container className={styles.BlogDetailComponent}>
             <div>
                 <Image
@@ -141,8 +116,6 @@ export default function BlogDetailComponent({ data }) {
                 />
             </div>
         </Container>
-        {/* :
-             <Signin />} */}
     </div>
     )
 }

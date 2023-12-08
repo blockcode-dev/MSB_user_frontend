@@ -17,7 +17,7 @@ const Comment = (props) => {
       text: '',
     });
     const handleAddComment = () => {
-      AddCommentApi(comment, props.id,storedValue)
+      AddCommentApi(comment, props.id)
         .then((res) => {
           if (res.data === 200 || res.data.status === 200) {
             setAlert(true);

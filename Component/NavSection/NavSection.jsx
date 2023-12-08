@@ -55,30 +55,30 @@ function NavSection() {
 
   const handleLogout = () => {
     removeLocalStorageItem("UserLoginToken");
-    if(storedValue){
+    if (storedValue) {
 
       UserLogOutAPI()
-      .then((res) => {
-        router.replace("/");
-      })
-      .catch((error) => {
-        router.replace("/");
-        console.log(error);
-      });
+        .then((res) => {
+          router.replace("/");
+        })
+        .catch((error) => {
+          router.replace("/");
+          console.log(error);
+        });
     }
-    
+
   };
   // useEffect(() => {
-   
+
   // }, []);
-  
+
   const dispatch = useDispatch();
   useEffect(() => {
     if (typeof window !== "undefined") {
       const width = window.innerWidth >= 1200 ? "50%" : "80%";
       setOffcanvasWidth(width);
     }
-    
+
     if (storedValue) {
       dispatch(getClinetProfile(storedValue))
         .then((res) => {
@@ -108,7 +108,9 @@ function NavSection() {
   const handleRedirect = (id) => {
     const path = `/story-detail/${id}`;
     router.push(path);
+    setSearchQuery("")
   };
+
   return (
     <Navbar expand="lg" className={styles.NavbarSection} sticky="top" >
       <Container>
@@ -141,6 +143,7 @@ function NavSection() {
                       aria-label="Recipient's username"
                       aria-describedby="basic-addon2"
                       type="text"
+                      value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       onKeyDown={keyPressHandler}
                       placeholder="Search here..."
@@ -163,8 +166,9 @@ function NavSection() {
                           <ListGroup.Item
                             key={index}
                             style={{ cursor: "pointer" }}
-                            onClick={() =>
-                              handleRedirect(item.id)
+                            onClick={() => {
+                              handleRedirect(item.id); setOepnlist(false)
+                            }
                             }
                           >
                             {item?.heading}

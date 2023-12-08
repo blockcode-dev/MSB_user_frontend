@@ -78,7 +78,7 @@ const ProfileComponent = () => {
         setAlert(false);
         const formData = new FormData();
         formData.append("image", selectedImage);
-        UserEditProfileAPI(name, selectedImage, mobile,storedValue)
+        UserEditProfileAPI(name, selectedImage, mobile)
             .then((res) => {
                 dispatch(getClinetProfile(storedValue));
                 setProfile(res.data)
@@ -99,7 +99,7 @@ const ProfileComponent = () => {
     };
 
     const handleChangePassword = () => {
-        ChangePasswordAPI(old_password, new_password, new_c_password,storedValue).then((res) => {
+        ChangePasswordAPI(old_password, new_password, new_c_password).then((res) => {
             if (res.data.code === 200 || res.data.status === 200) {
                 setAlert(true);
                 setAlertConfig({

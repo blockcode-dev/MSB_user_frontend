@@ -5,8 +5,8 @@ export const fetchblogs = createAsyncThunk(
   'comments/fetchblogs',
   async (id, thunkAPI) => {
     try {
-      const response = await BlogDetailAPI(id); // Replace GetComment with your actual API call
-      return response.data; // Assuming the response has a 'data' property containing comments
+      const response = await BlogDetailAPI(id); 
+      return response.data; 
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }

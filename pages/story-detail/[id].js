@@ -6,7 +6,7 @@ export default function BlogDetail({ data }) {
   const storedValue = getLocalStorageItem("UserLoginToken");
 
   useEffect(() => {
-    ViewCountBlog(data?.data?.id,storedValue).then((res) => {
+    ViewCountBlog(data?.data?.id).then((res) => {
       // console.log(res, "ress")
     }).catch((e) => {
       console.log(e, "error")
