@@ -16,7 +16,6 @@ const Landing = () => {
   const [cardcontent, setCardContent] = useState()
   useEffect(() => {
     Section1Api().then((res) => {
-      // console.log(res, "ress")
       setSectionContent(res.data)
     })
       .catch((e) => {
@@ -53,7 +52,6 @@ const Landing = () => {
       }
     }
   };
-  console.log(cardcontent, "cardcontent")
   return (
     <div className={styles.Landing}>
       {/* <Banner /> */}
@@ -137,7 +135,6 @@ const Landing = () => {
           </div>
         </div> */}
         {sectioncontent?.map((item, index) => {
-          console.log(item, "itemmm")
           return (
             index % 2 !== 0 ?
               <Container className={`${styles.Section1}`} key={index}>
@@ -146,11 +143,13 @@ const Landing = () => {
                     <p dangerouslySetInnerHTML={{
                       __html: item.section_content
                     }}></p>
+                    <br/>
                     <Button className={`button_theme ${styles.btnStarted}`} onClick={() => {
                       const path =
                         "https://transactions.sendowl.com/products/78271145/4A5919F0/view";
                       window.open(path, '_blank')
                     }}>
+
                       Buy Now
                     </Button>
                   </div>
@@ -212,6 +211,7 @@ const Landing = () => {
                     <p dangerouslySetInnerHTML={{
                       __html: item.section_content
                     }}></p>
+                    <br/>
                     <Button className={`button_theme ${styles.btnStarted}`} onClick={() => {
                       const path =
                         "https://transactions.sendowl.com/products/78271145/4A5919F0/view";
@@ -225,7 +225,6 @@ const Landing = () => {
           )
         })}
         {bannercontent?.map((item, index) => {
-          // console.log(item?.banner_content,"itemm")
           return (
             <div className={styles.backgroundImage}
               style={{

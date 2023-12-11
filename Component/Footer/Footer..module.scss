@@ -11,6 +11,9 @@
     .icon{
         margin: 0px 10px;
     }
+    .sec1{
+        display: flex !important;
+    }
     @media (min-width:767px) {
         .mobileSec1{
             display: none;

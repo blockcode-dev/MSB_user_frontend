@@ -39,7 +39,6 @@ function NavSection() {
   const handleShowsidebar = () => setShow(true);
   const storedValue = getLocalStorageItem("UserLoginToken");
 
-  // console.log(storedValue,"storedValue in navsection")
   useEffect(() => {
     setIsClient(true);
   }, []);

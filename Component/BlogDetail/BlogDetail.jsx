@@ -56,7 +56,6 @@ export default function BlogDetailComponent({ data }) {
     const comments = useSelector((state) =>
         state.rootReducer.comment.comments
     )
-    // console.log(comments, "comments")
     return (<div className={styles.blockdetails}>
         <div className={styles.hedaer}>
             <Container className={styles.content}>

@@ -55,7 +55,6 @@ function Blogs() {
   useEffect(() => {
     BlogByCategoryApi(slug, PER_PAGE, page)
       .then((res) => {
-        // console.log(res, "res")
         setBlog(res?.data?.data?.rows);
         setCount(res?.data?.data?.count)
         // setDataCount(res.data?.data?.length || 0);

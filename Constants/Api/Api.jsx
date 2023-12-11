@@ -331,3 +331,14 @@ export const CardContentApi = async () => {
     throw error;
   }
 };
+
+export const FooterContentApi = async () => {
+  try {
+    const response = await axios.get("https://node.mystorybank.info:4000/api/v1/content/getAllSocialLogin");
+    console.log(response,"response")
+    return response.data;
+  } catch (error) {
+    console.error("API response error:", error);
+    throw error;
+  }
+};

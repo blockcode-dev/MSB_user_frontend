@@ -7,7 +7,6 @@ export default function BlogDetail({ data }) {
 
   useEffect(() => {
     ViewCountBlog(data?.data?.id).then((res) => {
-      // console.log(res, "ress")
     }).catch((e) => {
       console.log(e, "error")
     })
