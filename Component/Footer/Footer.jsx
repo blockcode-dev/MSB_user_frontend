@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import styles from "./Footer..module.scss"
 import { Container } from 'react-bootstrap'
-// import { AiFillFacebook, AiOutlineTwitter, AiFillYoutube } from "react-icons/ai"
-// import { BsVimeo } from "react-icons/bs"
-// import { FaQuestionCircle } from "react-icons/fa"
+import '@fortawesome/fontawesome-free/css/all.css';
+import { FaTwitter } from "react-icons/fa";
+import { IoLogoYoutube } from "react-icons/io";
+import { FaFacebook } from "react-icons/fa";
+import { RiInstagramFill } from "react-icons/ri";
+import { FaLinkedin } from "react-icons/fa6";
+import { PiSpotifyLogoFill } from "react-icons/pi";
 import { FooterContentApi } from '@/Constants/Api/Api'
 import Link from 'next/link'
 import { Image_URL } from '@/Constants/host'
@@ -22,6 +26,8 @@ const FooterSection = () => {
             console.log(error, "error in footer")
         })
     }, [])
+
+
     return (
         <div className={styles.FooterSection}>
             <Container className={styles.footer_inner}>
@@ -33,10 +39,31 @@ const FooterSection = () => {
                 </div>
                 <div className={styles.sec1}>
                     {social?.map((item, index) => {
+                        console.log(item, "item")
                         return (
-                            <Link href={`${item?.redirection_url}`} key={index}>
-                                <Image src={`${Image_URL}${item?.file_name}`} width={20} height={20} />
-                            </Link>
+                            <>
+                                {item.social_media_name === "Twitter" ?
+                                    <Link href={`${item?.redirection_url}`} key={index}>
+                                        <FaTwitter className={styles.icon} size={25} />
+                                    </Link> : item.social_media_name === "Facebook" ?
+                                        <Link href={`${item?.redirection_url}`} key={index}>
+                                            <FaFacebook className={styles.icon} size={25} />
+                                        </Link> : item.social_media_name === "Instagram" ?
+                                            <Link href={`${item?.redirection_url}`} key={index}>
+                                                <RiInstagramFill className={styles.icon} size={25} />
+                                            </Link> : item.social_media_name === "Youtube" ?
+                                                <Link href={`${item?.redirection_url}`} key={index}>
+                                                    <IoLogoYoutube className={styles.icon} size={25} />
+                                                </Link> : item.social_media_name === "FaLinkedin" ?
+                                                    <Link href={`${item?.redirection_url}`} key={index}>
+                                                        <FaLinkedin className={styles.icon} size={25} />
+                                                    </Link> : item.social_media_name === "Spotify" ?
+                                                        <Link href={`${item?.redirection_url}`} key={index}>
+                                                            <PiSpotifyLogoFill className={styles.icon} size={25} />
+                                                        </Link> : ""
+
+                                }
+                            </>
                         )
                     })}
                 </div>

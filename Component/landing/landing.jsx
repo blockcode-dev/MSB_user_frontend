@@ -40,23 +40,25 @@ const Landing = () => {
   const homeVideoPath = "/assets/homeVideo.mp4";
   const secondVideoPath = "/assets/secondVideo.mp4";
   const thirdVideoPath = "/assets/thirdVideo.mp4";
-  const playerRef = useRef(null);
-  const handleVideoEnd = () => {
-    if (playerRef && playerRef.current) {
-      const currentRef = playerRef.current;
-      if (currentRef.seekTo) {
-        currentRef.seekTo(0); // Seek to the beginning of the video
-      }
-      if (currentRef.play) {
-        currentRef.play(); // Play the video again
-      }
-    }
-  };
+  // const playerRef = useRef(null);
+  // const handleVideoEnd = () => {
+  //   if (playerRef && playerRef.current) {
+  //     const currentRef = playerRef.current;
+  //     if (currentRef.seekTo) {
+  //       currentRef.seekTo(0); // Seek to the beginning of the video
+  //     }
+  //     if (currentRef.play) {
+  //       currentRef.play(); // Play the video again
+  //     }
+  //   }
+  // };
+
+
   return (
     <div className={styles.Landing}>
       {/* <Banner /> */}
       <div className={styles.Video_Banner}>
-        {isClient && (
+        {/* {isClient && (
           <ReactPlayer
             ref={playerRef}
             url={path}
@@ -71,7 +73,10 @@ const Landing = () => {
             height="450px"
             width="100%"
           />
-        )}
+        )} */}
+         <video autoPlay loop muted className={styles.video}>
+            <source src={path} autoPlay loop muted />
+          </video>
       </div>
       <Container className={styles.main}>
         {/* <div className={styles.section1}>
@@ -166,16 +171,16 @@ const Landing = () => {
                       /> :
                       isClient &&
                       <ReactPlayer
-                        // ref={playerRef}
-                        url={`${Video_URL}${item.file_name}`}
-                        // onEnded={handleVideoEnd}
-                        controls
-                        // controls={true}
-                        // loop={false}
-                        // muted={true}
-                        // playing={false}
-                        height="100%"
-                        width="100%"
+                      // ref={playerRef}
+                      url={`${Video_URL}${item.file_name}`}
+                      // onEnded={handleVideoEnd}
+                      controls
+                      // controls={true}
+                      // loop={false}
+                      // muted={true}
+                      // playing={false}
+                      height="100%"
+                      width="100%"
                       />}
               
                 </div>
@@ -193,16 +198,16 @@ const Landing = () => {
                       /> :
                       isClient &&
                       <ReactPlayer
-                        // ref={playerRef}
-                        url={`${Video_URL}${item.file_name}`}
-                        // onEnded={handleVideoEnd}
-                        controls
-                        // controls={true}
-                        // loop={false}
-                        // muted={true}
-                        // playing={false}
-                        height="100%"
-                        width="100%"
+                      // ref={playerRef}
+                      url={`${Video_URL}${item.file_name}`}
+                      // onEnded={handleVideoEnd}
+                      controls
+                      // controls={true}
+                      // loop={false}
+                      // muted={true}
+                      // playing={false}
+                      height="100%"
+                      width="100%"
                       />}
                 
                 </div>
@@ -274,6 +279,9 @@ const Landing = () => {
               width="75%"
               height="557px"
             />}
+            
+
+         
         </div>
         <br />
         <br />
