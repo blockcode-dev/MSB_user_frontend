@@ -60,6 +60,7 @@ const ProfileComponent = () => {
                 setProfile(res.data)
                 setName(res?.data?.name)
                 setMobile(res?.data?.mobile)
+                console.log(res?.data?.mobile,"chekkkk")
             }).catch((error) => {
                 console.log(error, "error")
             })
@@ -80,6 +81,7 @@ const ProfileComponent = () => {
         formData.append("image", selectedImage);
         UserEditProfileAPI(name, selectedImage, mobile)
             .then((res) => {
+                console.log(res,"res")
                 dispatch(getClinetProfile(storedValue));
                 setProfile(res.data)
                 if (res.data.code === 200 || res.data.status === 200) {
@@ -240,15 +242,23 @@ const ProfileComponent = () => {
                                             <Form.Label>Phone Number</Form.Label>
                                             {/* <Form.Control type="number" placeholder="Enter your number" /> */}
                                             <PhoneInput
+                                                // country={'us'}
+                                                // onChange={handlePhoneChange}
+                                                // disableDropdown={true}
+                                                
                                                 country={'us'}
                                                 value={mobile}
+                                                // value={mobile?.startsWith('+1') ? mobile : '+1'}
                                                 onChange={handlePhoneChange}
                                                 disableDropdown={true}
+                                                // You may need to add a prop to display the USA flag, depending on your component
+                                                // For example, if there's a prop like 'showCountrySelect':
+                                                showCountrySelect={true}
                                             />
                                         </Form.Group>
                                     </Form>
                                     <div className={styles.buttons}>
-                                        <Button className="button_theme" style={{ margin: "10px 5px", width: "28%" }}>Cancle</Button>
+                                        <Button className="button_theme" style={{ margin: "10px 5px", width: "28%" }}>Cancel</Button>
                                         <Button className="button_theme" style={{ margin: "10px 5px", width: "70%" }} onClick={handleSubmit}>Update
                                         </Button>
                                     </div>
@@ -301,7 +311,7 @@ const ProfileComponent = () => {
                                         </Form.Group>
                                     </Form>
                                     <div className={styles.buttons}>
-                                        <Button className="button_theme" style={{ margin: "10px 5px", width: "28%" }}>Cancle</Button>
+                                        <Button className="button_theme" style={{ margin: "10px 5px", width: "28%" }}>Cancel</Button>
                                         <Button className="button_theme" style={{ margin: "10px 5px", width: "70%" }} onClick={handleChangePassword}>Change Password
                                         </Button>
                                     </div>
