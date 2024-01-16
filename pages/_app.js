@@ -10,18 +10,24 @@ import Head from 'next/head';
 export default function App({ Component, pageProps }) {
   return (
     <>
-    <Head>
-    <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet"/>
-    </Head>
+      <Head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet" />
+        <meta property="og:title" content="MyStoryBank" />
+        <meta property="og:description"
+          content="My Story Bank MSB is a data bank of stories for the storyteller in you" />
+        <meta property="og:image" content="https://node.mystorybank.info:4000/images/images-1705412848910.png" />
+        <meta property="og:url" content="https://mystorybank.info" />
+        {/* <meta name="description" content="Web site created using create-react-app" /> */}
+      </Head>
       <Provider store={store}>
-   
-          
-          <NavSection />
-     
+
+
+        <NavSection />
+
         {/* <div className="content"> */}
-          <Component {...pageProps} />
+        <Component {...pageProps} />
         <FooterSection />
         {/* </div> */}
         {/* <div className="footer">
