@@ -159,7 +159,7 @@ export const GetProfile = async (value) => {
 export const UserEditProfileAPI = async (
   value1,
   value2,
-  value3,
+  value3, token
 ) => {
   let config = {
     name: value1,
@@ -168,7 +168,7 @@ export const UserEditProfileAPI = async (
   };
   return await axios.put("https://node.mystorybank.info:4000/api/v1/user/updateProfile", config, {
     headers: {
-      "x-access-token": storedValue,
+      "x-access-token": token,
       "Content-Type": "multipart/form-data",
       Accept: "application/json",
     },
@@ -179,6 +179,7 @@ export const ChangePasswordAPI = async (
   value1,
   value2,
   value3,
+  token
 ) => {
   let config = {
     old_password: value1,
@@ -187,7 +188,7 @@ export const ChangePasswordAPI = async (
   };
   return await axios.post("https://node.mystorybank.info:4000/api/v1/auth/reset-password", config, {
     headers: {
-      "x-access-token": storedValue,
+      "x-access-token": token,
     },
   });
 };

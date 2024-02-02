@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Container, Form } from 'react-bootstrap'
+import { Button, Container } from 'react-bootstrap'
 import styles from "./Profile.module.scss"
 import Image from 'next/image'
 import 'react-phone-input-2/lib/style.css'
@@ -13,8 +13,11 @@ import Signin from '@/pages/signin'
 import DescriptionAlerts from '@/Constants/alert/alert'
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 import { useRouter } from 'next/router'
+import { Form, Input } from 'antd'
 const ProfileComponent = () => {
-    const router=useRouter()
+    const [form] = Form.useForm();
+
+    const router = useRouter()
     const [profile, setProfile] = useState()
     const [selectedImage, setSelectedImage] = useState("");
     const [name, setName] = useState();
@@ -36,7 +39,7 @@ const ProfileComponent = () => {
     const handleShowPass = () => setShowPassword((showPassword) => !showPassword);
 
     const handleMouseDownPass = (event) => {
-      event.preventDefault();
+        event.preventDefault();
     };
 
     useEffect(() => {
@@ -55,12 +58,23 @@ const ProfileComponent = () => {
 
     const storedValue = getLocalStorageItem("UserLoginToken");
     useEffect(() => {
-        if(storedValue){
+        if (storedValue) {
             GetProfile(storedValue).then((res) => {
-                setProfile(res.data)
+                setProfile(res?.data)
                 setName(res?.data?.name)
                 setMobile(res?.data?.mobile)
-                console.log(res?.data?.mobile,"chekkkk")
+                form.setFieldValue(
+                    "name",
+                    res?.data?.name
+                );
+                form.setFieldValue(
+                    "email",
+                    res?.data?.email
+                );
+                form.setFieldValue(
+                    "phone",
+                    res?.data?.mobile
+                );
             }).catch((error) => {
                 console.log(error, "error")
             })
@@ -69,19 +83,22 @@ const ProfileComponent = () => {
 
     const dispatch = useDispatch()
     useEffect(() => {
-        if(storedValue){
+        if (storedValue) {
 
             dispatch(getClinetProfile(storedValue))
         }
-    }, [dispatch,storedValue])
+    }, [dispatch, storedValue])
 
     const handleSubmit = () => {
         setAlert(false);
         const formData = new FormData();
-        formData.append("image", selectedImage);
-        UserEditProfileAPI(name, selectedImage, mobile)
+        // formData.append("image", selectedImage);
+        // formData.append("image", selectedImage, "profile.jpg"); 
+        formData.append("image", selectedImage, "profile");
+        // console.log(name, selectedImage, mobile, storedValue,"name, selectedImage, mobile, storedValue")
+        UserEditProfileAPI(name, selectedImage, mobile, storedValue)
             .then((res) => {
-                console.log(res,"res")
+                console.log(res, "respone update")
                 dispatch(getClinetProfile(storedValue));
                 setProfile(res.data)
                 if (res.data.code === 200 || res.data.status === 200) {
@@ -91,7 +108,7 @@ const ProfileComponent = () => {
                         icon: "success",
                     });
                     setTimeout(() => {
-                        // router.replace("/signin");
+                        // navigate("/signin");
                     }, 1000);
                 }
             })
@@ -99,9 +116,10 @@ const ProfileComponent = () => {
                 console.log(error)
             });
     };
-
     const handleChangePassword = () => {
-        ChangePasswordAPI(old_password, new_password, new_c_password).then((res) => {
+        // console.log(old_password, new_password, new_c_password, storedValue)
+        ChangePasswordAPI(old_password, new_password, new_c_password, storedValue).then((res) => {
+            console.log(res, "response")
             if (res.data.code === 200 || res.data.status === 200) {
                 setAlert(true);
                 setAlertConfig({
@@ -113,45 +131,16 @@ const ProfileComponent = () => {
                 }, 1000);
             }
         }).catch((error) => {
-            console.log(error)
+            console.log(error.response.data.message)
+            setAlert(true);
+            setAlertConfig({
+                text: error.response.data.message,
+                icon: "error",
+            });
         })
     }
-
-
-    
-  const handlePasswordChange = (e) => {
-    const newPassword = e.target.value;
-    setNewPassword(newPassword);
-
-    const strongPasswordRegex =
-      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
-    const isStrongPassword = strongPasswordRegex.test(newPassword);
-
-    if (newPassword.trim() === "") {
-      setPasswordError("");
-    } else if (!isStrongPassword) {
-      setPasswordError(
-        "Password should contain at least one digit, one lowercase letter, one uppercase letter, and be at least eight characters long"
-      );
-    } else {
-      setPasswordError("");
-    }
-  };
-  const handleConfirmPasswordChange = (e) => {
-    const newConfirmPassword = e.target.value;
-    setNewCPassword(newConfirmPassword);
-
-    if (newConfirmPassword.trim() === "") {
-      setConfirmPasswordError("");
-    } else if (newConfirmPassword !== new_password) {
-      setConfirmPasswordError("Passwords do not match");
-    } else {
-      setConfirmPasswordError("");
-    }
-  };
-
     return (<>
-    
+
         {alert ? (
             <DescriptionAlerts text={alertConfig.text} icon={alertConfig.icon} />
         ) : null}
@@ -195,7 +184,12 @@ const ProfileComponent = () => {
                         <div className={styles.Form_ctm}>
                             {value === "edit" ?
                                 <div>
-                                    <Form>
+                                    <Form
+                                        form={form}
+                                        name="basic"
+                                        layout="vertical"
+                                        autoComplete="off"
+                                    >
                                         <div className={styles.profiletop}>
                                             {selectedImage === "" ? (
                                                 <img
@@ -216,46 +210,64 @@ const ProfileComponent = () => {
                                                     />
                                                 )
                                             )}
-                                            <label className={styles.custom_file_upload}   onChange={(e) => {
-                                                        setSelectedImage(e.target.files[0]);
-                                                    }}
-                                                    style={{ cursor: "pointer" }}>
+                                            <label className={styles.custom_file_upload} onChange={(e) => {
+                                                setSelectedImage(e.target.files[0]);
+                                            }}
+                                                style={{ cursor: "pointer" }}>
                                                 <input
                                                     type="file"
                                                     accept="image/*"
                                                     name="image"
-                                                  
                                                 />
                                                 &nbsp; Add Profile picture
                                             </label>
                                         </div>
-                                        <Form.Group className="mb-3" controlId="formGroupEmail">
-                                            <Form.Label>Full Name</Form.Label>
-                                            <Form.Control type="text" placeholder="Enter your full Name" value={name}
-                                                onChange={(e) => setName(e.target.value)} />
-                                        </Form.Group>
-                                        <Form.Group className="mb-3">
-                                            <Form.Label>Email</Form.Label>
-                                            <Form.Control type="email" placeholder="Enter your email" value={profile?.email} disabled />
-                                        </Form.Group>
-                                        <Form.Group className="mb-3">
-                                            <Form.Label>Phone Number</Form.Label>
-                                            {/* <Form.Control type="number" placeholder="Enter your number" /> */}
+                                        <Form.Item
+                                            name="name"
+                                            label="Name"
+                                            value={name}
+                                            onChange={(e) => setName(e.target.value)}
+                                            rules={[
+                                                {
+                                                    message: 'Please input your Name!',
+                                                },
+                                            ]}
+                                        >
+                                            <Input />
+                                        </Form.Item>
+                                        <Form.Item
+                                            name="email"
+                                            label="E-mail"
+                                            disabled="true"
+                                            // value={profile?.email} disabled
+                                            rules={[
+                                                {
+                                                    type: 'email',
+                                                    message: 'The input is not valid E-mail!',
+                                                },
+                                                {
+                                                    message: 'Please input your E-mail!',
+                                                },
+                                            ]}
+                                        >
+                                            <Input disabled />
+                                        </Form.Item>
+                                        <Form.Item
+                                            name="phone"
+                                            label="Phone Number"
+                                            rules={[
+                                                {
+                                                    message: 'Please input your phone number!',
+                                                },
+                                            ]}
+                                        >
                                             <PhoneInput
-                                                // country={'us'}
-                                                // onChange={handlePhoneChange}
-                                                // disableDropdown={true}
-                                                
                                                 country={'us'}
                                                 value={mobile}
-                                                // value={mobile?.startsWith('+1') ? mobile : '+1'}
                                                 onChange={handlePhoneChange}
                                                 disableDropdown={true}
-                                                // You may need to add a prop to display the USA flag, depending on your component
-                                                // For example, if there's a prop like 'showCountrySelect':
-                                                showCountrySelect={true}
                                             />
-                                        </Form.Group>
+                                        </Form.Item>
                                     </Form>
                                     <div className={styles.buttons}>
                                         <Button className="button_theme" style={{ margin: "10px 5px", width: "28%" }}>Cancel</Button>
@@ -265,50 +277,53 @@ const ProfileComponent = () => {
                                 </div>
                                 :
                                 <div>
-                                    <Form>
-                                        <Form.Group className="mb-3">
-                                            <Form.Label>Old Password </Form.Label>
-                                            <Form.Control type="password" placeholder="Enter Passsword" value={old_password}
-                                                onChange={(e) => setOldPassword(e.target.value)} />
-                                        </Form.Group>
-                                        <Form.Group className="mb-3">
-                                            <Form.Label>New Password </Form.Label>
-                                            <div className={styles.input_container}>
-                                            <Form.Control type={showPassword ? "text" : "password"} placeholder="Enter Passsword" value={new_password}
-                                                onChange={handlePasswordChange} />
-                                                <span className="eyesHidden">
-                                                    <p
-                                                        onClick={handleShowPass}
-                                                        onMouseDown={handleMouseDownPass}>
-                                                        {showPassword ? (
-                                                        <AiFillEye size={25} />
-                                                        ) : (
-                                                        <AiFillEyeInvisible size={25} />
-                                                        )}
-                                                    </p>
-                                                </span>
-                                            </div>
-                                            {passwordError && (<p className={styles.error_message}>{passwordError}</p>)}
-                                        </Form.Group>
-                                        <Form.Group className="mb-3">
-                                            <Form.Label>Confirm Passsword</Form.Label>
-                                            <div className={styles.input_container}>
-                                            <Form.Control type={showPassword ? "text" : "password"} placeholder="Enter confirm paassword" value={new_c_password}
-                                                onChange={handleConfirmPasswordChange} />
-                                                <span className="eyesHidden">
-                                                    <p onClick={handleShowPass}
-                                                        onMouseDown={handleMouseDownPass}>
-                                                        {showPassword ? (
-                                                        <AiFillEye size={25} />
-                                                        ) : (
-                                                        <AiFillEyeInvisible size={25} />
-                                                        )}
-                                                    </p>
-                                                </span>
-                                            </div>
-                                            {confirmPasswordError && (
-                                        <p       p className={styles.error_message}>{confirmPasswordError}</p>)}
-                                        </Form.Group>
+                                    <Form
+                                        name="basic"
+                                        layout="vertical"
+                                        autoComplete="off"
+                                    >
+                                        <Form.Item
+                                            label="Old Password"
+                                            name="oldpassword"
+                                            value={old_password}
+                                            onChange={(e) => setOldPassword(e.target.value)}
+                                            rules={[
+                                                {
+                                                    //
+                                                    message: 'Please input your old password!',
+                                                },
+                                            ]}
+                                        >
+                                            <Input.Password />
+                                        </Form.Item>
+                                        <Form.Item
+                                            label="New Password"
+                                            name="newpassword"
+                                            value={new_password}
+                                            onChange={(e) => setNewPassword(e.target.value)}
+                                            rules={[
+                                                {
+                                                    // required: true,
+                                                    message: 'Please input your new password!',
+                                                },
+                                            ]}
+                                        >
+                                            <Input.Password />
+                                        </Form.Item>
+                                        <Form.Item
+                                            label="Confirm Password"
+                                            name="confirmpassword"
+                                            value={new_c_password}
+                                            onChange={(e) => setNewCPassword(e.target.value)}
+                                            rules={[
+                                                {
+                                                    // required: true,
+                                                    message: 'Please input your confirm password!',
+                                                },
+                                            ]}
+                                        >
+                                            <Input.Password />
+                                        </Form.Item>
                                     </Form>
                                     <div className={styles.buttons}>
                                         <Button className="button_theme" style={{ margin: "10px 5px", width: "28%" }}>Cancel</Button>
