@@ -248,7 +248,7 @@ const Landing = () => {
           )
         }
         )}
-        <div className={styles.section4}>
+        {/* <div className={styles.section4}>
           <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 row-cols-sm-1 g-2" style={{ justifyContent: "center" }}>
             {cardcontent?.map((item, index) => {
               return (
@@ -269,7 +269,31 @@ const Landing = () => {
               )
             })}
           </div>
+        </div> */}
+
+<div className={styles.section4}>
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 row-cols-sm-1 g-2" style={{ justifyContent: "center", display: "flex", alignItems: "stretch" }}>
+    {cardcontent?.map((item, index) => {
+      return (
+        <div class="col" key={index} style={{ display: "flex" }}>
+          <div className={styles.firstBox} style={{ flex: 1 }}>
+            <h3 className={styles.boxText} dangerouslySetInnerHTML={{ __html: item?.card_content }}>
+            </h3>
+            <br></br>
+            <Button className={`button_theme ${styles.buyButton}`} onClick={() => {
+              const path =
+                `${item.redirection_url}`;
+              window.open(path, '_blank')
+            }}>
+              Buy Now
+            </Button>
+          </div>
         </div>
+      )
+    })}
+  </div>
+</div>
+
         <h2 className={styles.exampleText}>HERE ARE SOME STORY EXAMPLES</h2>
         <div className={styles.videos}>
           {isClient &&
