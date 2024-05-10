@@ -52,8 +52,6 @@ const Landing = () => {
   //     }
   //   }
   // };
-
-
   return (
     <div className={styles.Landing}>
       {/* <Banner /> */}
@@ -154,13 +152,11 @@ const Landing = () => {
                         "https://transactions.sendowl.com/products/78271145/4A5919F0/view";
                       window.open(path, '_blank')
                     }}>
-
                       Buy Now
                     </Button>
                   </div>
                 </div>
                 <div className={styles.Homeleft}>
-                  
                     {item.file_uri === "/images" ?
                       <img
                         src="https://node.mystorybank.info:4000/images/images-1702022281214.png"
@@ -182,12 +178,10 @@ const Landing = () => {
                       height="100%"
                       width="100%"
                       />}
-              
                 </div>
               </Container>
               : <Container className={`${styles.Section1} ${styles.reverse}`}>
                 <div className={styles.Homeleft}>
-                
                     {item.file_uri === "/images" ?
                       <img
                         src="https://node.mystorybank.info:4000/images/images-1702022281214.png"
@@ -209,7 +203,6 @@ const Landing = () => {
                       height="100%"
                       width="100%"
                       />}
-                
                 </div>
                 <div className={styles.HomeRight}>
                   <div className={styles.content}>
@@ -270,30 +263,29 @@ const Landing = () => {
             })}
           </div>
         </div> */}
-
 <div className={styles.section4}>
-  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 row-cols-sm-1 g-2" style={{ justifyContent: "center", display: "flex", alignItems: "stretch" }}>
+ 
     {cardcontent?.map((item, index) => {
       return (
-        <div class="col" key={index} style={{ display: "flex" }}>
-          <div className={styles.firstBox} style={{ flex: 1 }}>
+        <div className={styles.firstBox}  key={index} >
+          <div>
+
             <h3 className={styles.boxText} dangerouslySetInnerHTML={{ __html: item?.card_content }}>
             </h3>
-            <br></br>
-            <Button className={`button_theme ${styles.buyButton}`} onClick={() => {
+          
+            <Button className={`button_theme ${styles.buyButton}`}  onClick={() => {
               const path =
                 `${item.redirection_url}`;
               window.open(path, '_blank')
             }}>
               Buy Now
             </Button>
-          </div>
+         </div>
         </div>
       )
     })}
-  </div>
+  
 </div>
-
         <h2 className={styles.exampleText}>HERE ARE SOME STORY EXAMPLES</h2>
         <div className={styles.videos}>
           {isClient &&
@@ -303,9 +295,6 @@ const Landing = () => {
               width="75%"
               height="557px"
             />}
-            
-
-         
         </div>
         <br />
         <br />
