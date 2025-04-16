@@ -98,7 +98,6 @@ const ProfileComponent = () => {
         // console.log(name, selectedImage, mobile, storedValue,"name, selectedImage, mobile, storedValue")
         UserEditProfileAPI(name, selectedImage, mobile, storedValue)
             .then((res) => {
-                console.log(res, "respone update")
                 dispatch(getClinetProfile(storedValue));
                 setProfile(res.data)
                 if (res.data.code === 200 || res.data.status === 200) {
@@ -117,9 +116,7 @@ const ProfileComponent = () => {
             });
     };
     const handleChangePassword = () => {
-        // console.log(old_password, new_password, new_c_password, storedValue)
         ChangePasswordAPI(old_password, new_password, new_c_password, storedValue).then((res) => {
-            console.log(res, "response")
             if (res.data.code === 200 || res.data.status === 200) {
                 setAlert(true);
                 setAlertConfig({

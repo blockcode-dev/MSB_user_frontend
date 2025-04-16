@@ -39,7 +39,6 @@ const FooterSection = () => {
                 </div>
                 <div className={styles.sec1}>
                     {social?.map((item, index) => {
-                        console.log(item, "item")
                         return (
                             <>
                                 {item.social_media_name === "Twitter" ?
