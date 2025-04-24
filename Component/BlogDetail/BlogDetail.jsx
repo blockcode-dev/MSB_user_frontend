@@ -14,6 +14,7 @@ import { RxDotFilled } from "react-icons/rx";
 import Comment from '../Comment/Comment'
 import { fetchComments } from '@/redux/getcommentSlice'
 export default function BlogDetailComponent({ data }) {
+    console.log(data, "data")
     const router = useRouter()
     const { id } = router.query
     const [like, setLike] = useState("")
@@ -56,7 +57,39 @@ export default function BlogDetailComponent({ data }) {
     const comments = useSelector((state) =>
         state.rootReducer.comment.comments
     )
-    return (<div className={styles.blockdetails}>
+    return (
+    <>{data?.input?
+    <div>
+         <div className={styles.blockdetails}>
+        <div className={styles.hedaer}>
+            <Container className={styles.content}>
+                <h2 >{data?.title}</h2>
+               
+            </Container>
+        </div>
+        <Container className={styles.BlogDetailComponent}>
+            <div>
+                {/* <Image
+                    src={`${Image_URL}${data?.data?.blog_attachment[0]?.file_name}`}
+                    width={100} height={100} alt='' className={styles.picture} /> */}
+                <div>
+                    {/* <span
+                        style={{ color: like?.message === "User Liked Successfully." ? "#007FFF" : "unset", cursor: "pointer" }}
+                        onClick={handleLike}><ThumbUpIcon /><span>{likeCount?.likes_count}</span> </span>
+                    <span>Share </span>
+                    <span>Comment </span> */}
+                </div>
+                <div className={styles.blogdescc}
+                    style={{ paddingBottom: "20px" }}
+                    dangerouslySetInnerHTML={{
+                        __html: data?.text
+                    }}
+                />
+            </div>
+        </Container>
+    </div>
+    </div>:
+    <div className={styles.blockdetails}>
         <div className={styles.hedaer}>
             <Container className={styles.content}>
                 <h2 >{data?.data?.heading}</h2>
@@ -110,11 +143,13 @@ export default function BlogDetailComponent({ data }) {
                 <div className={styles.blogdescc}
                     style={{ paddingBottom: "20px" }}
                     dangerouslySetInnerHTML={{
-                        __html: data?.data?.description
+                        __html: data?.text ? data?.text : data?.data?.description
                     }}
                 />
             </div>
         </Container>
     </div>
+    }
+    </>
     )
 }

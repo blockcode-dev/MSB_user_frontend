@@ -396,6 +396,20 @@ export const AipromtApi = async (formdata, token) => {
     }
   );
 };
+
+// save story
+
+export const SaveStoryApi = async (formdata, token) => {
+  return await axios.put(
+    "https://node.mystorybank.info:4000/api/v1/story",
+    formdata,
+    {
+      headers: {
+        "x-access-token": token,
+      },
+    }
+  );
+};
 // get history
 export const AipromtHistoryApi = async (token) => {
   return await axios.get(
