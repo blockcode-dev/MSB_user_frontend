@@ -6,12 +6,12 @@
 }
 
 .toggleButton {
-  background: #c8232c;
-  color: white;
+  // background: #c8232c;
+  // color: white;
   border: none;
   border-radius: 50%;
-  width: 56px;
-  height: 56px;
+  // width: 56px;
+  // height: 56px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -20,9 +20,15 @@
   transition: background 0.3s;
   position: absolute;
   right: 0;
-margin: 10px 0px;
+  margin: 10px 0;
 
   &:hover {
-    background: #c8232c;
+    background: #a51d25; // slightly different hover color for better effect
   }
+}
+
+.aiicon {
+  border-radius: 25%;
+  width: 80px;
+  height: 80px;
 }

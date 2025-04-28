@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./ChatBox.module.scss";
 import { IoSend } from "react-icons/io5";
 import { AiFillSave } from "react-icons/ai";
@@ -20,9 +20,19 @@ export default function ChatBox() {
   const [saveText, setSaveText] = useState("");
   const [saveTitle, setSaveTitle] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const storedValue = getLocalStorageItem("UserLoginToken");
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    // Set initial welcome message
+    setMessages([
+      {
+        from: "bot",
+        text: "I am your story generator, please enter story title.",
+      },
+    ]);
+  }, []);
 
   const handleSend = async () => {
     if (!input.trim()) return;
@@ -100,7 +110,8 @@ export default function ChatBox() {
             className={`${styles.messageWrapper} ${msg.from === "user" ? styles.user : styles.bot}`}
           >
             <div className={styles.message}>
-              {msg.from === "bot" && !msg.loading && (
+              {/* Show copy/save icons only if bot message is not the welcome message */}
+              {msg.from === "bot" && !msg.loading && msg.text !== "I am your story generator, please enter story title." && (
                 <div className={styles.messageTopActions}>
                   <div className={styles.icon} onClick={() => handleCopy(msg.text)}>
                     <IoIosCopy />
@@ -112,8 +123,10 @@ export default function ChatBox() {
                   </div>
                 </div>
               )}
+
+              {/* Message content */}
               {msg.loading ? (
-                <Skeleton active paragraph={{ rows: 3 }} style={{ height: 100 ,width:200}} />
+                <Skeleton active paragraph={{ rows: 3 }} style={{ height: 100, width: 200 }} />
               ) : (
                 <div dangerouslySetInnerHTML={{ __html: msg.text }}></div>
               )}
@@ -122,10 +135,11 @@ export default function ChatBox() {
         ))}
       </div>
 
+      {/* Input field */}
       <div className={styles.inputBox}>
         <input
           type="text"
-          placeholder="Type a message..."
+          placeholder="Enter Story title..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSend()}
@@ -135,6 +149,7 @@ export default function ChatBox() {
         </button>
       </div>
 
+      {/* Save Title Modal */}
       <Modal
         title="Save Title"
         open={showModal}
