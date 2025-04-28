@@ -5,27 +5,23 @@ import { IoSend } from "react-icons/io5";
 import { AiFillSave } from "react-icons/ai";
 import { IoIosCopy } from "react-icons/io";
 import { Modal, Input, message, Skeleton } from "antd";
-import {
-  AipromtApi,
-  SaveStoryApi,
-  getLocalStorageItem,
-} from "@/Constants/Api/Api";
+import { AipromtApi, SaveStoryApi, getLocalStorageItem } from "@/Constants/Api/Api";
 import { useDispatch } from "react-redux";
 import { fetchStoryHistory } from "@/redux/storyHistorySlice";
 
 export default function ChatBox() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
-  const [saveinput, setSaveInput] = useState("");
+  const [saveInput, setSaveInput] = useState("");
   const [saveText, setSaveText] = useState("");
   const [saveTitle, setSaveTitle] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
-  const storedValue = getLocalStorageItem("UserLoginToken");
+
+  const storedToken = getLocalStorageItem("UserLoginToken");
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // Set initial welcome message
     setMessages([
       {
         from: "bot",
@@ -45,22 +41,18 @@ export default function ChatBox() {
     setLoading(true);
 
     try {
-      const response = await AipromtApi({ input }, storedValue);
+      const response = await AipromtApi({ input }, storedToken);
       const botText = response?.data?.data?.description || "No response received.";
 
       setMessages((prev) =>
         prev.map((msg, idx, arr) =>
-          idx === arr.length - 1 && msg.loading
-            ? { from: "bot", text: botText }
-            : msg
+          idx === arr.length - 1 && msg.loading ? { from: "bot", text: botText } : msg
         )
       );
     } catch (error) {
       console.error("API Error:", error);
       message.error("Failed to get response from bot.");
-      setMessages((prev) =>
-        prev.filter((msg) => !msg.loading)
-      );
+      setMessages((prev) => prev.filter((msg) => !msg.loading));
     } finally {
       setLoading(false);
     }
@@ -84,17 +76,27 @@ export default function ChatBox() {
     }
 
     const formData = {
-      input: saveinput,
+      input: saveInput,
       title: saveTitle,
       description: saveText,
     };
 
     try {
-      const response = await SaveStoryApi(formData, storedValue);
-      message.success(response?.data?.message);
-      dispatch(fetchStoryHistory(storedValue));
-      setMessages([]);
+      const response = await SaveStoryApi(formData, storedToken);
+      message.success(response?.data?.message || "Story saved successfully.");
+
+      await dispatch(fetchStoryHistory(storedToken)).unwrap();
+
+      setMessages([
+        {
+          from: "bot",
+          text: "I am your story generator, please enter story title.",
+        },
+      ]);
       setShowModal(false);
+      setSaveInput("");
+      setSaveText("");
+      setSaveTitle("");
     } catch (error) {
       console.error("SaveStory API Error:", error);
       message.error("Failed to save story.");
@@ -103,6 +105,7 @@ export default function ChatBox() {
 
   return (
     <div className={styles.chatBox}>
+      {/* Message List */}
       <div className={styles.messages}>
         {messages.map((msg, index) => (
           <div
@@ -110,32 +113,30 @@ export default function ChatBox() {
             className={`${styles.messageWrapper} ${msg.from === "user" ? styles.user : styles.bot}`}
           >
             <div className={styles.message}>
-              {/* Show copy/save icons only if bot message is not the welcome message */}
               {msg.from === "bot" && !msg.loading && msg.text !== "I am your story generator, please enter story title." && (
                 <div className={styles.messageTopActions}>
                   <div className={styles.icon} onClick={() => handleCopy(msg.text)}>
                     <IoIosCopy />
-                    copy
+                    Copy
                   </div>
                   <div className={styles.icon} onClick={() => handleDownload(msg.text)}>
                     <AiFillSave />
-                    save
+                    Save
                   </div>
                 </div>
               )}
 
-              {/* Message content */}
               {msg.loading ? (
                 <Skeleton active paragraph={{ rows: 3 }} style={{ height: 100, width: 200 }} />
               ) : (
-                <div dangerouslySetInnerHTML={{ __html: msg.text }}></div>
+                <div dangerouslySetInnerHTML={{ __html: msg.text }} />
               )}
             </div>
           </div>
         ))}
       </div>
 
-      {/* Input field */}
+      {/* Input Box */}
       <div className={styles.inputBox}>
         <input
           type="text"
@@ -144,14 +145,14 @@ export default function ChatBox() {
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSend()}
         />
-        <button onClick={handleSend}>
+        <button onClick={handleSend} disabled={loading}>
           <IoSend color="#C8232C" />
         </button>
       </div>
 
-      {/* Save Title Modal */}
+      {/* Save Modal */}
       <Modal
-        title="Save Title"
+        title="Save Story"
         open={showModal}
         onOk={handleSaveStory}
         onCancel={() => setShowModal(false)}

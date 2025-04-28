@@ -6,12 +6,8 @@
 }
 
 .toggleButton {
-  // background: #c8232c;
-  // color: white;
   border: none;
   border-radius: 50%;
-  // width: 56px;
-  // height: 56px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -21,6 +17,8 @@
   position: absolute;
   right: 0;
   margin: 10px 0;
+  width: 56px;
+  height: 56px; /* added width and height for the button */
 
   &:hover {
     background: #a51d25; // slightly different hover color for better effect
@@ -31,4 +29,47 @@
   border-radius: 25%;
   width: 80px;
   height: 80px;
+}
+
+.storyGeneratorBtn {
+  position: fixed;
+  bottom: 20px;
+  right: 24px;
+  background: #C8232C;
+  color: white;
+  border-radius: 30px;
+  padding: 10px 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #C8232C;
+  font-family: "Arial", sans-serif;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 1000;
+
+  &:hover {
+    background: #f0f0f0;
+    transform: translateY(-2px);
+  color: #C8232C;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+  }
+
+  svg {
+    stroke: #555;
+  }
+}
+
+.storyPopup {
+  position: fixed;
+  bottom: 80px;
+  right: 24px;
+  background: white;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1001;
+  border-radius: 8px;
+  width: 300px;
 }
