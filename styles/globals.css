@@ -451,10 +451,13 @@ color: white !important;
 	border: none;
 	color: #fff;
 }
+.card-title{
+  margin: 10px 0px;
+}
 .card-title,.card-text{
-  white-space: nowrap !important;
+  /* white-space: nowrap !important;
   overflow: hidden !important;
-  text-overflow: ellipsis !important;
+  text-overflow: ellipsis !important; */
 }
 @media  (max-width:767px) {
   .forgot_form-1{

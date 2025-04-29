@@ -65,11 +65,13 @@ function CardComponent(props) {
 
             <div className="card-body" style={{ padding: '5px 10px' }}>
                 <h5 className="card-title">{props.title}</h5>
-                <p
+                <p className="card-text" style={{ paddingBottom: '20px' }} dangerouslySetInnerHTML={{ __html: (new DOMParser().parseFromString(props.text, 'text/html').body.textContent || "").slice(0, 200) + '...' }}></p>
+
+                {/* <p
                     className="card-text"
                     style={{ paddingBottom: '20px' }}
                     dangerouslySetInnerHTML={{ __html: props.text }}
-                ></p>
+                ></p> */}
 
                 {isLoading ? (
                     <Button className="button_theme" style={{ margin: '10px 0px' }}>

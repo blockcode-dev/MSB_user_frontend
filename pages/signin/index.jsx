@@ -1,16 +1,16 @@
-import React from "react";
-import { Button, Container, Form, Image } from "react-bootstrap";
+import React, { useState } from "react";
+import { Button, Container, Form, Spinner } from "react-bootstrap";
 import styles from "./signin.module.scss";
 import Link from "next/link";
 import { UserLoginAPI } from "@/Constants/Api/Api";
 import { useRouter } from "next/router";
-import { useState } from "react";
 import DescriptionAlerts from "@/Constants/alert/alert";
 import { useDispatch } from "react-redux";
 import { getClinetProfile } from "@/redux/getClientProfileSlice";
-import Logo from "../../public/assets/msb.png"
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import ImagesCom from "@/Component/images";
+import { message } from "antd";
+
 const Signin = () => {
   const router = useRouter();
   const navigate = router.replace;
@@ -19,19 +19,18 @@ const Signin = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [alert, setAlert] = useState(false);
-  const [alertConfig, setAlertConfig] = useState({
-    text: "",
-  });
+  const [alertConfig, setAlertConfig] = useState({ text: "" });
+  const [loading, setLoading] = useState(false);  // Loading state
   const dispatch = useDispatch();
 
   const validateEmail = (input) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (input.trim() === '') {
-      setEmailError('');
+    if (input.trim() === "") {
+      setEmailError("");
     } else if (!emailRegex.test(input)) {
-      setEmailError('Invalid email format');
+      setEmailError("Invalid email format");
     } else {
-      setEmailError('');
+      setEmailError("");
     }
   };
 
@@ -41,15 +40,20 @@ const Signin = () => {
     validateEmail(inputEmail);
   };
 
+  const keyPressHandler = (e) => {
+    if (e.key === "Enter") {
+      handleSubmit(e);  // Call the submit function when Enter key is pressed
+    }
+  };
+
   const handleSubmit = (event) => {
+    event?.preventDefault();
+    setLoading(true);  // Set loading to true when request starts
     UserLoginAPI(email, password)
       .then((res) => {
+        setLoading(false);  // Set loading to false once response is received
         if (res.data === 200 || res.data.status === 200) {
-          setAlert(true);
-          setAlertConfig({
-            text: "Congratulations! You have successfully logged in.",
-            icon: "success",
-          });
+         message.success("Congratulations! You have successfully logged in.")
           setTimeout(() => {
             dispatch(getClinetProfile());
             const token = res.data.data.tokens.access.token;
@@ -60,51 +64,30 @@ const Signin = () => {
         }
       })
       .catch((error) => {
-        console.log(error, "error");
-        if (
-          error.response.data.status === 401 ||
-          error.response.data.status === 400
-        ) {
-          setAlert(true);
-          setAlertConfig({
-            text: error.response.data.message,
-            icon: "error",
-          });
-          setTimeout(() => {
-            setAlert(false)
-          }, 500);
-        }
+        console.log(error,"error")
+        setLoading(false);  // Set loading to false if there's an error
+       message.error(error?.response?.data?.message)
         console.log(error, "error");
       });
   };
 
-  const handleShowPass = () => setShowPassword((showPassword) => !showPassword);
+  const handleShowPass = () => setShowPassword((prev) => !prev);
+  const handleMouseDownPass = (event) => event.preventDefault();
 
-  const handleMouseDownPass = (event) => {
-    event.preventDefault();
-  };
   return (
     <>
-      {alert ? (
+      {alert && (
         <DescriptionAlerts text={alertConfig.text} icon={alertConfig.icon} />
-      ) : null}
+      )}
       <Container className={styles.Signin}>
         <div className={styles.Main}>
           <div className={styles.Left}>
-            {/* <Image
-              src={MsbLogo}
-              width={50}
-              height={50}
-              style={{ cursor: "pointer", width: "100%", height: "100%" }}
-              alt=""
-            /> */}
-            {/* <Image src={Logo} width={50} height={50} style={{ cursor: "pointer" }} alt='' className={styles.logo} /> */}
-<ImagesCom/>
+            <ImagesCom />
           </div>
           <div className={styles.Right}>
             <div className={styles.form_inner}>
               <h1>Sign In</h1>
-              <Form>
+              <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
                   <Form.Label>Email</Form.Label>
                   <Form.Control
@@ -112,9 +95,13 @@ const Signin = () => {
                     placeholder="Enter your email"
                     value={email}
                     onChange={handleEmailChange}
+                    onKeyDown={keyPressHandler}  // Bind keyPressHandler to email input
                   />
-                  {emailError && <p className={styles.error_message}>{emailError}</p>}
+                  {emailError && (
+                    <p className={styles.error_message}>{emailError}</p>
+                  )}
                 </Form.Group>
+
                 <Form.Group className="mb-3">
                   <Form.Label>Password</Form.Label>
                   <div className={styles.input_container}>
@@ -123,6 +110,7 @@ const Signin = () => {
                       placeholder="Enter your password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
+                      onKeyDown={keyPressHandler}  // Bind keyPressHandler to password input
                     />
                     <span className="eyesHidden">
                       <p
@@ -138,40 +126,55 @@ const Signin = () => {
                     </span>
                   </div>
                 </Form.Group>
+
                 <p
-                  onClick={() => {
-                    const path = "/forgotpassword";
-                    router.push(path);
-                  }}
-                  style={{ cursor: "pointer" ,padding:"10px 0px"}}
+                  onClick={() => router.push("/forgotpassword")}
+                  style={{ cursor: "pointer", padding: "10px 0px" }}
                 >
-                  Forgot pasword?
+                  Forgot password?
                 </p>
-              </Form>
-              <Button 
-                className="button_theme"
-                onClick={handleSubmit}
-                style={{ width: "100%" }}
+
+                <Button
+                  className="button_theme"
+                  type="submit"
+                  style={{ width: "100%" }}
+                  disabled={loading}  // Disable button when loading
                 >
-                Sign in
-              </Button>
-            </div>
-            <p className={styles.buttom_text}   style={{
+                  {loading ? (
+                    <Spinner
+                      as="span"
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                    />
+                  ) : (
+                    "Sign in"
+                  )}
+                </Button>
+              </Form>
+
+              <p
+                className={styles.buttom_text}
+                style={{
                   color: "blue",
                   textDecoration: "underline",
                   cursor: "pointer",
                 }}
-                onClick={() => {
-                  const path = "https://transactions.sendowl.com/products/78271145/4A5919F0/view";
-                  router.push(path);
-                }}>
-            Subscribe to create an account
-              
-            </p>
+                onClick={() =>
+                  router.push(
+                    "https://transactions.sendowl.com/products/78271145/4A5919F0/view"
+                  )
+                }
+              >
+                Subscribe to create an account
+              </p>
+            </div>
           </div>
         </div>
       </Container>
     </>
   );
 };
+
 export default Signin;
