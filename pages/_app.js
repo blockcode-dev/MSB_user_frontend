@@ -14,9 +14,9 @@ export default function App({ Component, pageProps }) {
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet" />
-        <meta property="og:title" content="MyStoryBank" />
+        <meta property="og:title" content="MyStoryBank 2.0" />
         <meta property="og:description"
-          content="My Story Bank MSB is a data bank of stories for the storyteller in you" />
+          content="My Story Bank 2.0 is a data bank of stories for the storyteller in you" />
         <meta property="og:image" content="https://node.mystorybank.info:4000/images/images-1705412848910.png" />
         <meta property="og:url" content="https://mystorybank.info" />
         {/* <meta name="description" content="Web site created using create-react-app" /> */}

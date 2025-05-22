@@ -232,7 +232,7 @@ const Landing = () => {
               }}
               key={index}>
               <div className={styles.section3}>
-                <h1>My Story Bank</h1>
+                <h1>My Story Bank 2.0</h1>
                 <p className={styles.paraText} dangerouslySetInnerHTML={{
                   __html: item?.banner_content
                 }}></p>

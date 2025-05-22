@@ -16,6 +16,8 @@ import { useDispatch } from "react-redux";
 import { fetchStoryHistory } from "@/redux/storyHistorySlice";
 
 export default function ChatBox() {
+  const [actionLoadingIndex, setActionLoadingIndex] = useState(null);
+
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [saveInput, setSaveInput] = useState("");
@@ -65,16 +67,27 @@ export default function ChatBox() {
     }
   };
 
-  const handleCopy = (text) => {
-    navigator.clipboard.writeText(text);
-    message.success("Message copied!");
+  const handleCopy = async (text, index) => {
+    setActionLoadingIndex(index);
+    try {
+      await navigator.clipboard.writeText(text);
+      message.success("Message copied!");
+    } catch {
+      message.error("Failed to copy.");
+    } finally {
+      setActionLoadingIndex(null);
+    }
   };
+  
 
-  const handleDownload = (text) => {
+  const handleDownload = (text, index) => {
+    setActionLoadingIndex(index);
     setSaveText(text);
     setSaveTitle("");
     setShowModal(true);
+    setTimeout(() => setActionLoadingIndex(null), 500); // short delay just for UX
   };
+  
 
   const handleSaveStory = async () => {
     if (!saveTitle.trim()) {
@@ -100,17 +113,18 @@ export default function ChatBox() {
   };
 
   const handleSortStory = async (text, index) => {
+    setActionLoadingIndex(index);
     const formData = {
       input: saveInput,
       title: saveInput,
       description: text,
     };
-
+  
     try {
       const response = await SortStoryApi(formData, storedToken);
       const sortText = response?.data?.data?.sortContent || "No sort content.";
       const longText = response?.data?.data?.longContent || "No long content.";
-
+  
       setMessages((prev) => {
         const updated = [...prev];
         updated[index] = {
@@ -122,14 +136,17 @@ export default function ChatBox() {
         };
         return updated;
       });
-
+  
       message.success("Story sorted successfully.");
       await dispatch(fetchStoryHistory(storedToken)).unwrap();
     } catch (error) {
       console.error("SortStory API Error:", error);
       message.error("Failed to sort story.");
+    } finally {
+      setActionLoadingIndex(null);
     }
   };
+  
 
   const toggleStoryLength = (index) => {
     setMessages((prev) => {
@@ -178,27 +195,32 @@ export default function ChatBox() {
                 msg.text !==
                 "I am your story generator, please enter a story title." && (
                   <div className={styles.messageTopActions}>
-                    <div className={styles.icon} onClick={() => handleCopy(msg.text)}>
-                      <IoIosCopy />
-                      Copy
+                  {actionLoadingIndex === index ? (
+                    <div className={styles.icon}>
+                      <Skeleton.Input active size="small" style={{ width: 80 }} />
                     </div>
-                    <div className={styles.icon} onClick={() => handleDownload(msg.text)}>
-                      <AiFillSave />
-                      Save
-                    </div>
-                    {!msg.sortContent ? (
-                      <div className={styles.icon} onClick={() => handleSortStory(msg.text, index)}>
-                      <PiSortAscendingFill />
-                      Sort
-                    </div>
-                    
-                    ) : (
-                      <div className={styles.icon} onClick={() => toggleStoryLength(index)}>
-                        <PiSortAscendingFill />
-                        {msg.showing === "sort" ? "Long" : "Short"}
+                  ) : (
+                    <>
+                      <div className={styles.icon} onClick={() => handleCopy(msg.text, index)}>
+                        <IoIosCopy /> Copy
                       </div>
-                    )}
-                  </div>
+                      <div className={styles.icon} onClick={() => handleDownload(msg.text, index)}>
+                        <AiFillSave /> Save
+                      </div>
+                      {!msg.sortContent ? (
+                        <div className={styles.icon} onClick={() => handleSortStory(msg.text, index)}>
+                          <PiSortAscendingFill /> Sort
+                        </div>
+                      ) : (
+                        <div className={styles.icon} onClick={() => toggleStoryLength(index)}>
+                          <PiSortAscendingFill />
+                          {msg.showing === "sort" ? "Long" : "Short"}
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
+                
                 )}
 
               {msg.loading ? (

@@ -167,7 +167,7 @@ const ProfileComponent = () => {
                         </div>
                         <div>
                             <h5 style={{ textTransform: "capitalize" }}>{profile?.name}</h5>
-                            <h6>Set up your My Story Bank account.</h6>
+                            <h6>Set up your My Story Bank 2.0 account.</h6>
                         </div>
                     </div>
                     <div className={styles.section2}>
