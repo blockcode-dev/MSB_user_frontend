@@ -27,7 +27,7 @@ function Blogs() {
 
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [blogTitle, setBlogTitle] = useState("My Story Bank");
+  const [blogTitle, setBlogTitle] = useState("My Story Bank 2.0");
   const [blogImage, setBlogImage] = useState("");
   const [data, setData] = useState([]);
   const [dataCount, setDataCount] = useState(0);
@@ -143,7 +143,7 @@ function Blogs() {
 
   return (
     <>
-      <Banner title={blogTitle} uri={blogImage} desc={isClient && blogTitle === "My Story Bank" ? null : blogTitle} />
+      <Banner title={blogTitle} uri={blogImage} desc={isClient && blogTitle === "My Story Bank 2.0" ? null : blogTitle} />
 
       <Container>
         {/* Filter Icon for Mobile */}

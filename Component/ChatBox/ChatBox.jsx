@@ -1,10 +1,10 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import styles from "./ChatBox.module.scss";
 import { IoSend } from "react-icons/io5";
 import { AiFillSave } from "react-icons/ai";
 import { IoIosCopy } from "react-icons/io";
-import { Modal, Input, message, Skeleton } from "antd";
+import { Modal, Input, message, Skeleton, Dropdown, Menu } from "antd";
 import { PiSortAscendingFill } from "react-icons/pi";
 import {
   AipromtApi,
@@ -17,7 +17,6 @@ import { fetchStoryHistory } from "@/redux/storyHistorySlice";
 
 export default function ChatBox() {
   const [actionLoadingIndex, setActionLoadingIndex] = useState(null);
-
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [saveInput, setSaveInput] = useState("");
@@ -26,6 +25,7 @@ export default function ChatBox() {
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const messagesEndRef = useRef(null);
   const storedToken = getLocalStorageItem("UserLoginToken");
   const dispatch = useDispatch();
 
@@ -38,26 +38,40 @@ export default function ChatBox() {
     ]);
   }, []);
 
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
+
   const handleSend = async () => {
     if (!input.trim()) return;
 
     const userMessage = { from: "user", text: input };
     const loadingMessage = { from: "bot", text: "", loading: true };
     setMessages((prev) => [...prev, userMessage, loadingMessage]);
-    const currentInput = input; // Save current input to use later
+    const currentInput = input;
     setSaveInput(currentInput);
     setInput("");
     setLoading(true);
 
     try {
       const response = await AipromtApi({ input: currentInput }, storedToken);
-      const botText = response?.data?.data?.description || "No response received.";
+      const botText =
+        response?.data?.data?.description || "No response received.";
 
-      setMessages((prev) =>
-        prev.map((msg, idx, arr) =>
-          idx === arr.length - 1 && msg.loading ? { from: "bot", text: botText } : msg
-        )
-      );
+      setMessages((prev) => {
+        const filtered = prev.filter(
+          (msg) =>
+            msg.text !==
+            "I am your story generator, please enter a story title."
+        );
+        return filtered.map((msg, idx, arr) =>
+          idx === arr.length - 1 && msg.loading
+            ? { from: "bot", text: botText }
+            : msg
+        );
+      });
     } catch (error) {
       console.error("API Error:", error);
       message.error("Failed to get response. Please try again later.");
@@ -78,16 +92,14 @@ export default function ChatBox() {
       setActionLoadingIndex(null);
     }
   };
-  
 
   const handleDownload = (text, index) => {
     setActionLoadingIndex(index);
     setSaveText(text);
     setSaveTitle("");
     setShowModal(true);
-    setTimeout(() => setActionLoadingIndex(null), 500); // short delay just for UX
+    setTimeout(() => setActionLoadingIndex(null), 500);
   };
-  
 
   const handleSaveStory = async () => {
     if (!saveTitle.trim()) {
@@ -103,7 +115,9 @@ export default function ChatBox() {
 
     try {
       const response = await SaveStoryApi(formData, storedToken);
-      message.success(response?.data?.message || "Story saved successfully.");
+      message.success(
+        response?.data?.message || "Story saved successfully."
+      );
       await dispatch(fetchStoryHistory(storedToken)).unwrap();
       resetState();
     } catch (error) {
@@ -119,12 +133,14 @@ export default function ChatBox() {
       title: saveInput,
       description: text,
     };
-  
+
     try {
       const response = await SortStoryApi(formData, storedToken);
-      const sortText = response?.data?.data?.sortContent || "No sort content.";
-      const longText = response?.data?.data?.longContent || "No long content.";
-  
+      const sortText =
+        response?.data?.data?.sortContent || "No sort content.";
+      const longText =
+        response?.data?.data?.longContent || "No long content.";
+
       setMessages((prev) => {
         const updated = [...prev];
         updated[index] = {
@@ -136,7 +152,7 @@ export default function ChatBox() {
         };
         return updated;
       });
-  
+
       message.success("Story sorted successfully.");
       await dispatch(fetchStoryHistory(storedToken)).unwrap();
     } catch (error) {
@@ -146,7 +162,6 @@ export default function ChatBox() {
       setActionLoadingIndex(null);
     }
   };
-  
 
   const toggleStoryLength = (index) => {
     setMessages((prev) => {
@@ -154,12 +169,12 @@ export default function ChatBox() {
       const current = updated[index];
       if (!current) return prev;
 
-      const isShort = current.showing === "sort";
+      const isShort = current.showing === "Short";
 
       updated[index] = {
         ...current,
         text: isShort ? current.longContent : current.sortContent,
-        showing: isShort ? "long" : "sort",
+        showing: isShort ? "long" : "Short",
       };
 
       return updated;
@@ -186,60 +201,89 @@ export default function ChatBox() {
         {messages.map((msg, index) => (
           <div
             key={index}
-            className={`${styles.messageWrapper} ${msg.from === "user" ? styles.user : styles.bot
-              }`}
+            className={`${styles.messageWrapper} ${
+              msg.from === "user" ? styles.user : styles.bot
+            }`}
           >
             <div className={styles.message}>
-              {msg.from === "bot" &&
-                !msg.loading &&
-                msg.text !==
-                "I am your story generator, please enter a story title." && (
-                  <div className={styles.messageTopActions}>
-                  {actionLoadingIndex === index ? (
-                    <div className={styles.icon}>
-                      <Skeleton.Input active size="small" style={{ width: 80 }} />
-                    </div>
-                  ) : (
-                    <>
-                      <div className={styles.icon} onClick={() => handleCopy(msg.text, index)}>
-                        <IoIosCopy /> Copy
-                      </div>
-                      <div className={styles.icon} onClick={() => handleDownload(msg.text, index)}>
-                        <AiFillSave /> Save
-                      </div>
-                      {!msg.sortContent ? (
-                        <div className={styles.icon} onClick={() => handleSortStory(msg.text, index)}>
-                          <PiSortAscendingFill /> Sort
-                        </div>
-                      ) : (
-                        <div className={styles.icon} onClick={() => toggleStoryLength(index)}>
-                          <PiSortAscendingFill />
-                          {msg.showing === "sort" ? "Long" : "Short"}
-                        </div>
-                      )}
-                    </>
-                  )}
-                </div>
-                
-                )}
+             
 
               {msg.loading ? (
-                <Skeleton active paragraph={{ rows: 3 }} style={{ height: 100, width: 200 }} />
+                <Skeleton
+                  active
+                  paragraph={{ rows: 3 }}
+                  style={{ height: 100, width: 200 }}
+                />
               ) : (
-                <div
-  style={{
-    maxHeight: "200px",
-    overflowY: "auto",
-    whiteSpace: "pre-wrap",
-  }}
-  dangerouslySetInnerHTML={{ __html: msg.text }}
-/>
-
+                <div dangerouslySetInnerHTML={{ __html: msg.text }} />
               )}
+            {msg.from === "bot" &&
+  !msg.loading &&
+  msg.text !==
+    "I am your story generator, please enter a story title." && (
+    <div className={styles.messageTopActions}>
+      {actionLoadingIndex === index ? (
+        <div className={styles.icon}>
+          <Skeleton.Input active size="small" style={{ width: 80 }} />
+        </div>
+      ) : (
+        <>
+          <div
+            className={styles.icon}
+            onClick={() => handleCopy(msg.text, index)}
+          >
+            <IoIosCopy /> Copy
+          </div>
+          <div
+            className={styles.icon}
+            onClick={() => handleDownload(msg.text, index)}
+          >
+            <AiFillSave /> Save
+          </div>
+          <Dropdown
+            overlay={
+              <Menu
+                onClick={({ key }) => {
+                  if (key === "shorten") {
+                    if (!msg.sortContent) {
+                      handleSortStory(msg.text, index);
+                    } else {
+                      toggleStoryLength(index, "short");
+                    }
+                  } else if (key === "elaborate") {
+                    toggleStoryLength(index, "long");
+                  }
+                }}
+              >
+                {!msg.sortContent && (
+                  <Menu.Item key="shorten">Shorten</Menu.Item>
+                )}
+                {msg.sortContent && (
+                  <>
+                    <Menu.Item key="shorten">Shorten</Menu.Item>
+                    <Menu.Item key="elaborate">Elaborate</Menu.Item>
+                  </>
+                )}
+              </Menu>
+            }
+            trigger={["click"]}
+          >
+            <div className={styles.icon}>
+              <PiSortAscendingFill /> Refine
+            </div>
+          </Dropdown>
+        </>
+      )}
+    </div>
+)}
+
             </div>
           </div>
         ))}
+        <div ref={messagesEndRef} />
       </div>
+
+    
 
       {/* Input */}
       <div className={styles.inputBox}>
