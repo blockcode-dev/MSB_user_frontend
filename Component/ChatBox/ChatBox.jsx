@@ -5,7 +5,13 @@ import { IoSend } from "react-icons/io5";
 import { AiFillSave } from "react-icons/ai";
 import { IoIosCopy } from "react-icons/io";
 import { Modal, Input, message, Skeleton } from "antd";
-import { AipromtApi, SaveStoryApi, getLocalStorageItem } from "@/Constants/Api/Api";
+import { PiSortAscendingFill } from "react-icons/pi";
+import {
+  AipromtApi,
+  SaveStoryApi,
+  SortStoryApi,
+  getLocalStorageItem,
+} from "@/Constants/Api/Api";
 import { useDispatch } from "react-redux";
 import { fetchStoryHistory } from "@/redux/storyHistorySlice";
 
@@ -25,7 +31,7 @@ export default function ChatBox() {
     setMessages([
       {
         from: "bot",
-        text: "I am your story generator, please enter story title.",
+        text: "I am your story generator, please enter a story title.",
       },
     ]);
   }, []);
@@ -36,12 +42,13 @@ export default function ChatBox() {
     const userMessage = { from: "user", text: input };
     const loadingMessage = { from: "bot", text: "", loading: true };
     setMessages((prev) => [...prev, userMessage, loadingMessage]);
-    setSaveInput(input);
+    const currentInput = input; // Save current input to use later
+    setSaveInput(currentInput);
     setInput("");
     setLoading(true);
 
     try {
-      const response = await AipromtApi({ input }, storedToken);
+      const response = await AipromtApi({ input: currentInput }, storedToken);
       const botText = response?.data?.data?.description || "No response received.";
 
       setMessages((prev) =>
@@ -51,7 +58,7 @@ export default function ChatBox() {
       );
     } catch (error) {
       console.error("API Error:", error);
-      message.error("Failed to get response from bot.");
+      message.error("Failed to get response. Please try again later.");
       setMessages((prev) => prev.filter((msg) => !msg.loading));
     } finally {
       setLoading(false);
@@ -71,7 +78,7 @@ export default function ChatBox() {
 
   const handleSaveStory = async () => {
     if (!saveTitle.trim()) {
-      message.warning("Please enter a title");
+      message.warning("Please enter a title.");
       return;
     }
 
@@ -84,63 +91,139 @@ export default function ChatBox() {
     try {
       const response = await SaveStoryApi(formData, storedToken);
       message.success(response?.data?.message || "Story saved successfully.");
-
       await dispatch(fetchStoryHistory(storedToken)).unwrap();
-
-      setMessages([
-        {
-          from: "bot",
-          text: "I am your story generator, please enter story title.",
-        },
-      ]);
-      setShowModal(false);
-      setSaveInput("");
-      setSaveText("");
-      setSaveTitle("");
+      resetState();
     } catch (error) {
       console.error("SaveStory API Error:", error);
       message.error("Failed to save story.");
     }
   };
 
+  const handleSortStory = async (text, index) => {
+    const formData = {
+      input: saveInput,
+      title: saveInput,
+      description: text,
+    };
+
+    try {
+      const response = await SortStoryApi(formData, storedToken);
+      const sortText = response?.data?.data?.sortContent || "No sort content.";
+      const longText = response?.data?.data?.longContent || "No long content.";
+
+      setMessages((prev) => {
+        const updated = [...prev];
+        updated[index] = {
+          ...updated[index],
+          text: sortText,
+          sortContent: sortText,
+          longContent: longText,
+          showing: "sort",
+        };
+        return updated;
+      });
+
+      message.success("Story sorted successfully.");
+      await dispatch(fetchStoryHistory(storedToken)).unwrap();
+    } catch (error) {
+      console.error("SortStory API Error:", error);
+      message.error("Failed to sort story.");
+    }
+  };
+
+  const toggleStoryLength = (index) => {
+    setMessages((prev) => {
+      const updated = [...prev];
+      const current = updated[index];
+      if (!current) return prev;
+
+      const isShort = current.showing === "sort";
+
+      updated[index] = {
+        ...current,
+        text: isShort ? current.longContent : current.sortContent,
+        showing: isShort ? "long" : "sort",
+      };
+
+      return updated;
+    });
+  };
+
+  const resetState = () => {
+    setMessages([
+      {
+        from: "bot",
+        text: "I am your story generator, please enter a story title.",
+      },
+    ]);
+    setShowModal(false);
+    setSaveInput("");
+    setSaveText("");
+    setSaveTitle("");
+  };
+
   return (
     <div className={styles.chatBox}>
-      {/* Message List */}
+      {/* Messages */}
       <div className={styles.messages}>
         {messages.map((msg, index) => (
           <div
             key={index}
-            className={`${styles.messageWrapper} ${msg.from === "user" ? styles.user : styles.bot}`}
+            className={`${styles.messageWrapper} ${msg.from === "user" ? styles.user : styles.bot
+              }`}
           >
             <div className={styles.message}>
-              {msg.from === "bot" && !msg.loading && msg.text !== "I am your story generator, please enter story title." && (
-                <div className={styles.messageTopActions}>
-                  <div className={styles.icon} onClick={() => handleCopy(msg.text)}>
-                    <IoIosCopy />
-                    Copy
+              {msg.from === "bot" &&
+                !msg.loading &&
+                msg.text !==
+                "I am your story generator, please enter a story title." && (
+                  <div className={styles.messageTopActions}>
+                    <div className={styles.icon} onClick={() => handleCopy(msg.text)}>
+                      <IoIosCopy />
+                      Copy
+                    </div>
+                    <div className={styles.icon} onClick={() => handleDownload(msg.text)}>
+                      <AiFillSave />
+                      Save
+                    </div>
+                    {!msg.sortContent ? (
+                      <div className={styles.icon} onClick={() => handleSortStory(msg.text, index)}>
+                      <PiSortAscendingFill />
+                      Sort
+                    </div>
+                    
+                    ) : (
+                      <div className={styles.icon} onClick={() => toggleStoryLength(index)}>
+                        <PiSortAscendingFill />
+                        {msg.showing === "sort" ? "Long" : "Short"}
+                      </div>
+                    )}
                   </div>
-                  <div className={styles.icon} onClick={() => handleDownload(msg.text)}>
-                    <AiFillSave />
-                    Save
-                  </div>
-                </div>
-              )}
+                )}
 
               {msg.loading ? (
                 <Skeleton active paragraph={{ rows: 3 }} style={{ height: 100, width: 200 }} />
               ) : (
-                <div dangerouslySetInnerHTML={{ __html: msg.text }} />
+                <div
+  style={{
+    maxHeight: "200px",
+    overflowY: "auto",
+    whiteSpace: "pre-wrap",
+  }}
+  dangerouslySetInnerHTML={{ __html: msg.text }}
+/>
+
               )}
             </div>
           </div>
         ))}
       </div>
 
-      {/* Input Box */}
+      {/* Input */}
       <div className={styles.inputBox}>
         <input
           type="text"
-          placeholder="Enter Story title..."
+          placeholder="Enter story title..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSend()}
