@@ -1,145 +1,116 @@
-// .Navsection {
-
-.NavbarSection {
-	// margin-bottom: 20px;
-	box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
-	// position: sticky !important;
-	background-color: #fff;
-	top: 0;
-	z-index: 1111;
-.logo{
-	width: 100% !important;
-}
-	.link {
-		font-weight: 400;
-		font-size: 18px;
-		text-decoration: none;
-		color: inherit;
-	}
-
-	.navspace {
-		margin: 0px 10px;
-	}
-
-	.Logotype {
-		margin: 0px 20px 0 0;
-		color: #daab1f;
-
-		h1 {
-			font-size: 30px;
-			font-family: "Century";
-			font-weight: bold;
-			margin-bottom: 0;
-			margin-top: 5px;
-		}
-
-		span {
-			color: #0c2e3b;
-		}
-	}
-
-	.navbar-toggler {
-		background: transparent !important;
-		border: none !important;
-		transition: none;
-	}
-
-	.navbar-toggler:focus {
-		box-shadow: none !important;
-	}
-
-	.navbackground {
-		background-color: #fff;
-		box-shadow: 0 2px 4px rgba(0, 0, 0, .08), 0 4px 12px rgba(0, 0, 0, .08);
-
-		.nav-link {
-			color: black;
-			font-size: 18px;
-			font-weight: 400;
-		}
-
-		.loginbtn {
-			background: var(--primary);
-			border: none;
-			color: var(--light) !important;
-			font-size: 18px;
-			font-weight: 500;
-			margin: 0px 15px 0 10px;
-			border-radius: 7px;
-			padding: 5px 15px;
-			align-self: center;
-		}
-	}
-
-	.ProfileImage {
-		width: 50px;
-		height: 20px;
-	}
-
-	.wallet-button-container {
-		display: flex;
-		align-items: center;
-
-		.wallet-button {
-			border: none;
-			margin: auto 30px;
-
-			.rupay-icon {
-				color: #daab1f;
-			}
-
-			.wallet-icon {
-				color: #daab1f;
-			}
-
-			background-color: #0c2e3b;
-		}
-	}
-
-	.button-link {
-		font-weight: 400;
-		font-size: 18px;
-		text-decoration: none;
-		color: inherit;
-	}
-
-	.profilepic {
-		cursor: pointer;
-		width: 50px;
-		height: 50px;
-		border-radius: 50%;
-	}
+/* Navbar Container */
+.navbar {
+  width: 100%;
+  padding: 10px 0;
+  position: fixed;
+  top: 0;
+  z-index: 50;
+  background: linear-gradient(135deg, #d6e1e7, #dbe5ea);
+  border-bottom: 2px solid #f0d9d6;
 }
 
-@media screen and (min-width: 992px) {
-	.Hamburger {
-		display: none;
-	}
+/* Main content alignment */
+.inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-@media screen and (max-width: 1200px) {
-	.navspace {
-		margin: 0px 0px !important;
-	}
+/* Logo Style */
+.logo {
+  font-size: 28px;
+  font-weight: 700;
+  color: #0e4766;
+
+  padding: 4px 14px;
+  // border: 2px solid #0e4766;
+  border-radius: 6px;
+
+  text-decoration: none;
 }
 
-@media (max-width: 767px) {
-	.loginbtn {
-		margin-bottom: 10px !important;
-	}
+/* Desktop Menu */
+.menu {
+  display: flex;
+  align-items: center;
+  gap: 40px;
 
-	.profilepic {
-		margin-top: 10px;
-	}
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
 
-	@media (min-width: 1024px) {
-		.NavbarSection {
-			width: 100% !important;
+.link {
+  font-size: 18px;
+  font-weight: 500;
+  color: #000;
+  text-decoration: none;
 
-			.link {
-				font-size: 14px !important;
-				color: white !important;
-			}
-		}
-	}
+  transition: 0.2s ease;
+
+  &:hover {
+    color: #035a8e;
+  }
+}
+
+/* Login Button */
+.loginBtn {
+  background: #e31515;
+  color: #fff;
+  border: none;
+  font-weight: 600;
+
+  padding: 8px 22px;
+  border-radius: 8px;
+
+  cursor: pointer;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: #c90e0e;
+  }
+}
+
+/* Mobile Toggle Button */
+.mobileToggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  @media (max-width: 768px) {
+    display: block;
+  }
+}
+
+/* Mobile Menu */
+.mobileMenu {
+  display: none;
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 15px 40px;
+  }
+}
+
+.mobileLink {
+  font-size: 18px;
+  font-weight: 500;
+  color: #000;
+  text-decoration: none;
+}
+
+.mobileLoginBtn {
+  background: #e31515;
+  color: #fff;
+  padding: 10px 0;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
 }

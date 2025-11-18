@@ -28,7 +28,7 @@ export default function App({ Component, pageProps }) {
 
         {/* <div className="content"> */}
         <Component {...pageProps} />
-        <FooterSection />
+        {/* <FooterSection /> */}
         {/* </div> */}
         {/* <div className="footer">
         </div> */}

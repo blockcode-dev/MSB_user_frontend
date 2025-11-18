@@ -59,7 +59,7 @@ export const SendOTPAPI = async (value1) => {
     type: "email_verification",
   };
   return await axios.post(
-    "https://node.mystorybank.info:4000/api/v1/auth/otp",
+    `{BASE_URL}/auth/otp`,
     config
   );
 };
@@ -113,14 +113,14 @@ export const UserLoginAPI = async (value1, value2) => {
     password: value2,
   };
   return await axios.post(
-    "https://node.mystorybank.info:4000/api/v1/auth/login",
+    `${BASE_URL}/auth/login`,
     config
   );
 };
 // ************User Logout API****************
 export const UserLogOutAPI = async () => {
   return await axios.post(
-    "https://node.mystorybank.info:4000/api/v1/auth/logout",
+    `https://node.mystorybank.info:4000/api/v1/auth/logout`,
     {
       headers: {
         "x-access-token": storedValue,
