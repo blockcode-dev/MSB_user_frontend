@@ -1,13 +1,11 @@
 import React, { useState } from "react";
-import { Button, Container, Form, Spinner } from "react-bootstrap";
 import styles from "./signin.module.scss";
 import Link from "next/link";
 import { UserLoginAPI } from "@/Constants/Api/Api";
 import { useRouter } from "next/router";
-import DescriptionAlerts from "@/Constants/alert/alert";
 import { useDispatch } from "react-redux";
 import { getClinetProfile } from "@/redux/getClientProfileSlice";
-import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import ImagesCom from "@/Component/images";
 import { message } from "antd";
 
@@ -18,9 +16,7 @@ const Signin = () => {
   const [emailError, setEmailError] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [alert, setAlert] = useState(false);
-  const [alertConfig, setAlertConfig] = useState({ text: "" });
-  const [loading, setLoading] = useState(false);  // Loading state
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   const validateEmail = (input) => {
@@ -42,18 +38,19 @@ const Signin = () => {
 
   const keyPressHandler = (e) => {
     if (e.key === "Enter") {
-      handleSubmit(e);  // Call the submit function when Enter key is pressed
+      handleSubmit(e);
     }
   };
 
   const handleSubmit = (event) => {
     event?.preventDefault();
-    setLoading(true);  // Set loading to true when request starts
+    setLoading(true);
+
     UserLoginAPI(email, password)
       .then((res) => {
-        setLoading(false);  // Set loading to false once response is received
+        setLoading(false);
         if (res.data === 200 || res.data.status === 200) {
-         message.success("Congratulations! You have successfully logged in.")
+          message.success("Congratulations! You have successfully logged in.");
           setTimeout(() => {
             dispatch(getClinetProfile());
             const token = res.data.data.tokens.access.token;
@@ -64,116 +61,132 @@ const Signin = () => {
         }
       })
       .catch((error) => {
-        console.log(error,"error")
-        setLoading(false);  // Set loading to false if there's an error
-       message.error(error?.response?.data?.message)
+        console.log(error, "error");
+        setLoading(false);
+        message.error(error?.response?.data?.message);
         console.log(error, "error");
       });
   };
 
   const handleShowPass = () => setShowPassword((prev) => !prev);
-  const handleMouseDownPass = (event) => event.preventDefault();
 
   return (
-    <>
-      {alert && (
-        <DescriptionAlerts text={alertConfig.text} icon={alertConfig.icon} />
-      )}
-      <Container className={styles.Signin}>
-        <div className={styles.Main}>
-          <div className={styles.Left}>
+    <div className={styles.signinPage}>
+      <div className={styles.container}>
+        <div className={styles.contentWrapper}>
+          {/* Left Side - Image Gallery */}
+          <div className={styles.leftSide}>
             <ImagesCom />
           </div>
-          <div className={styles.Right}>
-            <div className={styles.form_inner}>
-              <h1>Sign In</h1>
-              <Form onSubmit={handleSubmit}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Email</Form.Label>
-                  <Form.Control
+
+          {/* Right Side - Sign In Form */}
+          <div className={styles.rightSide}>
+            <div className={styles.formContainer}>
+              <div className={styles.formHeader}>
+                <h1 className={styles.title}>Sign In</h1>
+                <p className={styles.subtitle}>
+                  Welcome back! Please enter your details.
+                </p>
+              </div>
+
+              <form onSubmit={handleSubmit} className={styles.form}>
+                {/* Email Field */}
+                <div className={styles.formGroup}>
+                  <label htmlFor="email" className={styles.label}>
+                    Email
+                  </label>
+                  <input
+                    id="email"
                     type="email"
                     placeholder="Enter your email"
                     value={email}
                     onChange={handleEmailChange}
-                    onKeyDown={keyPressHandler}  // Bind keyPressHandler to email input
+                    onKeyDown={keyPressHandler}
+                    className={`${styles.input} ${
+                      emailError ? styles.inputError : ""
+                    }`}
                   />
                   {emailError && (
-                    <p className={styles.error_message}>{emailError}</p>
+                    <p className={styles.errorMessage}>{emailError}</p>
                   )}
-                </Form.Group>
+                </div>
 
-                <Form.Group className="mb-3">
-                  <Form.Label>Password</Form.Label>
-                  <div className={styles.input_container}>
-                    <Form.Control
+                {/* Password Field */}
+                <div className={styles.formGroup}>
+                  <label htmlFor="password" className={styles.label}>
+                    Password
+                  </label>
+                  <div className={styles.passwordWrapper}>
+                    <input
+                      id="password"
                       type={showPassword ? "text" : "password"}
                       placeholder="Enter your password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      onKeyDown={keyPressHandler}  // Bind keyPressHandler to password input
+                      onKeyDown={keyPressHandler}
+                      className={styles.input}
                     />
-                    <span className="eyesHidden">
-                      <p
-                        onClick={handleShowPass}
-                        onMouseDown={handleMouseDownPass}
-                      >
-                        {showPassword ? (
-                          <AiFillEye size={25} />
-                        ) : (
-                          <AiFillEyeInvisible size={25} />
-                        )}
-                      </p>
-                    </span>
+                    <button
+                      type="button"
+                      onClick={handleShowPass}
+                      className={styles.passwordToggle}
+                      aria-label="Toggle password visibility"
+                    >
+                      {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                    </button>
                   </div>
-                </Form.Group>
+                </div>
 
-                <p
-                  onClick={() => router.push("/forgotpassword")}
-                  style={{ cursor: "pointer", padding: "10px 0px" }}
-                >
-                  Forgot password?
-                </p>
+                {/* Forgot Password Link */}
+                <div className={styles.forgotPassword}>
+                  <button
+                    type="button"
+                    onClick={() => router.push("/forgotpassword")}
+                    className={styles.forgotLink}
+                  >
+                    Forgot password?
+                  </button>
+                </div>
 
-                <Button
-                  className="button_theme"
+                {/* Submit Button */}
+                <button
                   type="submit"
-                  style={{ width: "100%" }}
-                  disabled={loading}  // Disable button when loading
+                  className={styles.submitButton}
+                  disabled={loading || !email || !password || emailError}
                 >
                   {loading ? (
-                    <Spinner
-                      as="span"
-                      animation="border"
-                      size="sm"
-                      role="status"
-                      aria-hidden="true"
-                    />
+                    <>
+                      <Loader2 size={20} className={styles.spinner} />
+                      <span>Signing in...</span>
+                    </>
                   ) : (
                     "Sign in"
                   )}
-                </Button>
-              </Form>
+                </button>
+              </form>
 
-              <p
-                className={styles.buttom_text}
-                style={{
-                  color: "blue",
-                  textDecoration: "underline",
-                  cursor: "pointer",
-                }}
-                onClick={() =>
-                  router.push(
-                    "https://transactions.sendowl.com/products/78271145/4A5919F0/view"
-                  )
-                }
-              >
-                Subscribe to create an account
-              </p>
+              {/* Subscribe Link */}
+              <div className={styles.subscribeSection}>
+                <p className={styles.subscribeText}>
+                  Don't have an account?{" "}
+                  <button
+                    type="button"
+                    onClick={() =>
+                      router.push(
+                        "https://transactions.sendowl.com/products/78271145/4A5919F0/view"
+                      )
+                    }
+                    className={styles.subscribeLink}
+                  >
+                    Subscribe to create an account
+                  </button>
+                </p>
+              </div>
             </div>
           </div>
         </div>
-      </Container>
-    </>
+      </div>
+    </div>
   );
 };
 

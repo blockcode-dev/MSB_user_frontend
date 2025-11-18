@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Link from "next/link";
 import styles from "./NavSection.module.scss";
 import { Menu, X } from "lucide-react";
 
@@ -8,21 +9,32 @@ const NavBar = () => {
   return (
     <nav className={styles.navbar}>
       <div className={styles.inner}>
-        
         {/* Logo */}
-        <a href="#" className={styles.logo}>
+        <Link href="/" className={styles.logo}>
           MyStoryBank
-        </a>
+        </Link>
 
         {/* Desktop Menu */}
         <div className={styles.menu}>
-          <a href="#home" className={styles.link}>Home</a>
-          <a href="#stories" className={styles.link}>Stories</a>
-          <button className={styles.loginBtn}>Login</button>
+          <Link href="/" className={styles.link}>
+            Home
+          </Link>
+
+          <Link href="/stories" className={styles.link}>
+            Stories
+          </Link>
+
+          <Link href="/signin" className={styles.loginBtn}>
+            Login
+          </Link>
         </div>
 
         {/* Mobile Toggle */}
-        <button className={styles.mobileToggle} onClick={() => setOpen(!open)}>
+        <button
+          className={styles.mobileToggle}
+          onClick={() => setOpen(!open)}
+          aria-label="Toggle menu"
+        >
           {open ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
@@ -30,9 +42,29 @@ const NavBar = () => {
       {/* Mobile Dropdown */}
       {open && (
         <div className={styles.mobileMenu}>
-          <a href="#home" className={styles.mobileLink}>Home</a>
-          <a href="#stories" className={styles.mobileLink}>Stories</a>
-          <button className={styles.mobileLoginBtn}>Login</button>
+          <Link
+            href="/"
+            className={styles.mobileLink}
+            onClick={() => setOpen(false)}
+          >
+            Home
+          </Link>
+
+          <Link
+            href="/stories"
+            className={styles.mobileLink}
+            onClick={() => setOpen(false)}
+          >
+            Stories
+          </Link>
+
+          <Link
+            href="/signin"
+            className={styles.mobileLoginBtn}
+            onClick={() => setOpen(false)}
+          >
+            Login
+          </Link>
         </div>
       )}
     </nav>

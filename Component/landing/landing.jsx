@@ -16,18 +16,20 @@ import {
   MessageCircle,
 } from "lucide-react";
 import styles from "./landing.module.scss";
-import { Button } from "../ui/button/Button";
 import { Card, CardContent } from "../ui/card/Card";
 import NavBar from "../NavSection/NavSection";
+
 const path =
   "https://node.mystorybank.info:4000/videos/Animated_Logo_mystorybank.mp4";
 const homeVideoPath = "/assets/homeVideo.mp4";
 const secondVideoPath = "/assets/secondVideo.mp4";
 const thirdVideoPath = "/assets/thirdVideo.mp4";
+
 const Landing = () => {
   return (
     <div className={styles.container}>
       <NavBar />
+
       {/* Hero Section */}
       <section
         id="home"
@@ -44,23 +46,14 @@ const Landing = () => {
             storytelling crafted for speakers, trainers, coaches, and leaders.
           </p>
           <div className={styles["hero-actions"]}>
-            <Button
-              variant="hero"
-              size="xl"
-              className={styles["hero-button-primary"]}
-            >
-              Buy Now
-            </Button>
-            <Button
-              variant="outline"
-              size="xl"
-              className={styles["hero-button-secondary"]}
-            >
+            <button className={styles["hero-button-primary"]}>Buy Now</button>
+            <button className={styles["hero-button-secondary"]}>
               Watch Sample Stories
-            </Button>
+            </button>
           </div>
         </div>
       </section>
+
       {/* Why Storytelling Matters */}
       <section className={styles["section-padding"]}>
         <div className={styles["max-width-wrapper"]}>
@@ -75,9 +68,12 @@ const Landing = () => {
               />
             </div>
             <div className={styles["why-storytelling__content"]}>
-              <h2 className={styles["section-title"]}>Why Storytelling Matters</h2>
+              <h2 className={styles["section-title"]}>
+                Why Storytelling Matters
+              </h2>
               <blockquote className={styles.blockquote}>
-                "Stories are the single most powerful weapon in a leader's arsenal."
+                "Stories are the single most powerful weapon in a leader's
+                arsenal."
               </blockquote>
               <p className={styles["text-muted"]}>
                 Great leaders, trainers, and speakers know that stories create
@@ -87,13 +83,14 @@ const Landing = () => {
                 MyStoryBank gives you instant access to professionally curated
                 stories that resonate with your audience and drive real results.
               </p>
-              <Button variant="hero" size="lg" className={styles["button-cta"]}>
+              <button className={styles["button-cta"]}>
                 Get Started Today
-              </Button>
+              </button>
             </div>
           </div>
         </div>
       </section>
+
       {/* Product Overview */}
       <section
         id="stories"
@@ -105,16 +102,19 @@ const Landing = () => {
               What You Get Inside MyStoryBank 2.0
             </h2>
             <p className={styles["section-subtitle"]}>
-              Everything you need to captivate, inspire, and lead through the art
-              of storytelling.
+              Everything you need to captivate, inspire, and lead through the
+              art of storytelling.
             </p>
           </div>
+
           {/* Feature 1 */}
           <div className={styles["feature-row"]}>
             <Card className={styles["feature-card"]}>
               <CardContent className={styles["feature-card-content"]}>
                 <BookOpen className={styles["feature-icon"]} />
-                <h3 className={styles["feature-title"]}>190+ Curated Stories</h3>
+                <h3 className={styles["feature-title"]}>
+                  190+ Curated Stories
+                </h3>
                 <ul className={styles["feature-list"]}>
                   {[
                     "30+ categories covering leadership, motivation, teamwork, and more",
@@ -141,6 +141,7 @@ const Landing = () => {
               />
             </div>
           </div>
+
           {/* Feature 2 */}
           <div className={styles["feature-row-reverse"]}>
             <div className={styles["feature-image-wrapper"]}>
@@ -173,12 +174,15 @@ const Landing = () => {
               </CardContent>
             </Card>
           </div>
+
           {/* Feature 3 */}
           <div className={styles["feature-row"]}>
             <Card className={styles["feature-card"]}>
               <CardContent className={styles["feature-card-content"]}>
                 <Brain className={styles["feature-icon"]} />
-                <h3 className={styles["feature-title"]}>AI-Powered Story Generator</h3>
+                <h3 className={styles["feature-title"]}>
+                  AI-Powered Story Generator
+                </h3>
                 <ul className={styles["feature-list"]}>
                   {[
                     "Create custom stories instantly using AI",
@@ -204,6 +208,7 @@ const Landing = () => {
               />
             </div>
           </div>
+
           {/* Use Case Cards */}
           <div className={styles["text-center"]}>
             <h3 className={styles["section-subtitle-small"]}>
@@ -212,7 +217,11 @@ const Landing = () => {
           </div>
           <div className={styles["use-case-grid"]}>
             {[
-              { icon: Zap, title: "Fast Access", desc: "Find the perfect story in seconds" },
+              {
+                icon: Zap,
+                title: "Fast Access",
+                desc: "Find the perfect story in seconds",
+              },
               {
                 icon: Heart,
                 title: "Emotion-Driven",
@@ -247,6 +256,7 @@ const Landing = () => {
           </div>
         </div>
       </section>
+
       {/* Who Is This For */}
       <section className={styles["section-padding"]}>
         <div className={styles["max-width-wrapper"]}>
@@ -292,6 +302,7 @@ const Landing = () => {
           </div>
         </div>
       </section>
+
       {/* Why Stories Work */}
       <section
         className={`${styles["section-padding"]} ${styles["why-stories-work-section"]}`}
@@ -337,6 +348,7 @@ const Landing = () => {
           </div>
         </div>
       </section>
+
       {/* Video Showcase */}
       <section className={styles["section-padding"]}>
         <div className={styles["max-width-wrapper"]}>
@@ -389,6 +401,7 @@ const Landing = () => {
           </div>
         </div>
       </section>
+
       {/* Behind the Scenes */}
       <section
         className={`${styles["section-padding"]} ${styles["section-accent"]}`}
@@ -423,6 +436,7 @@ const Landing = () => {
           </div>
         </div>
       </section>
+
       {/* Final CTA */}
       <section className={styles["final-cta-section"]}>
         <div className={styles["final-cta-overlay"]}>
@@ -437,15 +451,10 @@ const Landing = () => {
             Get instant access to 190+ stories and 200+ activities. Start
             inspiring your audience today.
           </p>
-          <Button
-            variant="hero"
-            size="xl"
-            className={styles["final-cta-button"]}
-          >
-            Buy Now
-          </Button>
+          <button className={styles["final-cta-button"]}>Buy Now</button>
         </div>
       </section>
+
       {/* Footer */}
       <footer className={styles.footer}>
         <div className={styles["max-width-wrapper"]}>
@@ -501,4 +510,5 @@ const Landing = () => {
     </div>
   );
 };
+
 export default Landing;
