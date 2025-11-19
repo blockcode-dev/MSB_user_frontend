@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { Modal, Button } from "react-bootstrap";
+import { X } from "lucide-react";
 import styles from "./CardComponent.module.scss";
 import CommonImage from "../../public/assets/msb.png";
 
@@ -9,7 +9,7 @@ function CardComponent(props) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [isClient, setIsClient] = useState(false);
-  const [show, setShow] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
@@ -27,19 +27,16 @@ function CardComponent(props) {
   const handleReadStory = (storyProps) => {
     console.log("Reading story props:", storyProps);
     setIsLoading(true);
-
-    // Save full item in sessionStorage (to mimic location.state behavior)
+    // Save full item in sessionStorage
     sessionStorage.setItem("storyData", JSON.stringify(storyProps));
-
     router.push("/story-read");
-
     setTimeout(() => {
       setIsLoading(false);
     }, 1000);
   };
 
-  const handleCloseModal = () => setShow(false);
-  const handleShowModal = () => setShow(true);
+  const handleCloseModal = () => setShowModal(false);
+  const handleShowModal = () => setShowModal(true);
 
   const openBuyNowLink = () => {
     const path =
@@ -54,90 +51,95 @@ function CardComponent(props) {
       ? CommonImage
       : props.image;
 
+  // Strip HTML and truncate text
+  const getPlainText = (html) => {
+    if (!html) return "";
+    const text =
+      new DOMParser().parseFromString(html, "text/html").body.textContent || "";
+    return text.slice(0, 150) + (text.length > 150 ? "..." : "");
+  };
+
   return (
-    <div
-      className={`${styles.CardComponent} card`}
-      style={{ margin: "0px 20px" }}
-    >
-      <Image
-        src={imageSrc}
-        alt={props.title || "Story Image"}
-        width={100}
-        height={100}
-        style={{ width: "auto", height: "135px" }}
-      />
+    <>
+      <article className={styles.card}>
+        <div className={styles.imageWrapper}>
+          <Image
+            src={imageSrc}
+            alt={props.title || "Story Image"}
+            width={400}
+            height={250}
+            className={styles.cardImage}
+          />
+          {props.paid && <span className={styles.badge}>Premium</span>}
+        </div>
 
-      <div className="card-body" style={{ padding: "5px 10px" }}>
-        <h5 className="card-title">{props.title}</h5>
-        <p
-          className="card-text"
-          style={{ paddingBottom: "20px" }}
-          dangerouslySetInnerHTML={{
-            __html:
-              (
-                new DOMParser().parseFromString(props.text, "text/html").body
-                  .textContent || ""
-              ).slice(0, 200) + "...",
-          }}
-        ></p>
+        <div className={styles.cardBody}>
+          <h3 className={styles.cardTitle}>{props.title}</h3>
+          <p className={styles.cardText}>{getPlainText(props.text)}</p>
 
-        {/* <p
-                    className="card-text"
-                    style={{ paddingBottom: '20px' }}
-                    dangerouslySetInnerHTML={{ __html: props.text }}
-                ></p> */}
-
-        {isLoading ? (
-          <Button className="button_theme" style={{ margin: "10px 0px" }}>
-            Loading...
-          </Button>
-        ) : (
-          <Button
-            className="button_theme"
+          <button
+            className={`${styles.readButton} ${
+              isLoading ? styles.loading : ""
+            }`}
             onClick={() =>
               props?.input ? handleReadStory(props) : handleRedirect()
             }
-            style={{ margin: "10px 0px" }}
+            disabled={isLoading}
           >
-            Read More
-          </Button>
-        )}
+            {isLoading ? (
+              <>
+                <span className={styles.spinner}></span>
+                <span>Loading...</span>
+              </>
+            ) : (
+              "Read More"
+            )}
+          </button>
+        </div>
+      </article>
 
-        <Modal
-          show={show}
-          onHide={handleCloseModal}
-          backdrop="static"
-          keyboard={false}
-          centered
-        >
-          <Modal.Header closeButton>
-            <Modal.Title>Subscribe for Exclusive Updates</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            Join us to get exclusive updates, offers, and access to more
-            stories!
-          </Modal.Body>
-          <Modal.Footer>
-            <div style={{ display: "flex", margin: "10px 0px" }}>
-              <Button
-                className="button_theme"
-                style={{ margin: "5px", padding: "5px", borderRadius: "10px" }}
+      {/* Custom Modal */}
+      {showModal && (
+        <div className={styles.modalOverlay} onClick={handleCloseModal}>
+          <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.modalHeader}>
+              <h2 className={styles.modalTitle}>
+                Subscribe for Exclusive Updates
+              </h2>
+              <button
+                className={styles.modalClose}
+                onClick={handleCloseModal}
+                aria-label="Close modal"
+              >
+                <X size={24} />
+              </button>
+            </div>
+
+            <div className={styles.modalBody}>
+              <p>
+                Join us to get exclusive updates, offers, and access to more
+                stories!
+              </p>
+            </div>
+
+            <div className={styles.modalFooter}>
+              <button
+                className={styles.modalButtonSecondary}
                 onClick={handleCloseModal}
               >
                 Ignore
-              </Button>
-              <Button
-                className="button_theme"
-                style={{ margin: "5px", padding: "5px", borderRadius: "10px" }}
+              </button>
+              <button
+                className={styles.modalButtonPrimary}
                 onClick={openBuyNowLink}
               >
                 Buy Now
-              </Button>
+              </button>
             </div>
-          </Modal.Footer>
-        </Modal>
-      </div>
-    </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 
